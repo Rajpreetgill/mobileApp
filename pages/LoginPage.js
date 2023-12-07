@@ -69,7 +69,7 @@ const styles = StyleSheet.create({
     color: '#DEB992',
     fontSize: 30,
     marginTop: 100,
-    marginBottom: 0, // Adjust the marginBottom to move the "Login Page" higher
+    marginBottom: 0, 
   },
   formContainer: {
     flex: 1,
