@@ -1,9 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, Image, TouchableOpacity} from 'react-native';
+import { StyleSheet, Text, View, Image } from 'react-native';
 import Button from './components/Button';
 import LoginPage from './pages/LoginPage';
-import TextField from './components/TextField';
-import React, { useState } from 'react';
 // import Navigation from './Navigation.js';
 // import { useNavigation } from '@react-navigation/native';
 // import { NavigationContainer } from "@react-navigation/native";
@@ -12,7 +10,7 @@ import React, { useState } from 'react';
 // const Stack = createNativeStackNavigator()
 // const navigation = useNavigation();
 
-const App = () => {
+const AppTest = () => {
 
   const handleButtonPress = () => {
     console.log('Button pressed!');
@@ -59,4 +57,4 @@ const styles = StyleSheet.create({
 });
 
 
-export default App;
+export default AppTest;
