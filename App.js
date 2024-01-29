@@ -49,12 +49,20 @@ import { AnimatedCircularProgress } from "react-native-circular-progress";
 
 const bleManager = new BleManager();
 const ISOLE_SVC_UUID = "00000001-710e-4a5b-8d75-3e5b444bc3cf";
-const GLUCOSE_CHARACTERISTIC_UUID = "00000002-710e-4a5b-8d75-3e5b444bc3cf";
 const PRESSURE_CHARACTERISTIC_UUID = "00000003-710e-4a5b-8d75-3e5b444bc3cf"
+
+// const bleManager = new BleManager({
+//   restoreStateIdentifier: "123", // Replace with a unique identifier
+//   restoreStateFunction: (peripherals) => {
+//     // Handle the restoration of peripherals if needed
+//     console.log("Restored peripherals:", peripherals);
+//   },
+// });
 
 
 const App = () => {
 
+  // console.log("UID Check: ", GLUCOSE_CHARACTERISTIC_UUID);
   //=== Bluetooth Setup ===//
   const [deviceID, setDeviceID] = useState(null);
   const [sweatValue, setSweatValue] = useState(0);
@@ -75,10 +83,25 @@ const App = () => {
       if (device.name === "raspberrypi") { // Need to modify device name here
         bleManager.stopDeviceScan();
         setConnectionStatus("Connecting...");
+        // refreshDeviceCache();
         connectToDevice(device);
       }
     });
   };
+
+  // Function to refresh the cache of the selected device
+  // const refreshDeviceCache = async () => {
+  //   if (deviceRef.current) {
+  //     try {
+  //       await deviceRef.current.refreshCache();
+  //       console.log("Device cache refreshed successfully.");
+  //     } catch (error) {
+  //       console.error("Error refreshing device cache:", error);
+  //     }
+  //   } else {
+  //     console.error("No connected device to refresh cache.");
+  //   }
+  // };
 
   useEffect(() => {
     searchAndConnectToDevice();
@@ -100,28 +123,70 @@ const App = () => {
         let service = services.find((service) => service.uuid === ISOLE_SVC_UUID); // Checks SERVICE_UUID here
         return service.characteristics();
       })
-      .then((sweatCharacteristics) => { // FOR SWEAT
-        let sweatDataCharacteristic = sweatCharacteristics.find(
-          (char) => {
-            char.uuid === PRESSURE_CHARACTERISTIC_UUID; // Need to figure this out
-            console.log("Sweat Char uuid: ", char.uuid);
-            // console.log("Char uuid: ", char);
-            return char.uuid;
-          }
-        );
-        // Ensure that stepDataCharacteristic is not undefined before calling monitor
-        if (sweatDataCharacteristic) {
-          sweatDataCharacteristic.monitor((error, char) => {
-            const rawSweatData = atob(char.value); // taking data coming from I-SOLE device and setting it to rawSweatData
-            //console.log("Received sweat data:", rawSweatData);
-            setSweatValue(rawSweatData); // Set the sweat value here
-          });
-        } else {
-          console.error("Sweat data characteristic not found.");
-        }
-        setSweatDataChar(sweatDataCharacteristic);
-      })
+      // .then((characteristics) => { // FOR SWEAT
+        
+      //   const sweatDataCharacteristic = characteristics.find(
+      //     (char) => {
+      //       char.uuid === GLUCOSE_CHARACTERISTIC_UUID;
+      //       console.log("Sweat Char uuid: ", char.uuid);
+      //       // console.log("Char uuid: ", char);
+      //       return char.uuid;
+      //     } 
+      //   );
+      //   const pressureDataCharacteristic = characteristics.find(
+      //     (char) => {
+      //       char.uuid === PRESSURE_CHARACTERISTIC_UUID;
+      //       console.log("Pressure Char uuid: ", char.uuid);
+      //       // console.log("Char uuid: ", char);
+      //       return char.uuid;
+      //     }
+      //   );
+      //   setSweatDataChar(sweatDataCharacteristic);
+      //   setPressureDataChar(pressureDataCharacteristic);
+      //   // Ensure that stepDataCharacteristic is not undefined before calling monitor
+      //   if (sweatDataCharacteristic) {
+      //       sweatDataCharacteristic.monitor((error, char) => {
+      //       const rawSweatData = atob(char.value); // taking data coming from I-SOLE device and setting it to rawSweatData
+      //       //console.log("Received sweat data:", rawSweatData);
+      //       setSweatValue(rawSweatData); // Set the sweat value here
+      //     });
+      //   } 
+      //   else if (pressureDataCharacteristic)
+      //   {
+      //       pressureDataCharacteristic.monitor((error, char) => {
+      //       const rawPressureData = atob(char.value); // taking data coming from I-SOLE device and setting it to rawSweatData
+      //       //console.log("Received pressure data:", rawSweatData);
+      //       setPressureValue(rawPressureData); // Set the sweat value here
+      //     });
+      //   }
+      //   else {
+      //     console.error("Sweat data characteristic not found.");
+      //   }
+      // })
+      // .then((sweatCharacteristics) => { // FOR SWEAT
+      //   let sweatDataCharacteristic = sweatCharacteristics.find(
+      //     (char) => {
+            
+      //       char.uuid === GLUCOSE_CHARACTERISTIC_UUID; // Need to figure this out
+      //       console.log("Sweat Char uuid: ", char.uuid);
+      //       // console.log("Char uuid: ", char);
+      //       return char.uuid;
+      //     }
+      //   );
+      //   // Ensure that stepDataCharacteristic is not undefined before calling monitor
+      //   if (sweatDataCharacteristic) {
+      //     sweatDataCharacteristic.monitor((error, char) => {
+      //       const rawSweatData = atob(char.value); // taking data coming from I-SOLE device and setting it to rawSweatData
+      //       //console.log("Received sweat data:", rawSweatData);
+      //       setSweatValue(rawSweatData); // Set the sweat value here
+      //     });
+      //   } else {
+      //     console.error("Sweat data characteristic not found.");
+      //   }
+      //   setSweatDataChar(sweatDataCharacteristic);
+      // })
       // .then((pressureCharacteristics) => { // FOR Pressure
+      //   console.log("TEST: ", pressureCharacteristics);
       //   let pressureDataCharacteristic = pressureCharacteristics.find(
       //     (char) => {
       //       char.uuid === PRESSURE_CHARACTERISTIC_UUID; // Need to figure this out
@@ -143,6 +208,35 @@ const App = () => {
       //   }
       //   setPressureDataChar(pressureDataCharacteristic);
       // })
+      .then((characteristics) => { // FOR Pressure
+        // console.log("TEST: ", pressureCharacteristics);
+        let dataCharacteristic = characteristics.find(
+          (char) => {
+            char.uuid === PRESSURE_CHARACTERISTIC_UUID; // Need to figure this out
+            console.log("Pressure Char uuid: ", char.uuid);
+            // console.log("Char uuid: ", char);
+            return char.uuid;
+          }
+
+        );
+        // Ensure that stepDataCharacteristic is not undefined before calling monitor
+        if (dataCharacteristic) {
+          setPressureDataChar(dataCharacteristic);
+          dataCharacteristic.monitor((error, char) => {
+            const rawData = atob(char.value); // taking data coming from I-SOLE device and setting it to rawSweatData
+            console.log("Received data:", rawData);
+            
+            const splitResult = rawData.toString().split('|');
+            // splitResult is now an array containing two strings: ['40.1 C', '75kPa']
+            const rawSweatData = splitResult[0]; // '40.1 C'
+            const rawPressureData = splitResult[1];    // '75kPa'
+            setSweatValue(rawSweatData); // Set the sweat value here
+            setPressureValue(rawPressureData); // Set the sweat value here
+          });
+        } else {
+          console.error("Data characteristic not found.");
+        }
+      })
       .catch((error) => {
         console.log("Error occured: ", error);
         setConnectionStatus("Error in Connection");
@@ -173,6 +267,8 @@ const App = () => {
     );
     return () => subscription.remove();
   }, [deviceID]);
+
+  
 
   //=== Bluetooth Setup End ===//
 
