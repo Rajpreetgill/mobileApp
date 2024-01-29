@@ -2,11 +2,6 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
   <dict>
-    <key>NSBluetoothAlwaysUsageDescription</key>
-    <string>I-SOLE SensorApp needs access to your Bluetooth</string>
-    <key>NSBluetoothPeripheralUsageDescription</key>
-    <string>I-SOLE SensorApp needs access to your Bluetooth</string>
-
     <key>CADisableMinimumFrameDurationOnPhone</key>
     <true/>
     <key>CFBundleDevelopmentRegion</key>
@@ -53,6 +48,10 @@
         </dict>
       </dict>
     </dict>
+    <key>NSBluetoothAlwaysUsageDescription</key>
+    <string>I-SOLE SensorApp needs access to your Bluetooth</string>
+    <key>NSBluetoothPeripheralUsageDescription</key>
+    <string>I-SOLE SensorApp needs access to your Bluetooth</string>
     <key>UILaunchStoryboardName</key>
     <string>SplashScreen</string>
     <key>UIRequiredDeviceCapabilities</key>
