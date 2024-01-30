@@ -1,20 +1,21 @@
-// Navigation.js
-// import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
-import App from './App';
-import LoginPage from './pages/LoginPage';
+// import { StatusBar } from 'expo-status-bar';
+// import { StyleSheet, Text, View, Image } from 'react-native';
+// import Button from './components/Button';
+// import LoginPage from './pages/LoginPage';
+// // import Navigation from './Navigation.js';
+// // import { useNavigation } from '@react-navigation/native';
+// import { NavigationContainer } from "@react-navigation/native";
+// import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
-const Stack = createStackNavigator();
+// const Stack = createNativeStackNavigator()
 
-const Navigation = () => {
-  return (
-    // <NavigationContainer>
-      <Stack.Navigator initialRouteName="App">
-        <Stack.Screen name="App" component={App} />
-        <Stack.Screen name="LoginPage" component={LoginPage} />
-      </Stack.Navigator>
-    // </NavigationContainer>
-  );
-};
-
-export default Navigation;
+// export default function Navigation() {
+//   return (
+//     <NavigationContainer>
+//       <Stack.Navigator>
+//         <Stack.Screen name="LoginPage" component={LoginPage} />
+//         {/* <Stack.Screen name="SignupPage" component={LoginPage} /> */}
+//       </Stack.Navigator>
+//     </NavigationContainer> 
+//   );
+// }

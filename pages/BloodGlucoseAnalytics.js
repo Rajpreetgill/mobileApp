@@ -1,6 +1,7 @@
-import React from 'react';
-import { View, StyleSheet } from 'react-native';
+import React, { useState } from 'react';
+import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
 import { LineChart } from 'react-native-chart-kit';
+import Icon from 'react-native-vector-icons/AntDesign';
 
 const weeklyData = {
     labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
@@ -16,13 +17,13 @@ const weeklyData = {
     labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'],
     datasets: [
       {
-        data: [80, 40, 60, 90, 100, 50 ],
+        data: [80, 40, 60, 90, 50, 10 ],
         color: (opacity = 1) => `rgba(222, 185, 146, ${opacity})`,
       },
     ],
   };
 
-const BloodGlucoseAnalytics = () => {
+  export default function BloodGlucoseAnalytics({navigation}) {
     const [selectedView, setSelectedView] = useState('weekly');
 
     const renderChartData = () => {
@@ -105,7 +106,35 @@ const BloodGlucoseAnalytics = () => {
             <Text style={styles.infoValue}>Next Hypoglycemia: 160mg/dL</Text>
           </View>
         </View>
-  
+
+        <View style={styles.iconContainer}>
+          {/* Home Icon */}
+          <TouchableOpacity onPress={() => navigation.navigate("MainPage")} style={styles.iconButton}>
+            <Icon name="home" style={styles.icon} />
+          </TouchableOpacity>
+
+          {/* Profile Icon */}
+          <TouchableOpacity onPress={() => navigation.navigate("Profile")} style={styles.iconButton}>
+            <Icon name="user" style={styles.icon} />
+          </TouchableOpacity>
+          
+          {/* Line Chart Icon */}
+          <TouchableOpacity onPress={() => navigation.navigate("BloodGlucoseAnalytics")} style={styles.iconButton}>
+            <Icon name="linechart" style={styles.specificIcon} />
+          </TouchableOpacity>
+          
+          {/* Dot Chart Icon */}
+          <TouchableOpacity onPress={() => navigation.navigate("PressureAnalytics")} style={styles.iconButton}>
+            <Icon name="dotchart" style={styles.icon} />
+          </TouchableOpacity>
+          
+          {/* Settings Icon */}
+          <TouchableOpacity onPress={() => navigation.navigate("Settings")} style={styles.iconButton}>
+            <Icon name="setting" style={styles.icon} />
+          </TouchableOpacity>
+
+        </View>
+    
       </View>
     );
   };
@@ -159,6 +188,26 @@ const BloodGlucoseAnalytics = () => {
       color: '#DEB992',
       fontSize: 18,
     },
+    userIcon: {
+      marginLeft: 10,
+      fontSize: 20,
+      color: '#DEB992',
+    },
+    iconContainer: {
+        flexDirection: 'row',
+        justifyContent: 'center',
+    },
+    iconButton: {
+        marginHorizontal: 20, // Add more space between icons
+    },
+    icon: {
+        fontSize: 30,
+        color: '#DEB992',
+    },
+    specificIcon: {
+      fontSize: 30,
+      color: '#1BA098',
+    }
   });
 
-export default BloodGlucoseAnalytics;
+

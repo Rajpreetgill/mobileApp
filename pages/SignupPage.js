@@ -4,7 +4,7 @@ import Button from '../components/Button';
 import TextField from '../components/TextField';
 
 
-const SignupPage = () => {
+export default function SignupPage({navigation}) {
     const [email, setEmail] = useState('');
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
@@ -56,7 +56,7 @@ const SignupPage = () => {
           <TouchableOpacity onPress={handleRegisterPress}>
             <Text style={styles.link}>Already have an account? Login</Text>
           </TouchableOpacity>
-          <Button onPress={handleLoginPress} title="Signup" />
+          <Button onPress={() => navigation.navigate("MainPage")} title="Signup" />
         </View>
       </View>
     );
@@ -90,5 +90,3 @@ const SignupPage = () => {
       marginBottom: 16,
     },
   });
-
-export default SignupPage;

@@ -4,7 +4,7 @@ import Button from '../components/Button';
 import TextField from '../components/TextField';
 
 
-const LoginPage = () => {
+export default function LoginPage({navigation}) {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
@@ -50,7 +50,7 @@ const LoginPage = () => {
         <TouchableOpacity onPress={handleRegisterPress}>
           <Text style={styles.link}>Don't have an account? Register</Text>
         </TouchableOpacity>
-        <Button onPress={handleLoginPress} title="Login" />
+        <Button onPress={() => navigation.navigate("MainPage")} title="Login" />
       </View>
     </View>
   );
@@ -84,5 +84,3 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
 });
-
-export default LoginPage;
