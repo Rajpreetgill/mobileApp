@@ -1,7 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
 import { LineChart } from 'react-native-chart-kit';
 import Icon from 'react-native-vector-icons/AntDesign';
+import axios from 'axios';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 
 const weeklyData = {
     labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
@@ -13,18 +16,37 @@ const weeklyData = {
     ],
   };
   
-  const monthlyData = {
-    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'],
-    datasets: [
-      {
-        data: [80, 40, 60, 90, 50, 10 ],
-        color: (opacity = 1) => `rgba(222, 185, 146, ${opacity})`,
-      },
-    ],
+const monthlyData = {
+  labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'],
+  datasets: [
+    {
+      data: [80, 40, 60, 90, 50, 10 ],
+      color: (opacity = 1) => `rgba(222, 185, 146, ${opacity})`,
+    },
+  ],
+};
+
+const glucoseData = {
+  labels: [],
+  datasets: [
+    {
+      data: [],
+      color: (opacity = 1) => `rgba(222, 185, 146, ${opacity})`,
+    },
+  ],
+};
+
+
+  const handleDataPointPress = (value) => {
+    setTooltipValue(value);
   };
 
   export default function BloodGlucoseAnalytics({navigation}) {
     const [selectedView, setSelectedView] = useState('weekly');
+    const [sweatGlucose, setSweatGlucose] = useState([[]]);
+    const [sweatGlucoseValues, setSweatGlucoseValues] = useState([]);
+    const [sweatGlucoseValueTimes, setSweatGlucoseValuesTime] = useState([]);
+    const [username, setUsername] = useState('');
 
     const renderChartData = () => {
       switch (selectedView) {
@@ -37,10 +59,47 @@ const weeklyData = {
           return weeklyData;
       }
     };
+
+    useEffect(() => {
+      const fetchData = async () => {
+          try {
+              const usrname = await AsyncStorage.getItem('curr_username');
+              setUsername(usrname);
+              // Do something with the retrieved values
+              console.log(username);
+          } catch (e) {
+              // Handle errors here
+              console.error("Error retrieving data", e);
+          }
+      };
+      fetchData();
+      // print('HERE');
+      // fetchSweatGlucoseValues(username);
+    }, []); // Empty dependency array ensures this runs once after the component mounts
+
+    
+
+    const fetchSweatGlucoseValues = async (username) => {
+      try {
+          // const response = await axios.get(`https://i-sole-backend.com/get-sweat-glucose-values/${username}`);
+          const response = await axios.get(`http://127.0.0.1:5000/get-sweat-glucose-values/${username}`).catch(error => {
+            console.log('Error response:', error.response);
+            console.log('Error request:', error.request);
+            console.log('Error message:', error.message);
+        });
+          // const response = await axios.get(`http://localhost:5000/get-sweat-glucose-values/${username}`);
+          // print(response.data.sweatGlucoseValues);
+          // setSweatGlucose(response.data.sweat_glucose_values);
+      } catch (error) {
+          console.error('Error fetching glucose values:', error);
+          console.log(error);
+      }
+    }
+
+    print('HERE');
+    fetchSweatGlucoseValues(username);
   
-    const handleDataPointPress = (value) => {
-      setTooltipValue(value);
-    };
+  
   
     return (
       <View style={styles.container}>
