@@ -3,8 +3,29 @@ import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
 import Button from '../components/Button';
 import Icon from 'react-native-vector-icons/AntDesign';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import  React, { useState, useEffect } from 'react';
+
 
 export default function MainPage({navigation}) {
+
+  useEffect(() => {
+    const fetchData = async () => {
+        try {
+            const username = await AsyncStorage.getItem('curr_username');
+            const patientID = await AsyncStorage.getItem('patientID');
+            const role = await AsyncStorage.getItem('userRole');
+
+            // Do something with the retrieved values
+            console.log(username, patientID, role);
+        } catch (e) {
+            // Handle errors here
+            console.error("Error retrieving data", e);
+        }
+    };
+
+    fetchData();
+}, []); // Empty dependency array ensures this runs once after the component mounts
 
   return (
     <View style={styles.container}>
