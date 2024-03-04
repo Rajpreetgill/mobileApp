@@ -3,28 +3,28 @@ import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
 import Button from '../components/Button';
 import Icon from 'react-native-vector-icons/AntDesign';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import { BloodGlucoseLineChart } from './BloodGlucoseAnalytics';
+import { PressureLineChart } from './PressureAnalytics';
 
 export default function MainPage({navigation}) {
 
   return (
     <View style={styles.container}>
-
       <View style={styles.container}>
-        <Text style={styles.text}>Welcome, User</Text>
-       
-        <TouchableOpacity onPress={() => navigation.navigate("PersonalMetrics")} style={styles.iconButton}>
-            <Icon name="profile" style={styles.icon} />
-        </TouchableOpacity>
-       
-        <TouchableOpacity onPress={() => navigation.navigate("Feedback")} style={styles.iconButton}>
-            <Icon name="mail" style={styles.icon} />
-        </TouchableOpacity>
-       
-        <TouchableOpacity style={styles.iconButton}>
-            <MaterialIcons name="bluetooth" style={styles.icon} />
-        </TouchableOpacity>
         
+        <Text style={styles.text}>Welcome, User</Text> 
+      
+      {/* Display Blood Glucose Line Chart */}
+      <BloodGlucoseLineChart selectedView="weekly" />
+      <PressureLineChart selectedView="weekly" />
+      
       </View>
+        {/* Pair Device Button */}
+        <View style={styles.pairDeviceContainer}>
+          <TouchableOpacity style={styles.pairDeviceButton}>
+            <Text style={styles.pairDeviceButtonText}>Pair Device</Text>
+          </TouchableOpacity>
+        </View>
       
       <View style={styles.iconContainer}>
 
@@ -92,5 +92,22 @@ const styles = StyleSheet.create({
     specificIcon: {
         fontSize: 30,
         color: '#1BA098',
-    }
+    },
+    pairDeviceContainer: {
+      alignItems: 'center',
+      marginTop: -10, // Adjust this value based on your preference
+      marginBottom: 20,
+    },
+    
+    pairDeviceButton: {
+      backgroundColor: '#1BA098',
+      paddingVertical: 15, // Increase vertical padding
+      paddingHorizontal: 70, // Increase horizontal padding
+      borderRadius: 15, // Increase border radius
+    },
+    
+    pairDeviceButtonText: {
+      color: '#DEB992',
+      fontSize: 24, // Increase font size
+    },
 });
