@@ -84,6 +84,7 @@ export default function LoginPage({navigation}) {
           iconName="user"
           onChangeText={(text) => setUsername(text)}
           value={username}
+          width='50%'
         />
         {loginErrorMessage && (
           <Text style={styles.error}>{loginErrorMessage}</Text>
@@ -95,6 +96,7 @@ export default function LoginPage({navigation}) {
           secureTextEntry
           onChangeText={(text) => setPassword(text)}
           value={password}
+          width='50%'
         />
         {loginErrorMessage && (
           <Text style={styles.error}>{loginErrorMessage}</Text>

@@ -6,6 +6,7 @@ import TextField from '../components/TextField';
 import Icon from 'react-native-vector-icons/AntDesign';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import textInputStyles from '../components/textInputStyle'; // Import styles from the file
 
 export default function PersonalMetrics({navigation}) {
 
@@ -76,50 +77,55 @@ export default function PersonalMetrics({navigation}) {
       </View>
 
       <View style={styles.formContainer}>
-
         <View style={styles.rowContainer}>
           <TextField
             label="Blood Glucose Level"
             placeholder="Ex. 10.6"
             onChangeText={(text) => setBloodGlucoseLevel(text)}
             value={bloodGlucoseLevel}
-            width = {'60%'}
+            // width ='80%'
           />
           <Button onPress={() => handleSubmit()} title="Submit" />
         </View>
-
-        <View>
-          <View style={styles.rowContainer}>
+        <View style={styles.rowContainer}>
             <TextField
               label="Weight"
               placeholder="Ex. 10.6"
               onChangeText={(text) => setWeight(text)}
               value={weight}
-              width = {80}
+              // width = {80}
             />
+            <Button onPress={() => handleSubmit()} title="Submit" />
+        </View>
+        <View style={styles.rowContainer}>
             <TextField
               label="Height"
               placeholder="Ex. 10.6"
               onChangeText={(text) => setHeight(text)}
               value={height}
             />
+            <Button onPress={() => handleSubmit()} title="Submit" />
+        </View>
+        <View style={styles.rowContainer}>
             <TextField
             label="Insulin Dosage"
             placeholder="10.6"
             onChangeText={(text) => setInsulinDosage(text)}
             value={insulinDosage}
             />
-          </View>
-          
+            <Button onPress={() => handleSubmit()} title="Submit" />
+        </View>
+        <View style={styles.rowContainer}>
           <TextField
             label="Allergies"
             placeholder="10.6"
             onChangeText={(text) => setAllergies(text)}
             value={allergies}
+            // {styles.textwidth={60}}
           />
           <Button onPress={() => handleSubmit()} title="Save Changes" />
         </View>
-
+        
         <TextField
           label="Meal Type"
           placeholder="10.6"
@@ -137,10 +143,8 @@ export default function PersonalMetrics({navigation}) {
         />
         <Button onPress={() => handleSubmit()} title="Add" />
         <Button onPress={() => handleSubmit()} title="Activity Summary" />
-
-
-      </View>
       
+      </View>
       <View style={styles.iconContainer}>
 
         {/* Home Icon */}
@@ -170,6 +174,7 @@ export default function PersonalMetrics({navigation}) {
 
       </View>
 
+    
     </View>
     </ScrollView>
   );
@@ -214,10 +219,16 @@ const styles = StyleSheet.create({
         fontSize: 30,
         color: '#1BA098',
     },
+    formContainer: {
+      flex: 1,
+      flexDirection: 'column', // Arrange items horizontally
+      //width: '100%', // Set the width to 100% to take up the full width
+      justifyContent: 'space-evenly', // Center the content vertically
+      alignItems: 'center',
+    },
     rowContainer: {
       flexDirection: 'row', // Arrange items horizontally
       alignItems: 'center', // Align items vertically in the center
       justifyContent: 'space-evenly', // Align items horizontally in the center
-      width: '100%',
     },
 });

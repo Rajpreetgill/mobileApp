@@ -23,7 +23,6 @@ export default function MainPage({navigation}) {
             console.error("Error retrieving data", e);
         }
     };
-
     fetchData();
 }, []); // Empty dependency array ensures this runs once after the component mounts
 
