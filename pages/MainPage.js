@@ -41,7 +41,7 @@ export default function MainPage({navigation}) {
             <Icon name="mail" style={styles.icon} />
         </TouchableOpacity>
        
-        <TouchableOpacity style={styles.iconButton}>
+        <TouchableOpacity onPress={() => navigation.navigate("Bluetooth")} style={styles.iconButton}>
             <MaterialIcons name="bluetooth" style={styles.icon} />
         </TouchableOpacity>
         

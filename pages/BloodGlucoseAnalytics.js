@@ -6,6 +6,16 @@ import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
+const dailyData = {
+  labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+  datasets: [
+    {
+      data: [20, 45, 28, 80, 100, 120, 20],
+      color: (opacity = 1) => `rgba(222, 185, 146, ${opacity})`,
+    },
+  ],
+};
+
 const weeklyData = {
     labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
     datasets: [
@@ -26,39 +36,17 @@ const monthlyData = {
   ],
 };
 
-const glucoseData = {
-  labels: [],
-  datasets: [
-    {
-      data: [],
-      color: (opacity = 1) => `rgba(222, 185, 146, ${opacity})`,
-    },
-  ],
-};
-
 
   const handleDataPointPress = (value) => {
     setTooltipValue(value);
   };
 
   export default function BloodGlucoseAnalytics({navigation}) {
-    const [selectedView, setSelectedView] = useState('weekly');
+    const [selectedView, setSelectedView] = useState('day');
     const [sweatGlucose, setSweatGlucose] = useState([[]]);
-    const [sweatGlucoseValues, setSweatGlucoseValues] = useState([]);
-    const [sweatGlucoseValueTimes, setSweatGlucoseValuesTime] = useState([]);
+    var [glucoseValues, setGlucoseValues] = useState([]);
+    var [glucoseValuesTimestamps, setGlucoseValuesTimestamp] = useState([]);
     const [username, setUsername] = useState('');
-
-    const renderChartData = () => {
-      switch (selectedView) {
-        case 'weekly':
-          return weeklyData;
-        case 'monthly':
-          return monthlyData;
-        // Add cases for monthly and yearly views...
-        default:
-          return weeklyData;
-      }
-    };
 
     useEffect(() => {
       const fetchData = async () => {
@@ -73,31 +61,100 @@ const glucoseData = {
           }
       };
       fetchData();
-      // print('HERE');
-      // fetchSweatGlucoseValues(username);
-    }, []); // Empty dependency array ensures this runs once after the component mounts
+      fetchSweatGlucoseValues(username);
+    }, [selectedView]); // Empty dependency array ensures this runs once after the component mounts
 
+
+    const renderChartData = () => {
+
+      const graphData = {
+        labels: glucoseValuesTimestamps,
+        datasets: [
+          {
+            data: glucoseValues,
+            color: (opacity = 1) => `rgba(222, 185, 146, ${opacity})`,
+          },
+        ],
+      };
+      return graphData;
+      // switch (selectedView) {
+      //   case 'week':
+      //     return weeklyData;
+      //   case 'month':
+      //     return monthlyData;
+      //   // Add cases for monthly and yearly views...
+      //   default:
+      //     return weeklyData;
+      // }
+    };
+
+    
     
 
     const fetchSweatGlucoseValues = async (username) => {
       try {
-          // const response = await axios.get(`https://i-sole-backend.com/get-sweat-glucose-values/${username}`);
-          const response = await axios.get(`http://127.0.0.1:5000/get-sweat-glucose-values/${username}`).catch(error => {
-            console.log('Error response:', error.response);
-            console.log('Error request:', error.request);
-            console.log('Error message:', error.message);
+        // const startTimestamp = '2024-01-01T00:00:00'; // Replace with your desired start timestamp
+        // const endTimestamp = '2024-01-31T23:59:59';   // Replace with your desired end timestamp
+        console.log("HERE");
+        const today = new Date();
+        const year = today.getFullYear();
+        const month = today.getMonth(); // Month is zero-based
+        const day = today.getDate();
+        const dayOfWeek = today.getDay();
+
+        // Get the current time
+        const hours = today.getHours();
+        const minutes = today.getMinutes();
+        const seconds = today.getSeconds();
+
+        var startTimestamp = ''; // Replace with your desired start timestamp
+        var endTimestamp = '';   // Replace with your desired end timestamp
+
+        var currentDate = new Date(year, month, day).toISOString().split('T')[0];
+        var currentDateTimeISO = currentDate + 'T' + hours.toString().padStart(2, '0') + ':' + minutes.toString().padStart(2, '0') + ':' + seconds.toString().padStart(2, '0');
+        console.log(currentDateTimeISO);
+        if(selectedView == 'day')
+        {
+          startTimestamp = currentDate + 'T00:00:00';
+          endTimestamp = currentDateTimeISO;
+        }
+        else if(selectedView == 'week')
+        {
+          // Get the start of the week (Sunday)
+          const startOfWeek = new Date(year, month, day - dayOfWeek);
+          const startOfWeekISO = startOfWeek.toISOString().split('T')[0]; // Remove time part
+          startTimestamp = startOfWeekISO + 'T00:00:00';
+          endTimestamp = currentDateTimeISO;
+        }
+        else if(selectedView == 'month')
+        {
+          // Get the start of the month
+          const startOfMonth = new Date(year, month, 1);
+          const startOfMonthISO = startOfMonth.toISOString().split('T')[0]; // Remove time part
+          startTimestamp = startOfMonthISO + 'T00:00:00';
+          endTimestamp = currentDateTimeISO;
+        }
+
+        // const response = await axios.get(`https://i-sole-backend.com/get-sweat-glucose-values/${username}`);
+        const response = await axios.get(`https://7a5f-136-159-213-241.ngrok-free.app/get_glucose_data/${username}?start=${startTimestamp}&end=${endTimestamp}`);
+        // const response = await axios.get(`https://7a5f-136-159-213-241.ngrok-free.app/get_glucose_data/Lubaba?start=2024-02-25T00:00:00&end=2024-02-29T09:09:31`);
+        // Extract glucose values and timestamps from the response
+        const glucoseData = response.data.glucoseData;
+        console.log(glucoseData);
+        glucose = [];
+        timestamps = [];
+        // Iterate over glucoseData array and extract values
+        glucoseData.forEach(data => {
+          glucose.push(data.glucose);
+          timestamps.push(data.timestamp);
         });
-          // const response = await axios.get(`http://localhost:5000/get-sweat-glucose-values/${username}`);
-          // print(response.data.sweatGlucoseValues);
-          // setSweatGlucose(response.data.sweat_glucose_values);
+        // console.log(glucoseValues);
+        setGlucoseValues(glucose);
+        setGlucoseValuesTimestamp(timestamps);
       } catch (error) {
           console.error('Error fetching glucose values:', error);
-          console.log(error);
       }
     }
-
-    print('HERE');
-    fetchSweatGlucoseValues(username);
   
   
   
@@ -132,16 +189,22 @@ const glucoseData = {
         />
         <View style={styles.toggleContainer}>
           <TouchableOpacity
-            style={[styles.toggleButton, selectedView === 'weekly' && styles.selectedToggle]}
-            onPress={() => setSelectedView('weekly')}
+              style={[styles.toggleButton, selectedView === 'day' && styles.selectedToggle]}
+              onPress={() => setSelectedView('day')}
           >
-            <Text style={styles.toggleText}>Weekly</Text>
+            <Text style={styles.toggleText}>Day</Text>
           </TouchableOpacity>
           <TouchableOpacity
-            style={[styles.toggleButton, selectedView === 'monthly' && styles.selectedToggle]}
-            onPress={() => setSelectedView('monthly')}
+            style={[styles.toggleButton, selectedView === 'week' && styles.selectedToggle]}
+            onPress={() => setSelectedView('week')}
           >
-            <Text style={styles.toggleText}>Monthly</Text>
+            <Text style={styles.toggleText}>Week</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={[styles.toggleButton, selectedView === 'month' && styles.selectedToggle]}
+            onPress={() => setSelectedView('month')}
+          >
+            <Text style={styles.toggleText}>Month</Text>
           </TouchableOpacity>
           {/* Add buttons for monthly and yearly views as needed... */}
         </View>

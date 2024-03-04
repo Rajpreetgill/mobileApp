@@ -422,6 +422,8 @@ PODS:
     - React-jsi (= 0.72.6)
     - React-logger (= 0.72.6)
     - React-perflogger (= 0.72.6)
+  - RNCAsyncStorage (1.21.0):
+    - React-Core
   - RNCMaskedView (0.1.11):
     - React
   - RNGestureHandler (2.12.1):
@@ -456,6 +458,8 @@ PODS:
   - RNScreens (3.22.1):
     - React-Core
     - React-RCTImage
+  - RNSVG (15.0.0):
+    - React-Core
   - RNVectorIcons (10.0.2):
     - RCT-Folly (= 2021.07.22.00)
     - React-Core
@@ -512,10 +516,12 @@ DEPENDENCIES:
   - React-runtimescheduler (from `../node_modules/react-native/ReactCommon/react/renderer/runtimescheduler`)
   - React-utils (from `../node_modules/react-native/ReactCommon/react/utils`)
   - ReactCommon/turbomodule/core (from `../node_modules/react-native/ReactCommon`)
+  - "RNCAsyncStorage (from `../node_modules/@react-native-async-storage/async-storage`)"
   - "RNCMaskedView (from `../node_modules/@react-native-community/masked-view`)"
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
   - RNReanimated (from `../node_modules/react-native-reanimated`)
   - RNScreens (from `../node_modules/react-native-screens`)
+  - RNSVG (from `../node_modules/react-native-svg`)
   - RNVectorIcons (from `../node_modules/react-native-vector-icons`)
   - Yoga (from `../node_modules/react-native/ReactCommon/yoga`)
 
@@ -622,6 +628,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon/react/utils"
   ReactCommon:
     :path: "../node_modules/react-native/ReactCommon"
+  RNCAsyncStorage:
+    :path: "../node_modules/@react-native-async-storage/async-storage"
   RNCMaskedView:
     :path: "../node_modules/@react-native-community/masked-view"
   RNGestureHandler:
@@ -630,6 +638,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-reanimated"
   RNScreens:
     :path: "../node_modules/react-native-screens"
+  RNSVG:
+    :path: "../node_modules/react-native-svg"
   RNVectorIcons:
     :path: "../node_modules/react-native-vector-icons"
   Yoga:
@@ -686,10 +696,12 @@ SPEC CHECKSUMS:
   React-runtimescheduler: 13b0c5e9354ccfc3dc9a391231e55debeb688523
   React-utils: fa59c9a3375fb6f4aeb66714fd3f7f76b43a9f16
   ReactCommon: 5f73972d2abd8a85e44f27317bf77418a74d3340
+  RNCAsyncStorage: 618d03a5f52fbccb3d7010076bc54712844c18ef
   RNCMaskedView: 0e1bc4bfa8365eba5fbbb71e07fbdc0555249489
   RNGestureHandler: c0d04458598fcb26052494ae23dda8f8f5162b13
   RNReanimated: 3ffa3d63576ecd26a4f8772d03029cccaf41b5d7
   RNScreens: 50ffe2fa2342eabb2d0afbe19f7c1af286bc7fb3
+  RNSVG: 3f65a03e0c61a8495dee92bf82545ed9041cbf3b
   RNVectorIcons: 23b6e11af4aaf104d169b1b0afa7e5cf96c676ce
   SocketRocket: f32cd54efbe0f095c4d7594881e52619cfe80b17
   Yoga: b76f1acfda8212aa16b7e26bcce3983230c82603
