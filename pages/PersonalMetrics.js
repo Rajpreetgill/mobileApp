@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, Image, TouchableOpacity, ScrollView } from 'react-native';
+import { StyleSheet, Text, View, Image, TouchableOpacity, ScrollView, TextInput } from 'react-native';
 import Button from '../components/Button';
 import TextField from '../components/TextField';
 import Icon from 'react-native-vector-icons/AntDesign';
@@ -72,76 +72,85 @@ export default function PersonalMetrics({navigation}) {
     <ScrollView contentContainerStyle={styles.scrollContainer}>
     <View style={styles.container}>
 
-      <View style={styles.container}>
+      <View style={[styles.container, { marginBottom: -60 }]}>
         <Text style={styles.text}>Personal Metrics Page</Text>
       </View>
 
       <View style={styles.formContainer}>
         <View style={styles.rowContainer}>
-          <TextField
-            label="Blood Glucose Level"
+          <Text style={styles.label}>Blood Glucose Level</Text>
+          <TextInput
+            style={[styles.input, { width: 160 }]} // Manually setting width here
             placeholder="Ex. 10.6"
             onChangeText={(text) => setBloodGlucoseLevel(text)}
             value={bloodGlucoseLevel}
-            // width ='80%'
           />
           <Button onPress={() => handleSubmit()} title="Submit" />
         </View>
         <View style={styles.rowContainer}>
-            <TextField
-              label="Weight"
-              placeholder="Ex. 10.6"
-              onChangeText={(text) => setWeight(text)}
-              value={weight}
-              // width = {80}
-            />
-            <Button onPress={() => handleSubmit()} title="Submit" />
+        <Text style={styles.label}>Weight</Text>
+          <TextInput
+            style={[styles.input, { width: 160 }]} // Manually setting width here
+            placeholder="Ex. 55"
+            onChangeText={(text) => setWeight(text)}
+            value={weight}
+          />
+          <Button onPress={() => handleSubmit()} title="Submit" />
         </View>
         <View style={styles.rowContainer}>
-            <TextField
-              label="Height"
-              placeholder="Ex. 10.6"
-              onChangeText={(text) => setHeight(text)}
-              value={height}
-            />
-            <Button onPress={() => handleSubmit()} title="Submit" />
+        <Text style={styles.label}>Height</Text>
+          <TextInput
+            style={[styles.input, { width: 160}]} // Manually setting width here
+            placeholder="Ex. 10.6"
+            onChangeText={(text) => setHeight(text)}
+            value={height}
+          />
+          <Button onPress={() => handleSubmit()} title="Submit" />
         </View>
         <View style={styles.rowContainer}>
-            <TextField
-            label="Insulin Dosage"
-            placeholder="10.6"
+          <Text style={styles.label}>Insulin Dosage</Text>
+          <TextInput
+            style={[styles.input, { width: 160 }]} // Manually setting width here
+            placeholder="Ex. 10.6"
             onChangeText={(text) => setInsulinDosage(text)}
             value={insulinDosage}
-            />
-            <Button onPress={() => handleSubmit()} title="Submit" />
+          />
+          <Button onPress={() => handleSubmit()} title="Submit" />
         </View>
         <View style={styles.rowContainer}>
-          <TextField
-            label="Allergies"
-            placeholder="10.6"
-            onChangeText={(text) => setAllergies(text)}
-            value={allergies}
-            // {styles.textwidth={60}}
-          />
-          <Button onPress={() => handleSubmit()} title="Save Changes" />
+        <Text style={styles.label}>Allergies</Text>
+        <TextInput
+          style={[styles.input, { width: 160 }]} // Manually setting width here
+          placeholder="Ex. 10.6"
+          onChangeText={(text) => setAllergies(text)}
+          value={allergies}
+        />
+        <Button onPress={() => handleSubmit()} title="Save Changes" />
         </View>
-        
-        <TextField
-          label="Meal Type"
-          placeholder="10.6"
-          onChangeText={(text) => setInsulinDosage(text)}
+        <View style={styles.rowContainer}>
+        <Text style={styles.label}>Meal Type</Text>
+        <TextInput
+          style={[styles.input, { width: 160 }]}
+          placeholder="Ex. Breakfast, Lunch, Dinner"
+          onChangeText={(text) => setMealType(text)}
           value={insulinDosage}
         />
         <Button onPress={() => handleSubmit()} title="Add" />
+        </View>
+
         <Button onPress={() => handleSubmit()} title="Meal Summary" />
 
-        <TextField
-          label="Activity Type"
-          placeholder="10.6"
-          onChangeText={(text) => setInsulinDosage(text)}
-          value={insulinDosage}
+        <View style={styles.rowContainer}>
+        <Text style={styles.label}>Activity Type</Text>
+        <TextInput
+        style={[styles.input, { width: 160 }]}
+        placeholder="Ex. Walking, Running, Swimming"
+        onChangeText={(text) => setInsulinDosage(text)}
+        value={insulinDosage}
         />
         <Button onPress={() => handleSubmit()} title="Add" />
+        </View>
+
         <Button onPress={() => handleSubmit()} title="Activity Summary" />
       
       </View>
@@ -168,7 +177,7 @@ export default function PersonalMetrics({navigation}) {
         </TouchableOpacity>
         
         {/* Settings Icon */}
-        <TouchableOpacity onPress={() => navigation.navigate("Seetings")} style={styles.iconButton}>
+        <TouchableOpacity onPress={() => navigation.navigate("Settings")} style={styles.iconButton}>
           <Icon name="setting" style={styles.icon} />
         </TouchableOpacity>
 
@@ -231,4 +240,23 @@ const styles = StyleSheet.create({
       alignItems: 'center', // Align items vertically in the center
       justifyContent: 'space-evenly', // Align items horizontally in the center
     },
+
+    input: {
+      borderWidth: 1,
+      borderColor: '#1BA098',
+      borderRadius: 8,
+      padding: 10,
+      fontSize: 16,
+    },
+
+    label: {
+      marginRight: 10,
+      color: '#DEB992',
+      fontSize: 15,
+      marginBottom: 4,
+    },
+
+    placeholder: {
+      color: '#DEB992',
+    }
 });
