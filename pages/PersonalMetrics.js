@@ -422,7 +422,6 @@ const styles = StyleSheet.create({
       alignItems: 'center', // Align items vertically in the center
       justifyContent: 'space-evenly', // Align items horizontally in the center
     },
-
     input: {
       borderWidth: 1,
       borderColor: '#1BA098',
@@ -431,7 +430,6 @@ const styles = StyleSheet.create({
       fontSize: 16,
       color: '#DEB992',
     },
-
     label: {
       marginRight: 10,
       color: '#DEB992',

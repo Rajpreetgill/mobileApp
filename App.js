@@ -14,6 +14,7 @@ import Profile from './pages/Profile';
 import PersonalMetrics from './pages/PersonalMetrics';
 import Feedback from './pages/Feedback';
 import Bluetooth from './pages/Bluetooth';
+import ProfileEdit from './pages/ProfileEdit';
 
 const Stack = createNativeStackNavigator()
 
@@ -29,6 +30,7 @@ export default function App() {
         <Stack.Screen name="PressureAnalytics" component={PressureAnalytics} />
         <Stack.Screen name="Settings" component={Settings} />
         <Stack.Screen name="Profile" component={Profile} />
+        <Stack.Screen name="ProfileEdit" component={ProfileEdit} />
         <Stack.Screen name="PersonalMetrics" component={PersonalMetrics} />
         <Stack.Screen name="Feedback" component={Feedback} />
         <Stack.Screen name="Bluetooth" component={Bluetooth} />
