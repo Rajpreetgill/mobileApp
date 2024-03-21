@@ -202,7 +202,7 @@ export default function Profile({navigation}) {
         </View>
       </View>
       
-      <View style={styles.iconContainer}>
+      <View style={styles.iconContainerBottom}>
 
         {/* Home Icon */}
         <TouchableOpacity onPress={() => navigation.navigate("MainPage")} style={styles.iconButton}>
@@ -250,6 +250,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         paddingTop: 0, // Add padding to the top
         paddingBottom: 10, // Add padding to the bottom
+        marginTop:30
     },
 
     text: {
@@ -266,6 +267,18 @@ const styles = StyleSheet.create({
         paddingTop: 65, // Add padding to the top
         paddingBottom: 20, // Add padding to the bottom
     },
+    iconContainerBottom: {
+      flexDirection: 'row',
+      position: 'absolute',
+      bottom: 0,
+      left: 0,
+      right: 0,
+      paddingTop: 65,
+      paddingBottom: 20,
+      backgroundColor: '#051622', // Add background color to match the container
+      justifyContent: 'space-around', // Align items horizontally with equal spacing
+    
+  },
     iconButton: {
         marginHorizontal: 20, // Add more space between icons
     },
