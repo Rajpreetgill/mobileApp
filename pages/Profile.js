@@ -1,15 +1,58 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, Image, TouchableOpacity, TextInput } from 'react-native';
 import Button from '../components/Button';
 import Icon from 'react-native-vector-icons/AntDesign';
+import axios from 'axios';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function Profile({navigation}) {
-  const [name, setName] = useState('Ex: Austin');
-  const [email, setEmail] = useState('Ex: austin@gmail.com');
-  const [phoneNumber, setPhoneNumber] = useState('Ex: 403-888-888');
-  const [dateOfBirth, setDateOfBirth] = useState('Ex: DD/MM/YYYY');
-  const [emergencyContact, setEmergencyContact] = useState('Ex: 403-888-888');
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [phoneNumber, setPhoneNumber] = useState('');
+  const [dateOfBirth, setDateOfBirth] = useState('');
+  const [emergencyContact, setEmergencyContact] = useState('');
+  const [username, setUsername] = useState('');
+
+  
+
+  useEffect(() => {
+    const fetchData = async () => {
+        try {
+            const usrname = await AsyncStorage.getItem('curr_username');
+            setUsername(usrname);
+        } catch (e) {
+            // Handle errors here
+            console.error("Error retrieving data", e);
+        }
+    };
+
+    const getProfileData = async () => {
+      try {
+        const response = await axios.get(`https://2232-2604-3d09-3472-7800-1da4-da3b-2ce9-4dea.ngrok-free.app/get_profile_data/${username}`);
+        if (response.data.success) {
+            // console.log("Retrieved profile data successfully:", response.data);
+            // Do something with the retrieved profile data
+            const userData = response.data.data;
+            setName(userData.fullName);
+            setEmail(userData.email);
+            setPhoneNumber(userData.phoneNumber);
+            setDateOfBirth(userData.dateOfBirth);
+            setEmergencyContact(userData.emergencyContact);
+  
+        } else {
+            // Update failed
+            console.error('Profile data retrieval failed:', response.data.message);
+        }
+      } catch (error) {
+          console.error('Error retrieving profile data:', error);
+      }
+    }
+
+    fetchData();
+    getProfileData();
+  }, []); // Empty dependency array ensures this runs once after the component mounts
+
 
   return (
     <View style={styles.container}>
@@ -18,8 +61,11 @@ export default function Profile({navigation}) {
       </View>
 
       <View style={styles.iconContainer}>
-            {/* Golden Profile Icon */}
-            <Icon name="user" style={[styles.goldenIcon]} />
+        <Text style={styles.text}>Profile</Text>
+        {/* Golden Profile Icon */}
+        <TouchableOpacity onPress={() => navigation.navigate("ProfileEdit")} style={styles.iconButton}>
+          <Icon name="edit" style={styles.goldenIcon} />
+        </TouchableOpacity>
       </View>
 
       {/* Name Input */}
@@ -76,8 +122,8 @@ export default function Profile({navigation}) {
 
         {/* Home Icon */}
         <TouchableOpacity onPress={() => navigation.navigate("MainPage")} style={styles.iconButton}>
-            <Icon name="home" style={styles.icon} />
-          </TouchableOpacity>
+          <Icon name="home" style={styles.icon} />
+        </TouchableOpacity>
 
         {/* Profile Icon */}
         <TouchableOpacity onPress={() => navigation.navigate("Profile")} style={styles.iconButton}>
@@ -117,7 +163,7 @@ const styles = StyleSheet.create({
   
     text: {
         color: '#DEB992',
-        fontSize: 30,
+        fontSize: 50,
     },
     userIcon: {
         marginLeft: 10,
