@@ -41,6 +41,71 @@ const monthlyData = {
     setTooltipValue(value);
   };
 
+  export function BloodGlucoseLineChart({ selectedView }) {
+    const weeklyData = {
+      labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+      datasets: [
+        {
+          data: [20, 45, 28, 80, 100, 120, 20],
+          color: (opacity = 1) => `rgba(222, 185, 146, ${opacity})`,
+        },
+      ],
+    };
+  
+    const monthlyData = {
+      labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'],
+      datasets: [
+        {
+          data: [80, 40, 60, 90, 50, 10],
+          color: (opacity = 1) => `rgba(222, 185, 146, ${opacity})`,
+        },
+      ],
+    };
+  
+    const renderChartData = () => {
+      switch (selectedView) {
+        case 'weekly':
+          return weeklyData;
+        case 'monthly':
+          return monthlyData;
+        default:
+          return weeklyData;
+      }
+    };
+  
+    return (
+      <View>
+      <Text style={styles.infoValue}>Blood Sugar: 120 mg/dL </Text>
+      <LineChart
+        data={renderChartData()}
+        width={350}
+        height={220}
+        chartConfig={{
+          backgroundColor: '#1B2130',
+          backgroundGradientFrom: '#1B2130',
+          backgroundGradientTo: '#1B2130',
+          decimalPlaces: 0,
+          color: (opacity = 1) => `rgba(27, 160, 152, ${opacity})`,
+          labelColor: (opacity = 1) => `rgba(222, 185, 146, ${opacity})`,
+          style: {
+            borderRadius: 16,
+          },
+          propsForDots: {
+            r: '6',
+            strokeWidth: '2',
+            stroke: '#1BA098',
+          },
+        }}
+        bezier
+        style={{
+          marginVertical: 8,
+          borderRadius: 16,
+        }}
+      />
+      </View>
+    );
+  }
+  
   export default function BloodGlucoseAnalytics({navigation}) {
     const [selectedView, setSelectedView] = useState('day');
     const [sweatGlucose, setSweatGlucose] = useState([[]]);
