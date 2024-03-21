@@ -3,28 +3,62 @@ import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
 import Button from '../components/Button';
 import Icon from 'react-native-vector-icons/AntDesign';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import  React, { useState, useEffect } from 'react';
 import { BloodGlucoseLineChart } from './BloodGlucoseAnalytics';
 import { PressureLineChart } from './PressureAnalytics';
 
+
 export default function MainPage({navigation}) {
+
+  useEffect(() => {
+    const fetchData = async () => {
+        try {
+            const username = await AsyncStorage.getItem('curr_username');
+            const patientID = await AsyncStorage.getItem('patientID');
+            const role = await AsyncStorage.getItem('userRole');
+
+            // Do something with the retrieved values
+            console.log(username, patientID, role);
+        } catch (e) {
+            // Handle errors here
+            console.error("Error retrieving data", e);
+        }
+    };
+    fetchData();
+}, []); // Empty dependency array ensures this runs once after the component mounts
 
   return (
     <View style={styles.container}>
+
       <View style={styles.container}>
-        
+
         <Text style={styles.text}>Welcome, User</Text> 
       
       {/* Display Blood Glucose Line Chart */}
-      <BloodGlucoseLineChart selectedView="weekly" />
-      <PressureLineChart selectedView="weekly" />
+      {/* <BloodGlucoseLineChart selectedView="weekly" />
+      <PressureLineChart selectedView="weekly" /> */}
       
+      {/* Pair Device Button */}
+      <View style={styles.pairDeviceContainer}>
+        <TouchableOpacity style={styles.pairDeviceButton}>
+          <Text style={styles.pairDeviceButtonText}>Pair Device</Text>
+        </TouchableOpacity>
       </View>
-        {/* Pair Device Button */}
-        <View style={styles.pairDeviceContainer}>
-          <TouchableOpacity style={styles.pairDeviceButton}>
-            <Text style={styles.pairDeviceButtonText}>Pair Device</Text>
-          </TouchableOpacity>
-        </View>
+      
+      <TouchableOpacity onPress={() => navigation.navigate("PersonalMetrics")} style={styles.iconButton}>
+          <Icon name="profile" style={styles.icon} />
+      </TouchableOpacity>
+       
+        <TouchableOpacity onPress={() => navigation.navigate("Feedback")} style={styles.iconButton}>
+            <Icon name="mail" style={styles.icon} />
+        </TouchableOpacity>
+       
+        <TouchableOpacity onPress={() => navigation.navigate("Bluetooth")} style={styles.iconButton}>
+            <MaterialIcons name="bluetooth" style={styles.icon} />
+        </TouchableOpacity>
+        
+      </View>
       
       <View style={styles.iconContainer}>
 

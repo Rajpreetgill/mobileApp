@@ -95,7 +95,7 @@ export default function Profile({navigation}) {
         </TouchableOpacity>
         
         {/* Settings Icon */}
-        <TouchableOpacity onPress={() => navigation.navigate("Seetings")} style={styles.iconButton}>
+        <TouchableOpacity onPress={() => navigation.navigate("Settings")} style={styles.iconButton}>
           <Icon name="setting" style={styles.icon} />
         </TouchableOpacity>
 

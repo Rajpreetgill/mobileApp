@@ -13,7 +13,7 @@ import Settings from './pages/Settings';
 import Profile from './pages/Profile';
 import PersonalMetrics from './pages/PersonalMetrics';
 import Feedback from './pages/Feedback';
-// import Bluetooth from './pages/Bluetooth';
+import Bluetooth from './pages/Bluetooth';
 
 const Stack = createNativeStackNavigator()
 
@@ -31,7 +31,7 @@ export default function App() {
         <Stack.Screen name="Profile" component={Profile} />
         <Stack.Screen name="PersonalMetrics" component={PersonalMetrics} />
         <Stack.Screen name="Feedback" component={Feedback} />
-        {/* <Stack.Screen name="Bluetooth" component={Bluetooth} /> */}
+        <Stack.Screen name="Bluetooth" component={Bluetooth} />
       </Stack.Navigator>
     </NavigationContainer>
     

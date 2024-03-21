@@ -2,29 +2,71 @@ import React, { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
 import Button from '../components/Button';
 import TextField from '../components/TextField';
-
+import axios from 'axios';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function SignupPage({navigation}) {
-    const [email, setEmail] = useState('');
+    const [fullname, setFullname] = useState('');
     const [username, setUsername] = useState('');
+    const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
   
-    const handleLoginPress = () => {
-      console.log('Login button pressed!');
+    const handleSignup = async (e) => {
+      console.log('Signup button pressed!');
       console.log('Email:', email);
       console.log('Username:', username);
       console.log('Password:', password);
-      // Add your login logic here
+
+      const role = "Patient";
+
+      try {
+        
+        const signupResponse = await axios.post('https://i-sole-backend.com/signup', {
+            username: username,
+            email: email,
+            password: password,
+            fullName: fullname,
+            role: role,
+            patientID: role === 'Patient' ? '' : patientID,
+        });
+
+        if (signupResponse.data.success) {
+            console.log("Account created successfully");
+
+            const { patientID, role } = signupResponse.data.user_data;
+
+            // Store the username in local storage
+            await AsyncStorage.setItem('curr_username', username);
+            await AsyncStorage.setItem('patientID', patientID);
+            await AsyncStorage.setItem('userRole', role);
+
+            // Call the initialize_counter endpoint only if role is 'Patient'
+            if (role === 'Patient') {
+              const counterResponse = await axios.post('https://i-sole-backend.com/initialize_counter', {
+                username: username,
+              });
+
+              if (counterResponse.data.success) {
+                console.log("Counter initialized successfully");
+              } else {
+                console.log("Failed to initialize counter");
+              }
+            }
+
+            navigation.navigate("MainPage");
+            
+        } else {
+            console.log("Failed to create account");
+        }
+      } catch (error) {
+          console.error('Error during sign up:', error);
+      }
+
     };
   
-    const handleForgotPasswordPress = () => {
-      console.log('Forgot Password clicked!');
-      // Add your logic for Forgot Password here
-    };
-  
-    const handleRegisterPress = () => {
-      console.log('Register clicked!');
-      // Add your logic for Register here
+    const handleLoginPress = () => {
+      console.log('Login clicked!');
+      navigation.navigate("LoginPage")
     };
   
     return (
@@ -32,11 +74,11 @@ export default function SignupPage({navigation}) {
         <Text style={styles.text}>Signup</Text>
         <View style={styles.formContainer}>
           <TextField
-            label="Email"
-            placeholder="Email"
-            iconName="mail"
-            onChangeText={(text) => setEmail(text)}
-            value={email}
+            label="Full Name"
+            placeholder="Full Name"
+            iconName="user"
+            onChangeText={(text) => setFullname(text)}
+            value={fullname}
           />
           <TextField
             label="Username"
@@ -46,6 +88,13 @@ export default function SignupPage({navigation}) {
             value={username}
           />
           <TextField
+            label="Email"
+            placeholder="Email"
+            iconName="mail"
+            onChangeText={(text) => setEmail(text)}
+            value={email}
+          />
+          <TextField
             label="Password"
             placeholder="Password"
             iconName="lock"
@@ -53,10 +102,10 @@ export default function SignupPage({navigation}) {
             onChangeText={(text) => setPassword(text)}
             value={password}
           />
-          <TouchableOpacity onPress={handleRegisterPress}>
+          <TouchableOpacity onPress={handleLoginPress}>
             <Text style={styles.link}>Already have an account? Login</Text>
           </TouchableOpacity>
-          <Button onPress={() => navigation.navigate("MainPage")} title="Signup" />
+          <Button onPress={handleSignup} title="Signup" />
         </View>
       </View>
     );
