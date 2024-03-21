@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, Image, TouchableOpacity, ScrollView, TextInput } from 'react-native';
 import Button from '../components/Button';
@@ -7,6 +7,7 @@ import Icon from 'react-native-vector-icons/AntDesign';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import textInputStyles from '../components/textInputStyle'; // Import styles from the file
+import { SelectList } from 'react-native-dropdown-select-list'
 
 export default function PersonalMetrics({navigation}) {
 
@@ -15,44 +16,50 @@ export default function PersonalMetrics({navigation}) {
   const [weight, setWeight] = useState('');
   const [allergies, setAllergies] = useState('');
   const [insulinDosage, setInsulinDosage] = useState('');
+  const [mealType, setMealType] = useState('');
+  const [mealDescription, setMealDescription] = useState('');
+  const [username, setUsername] = useState('');
 
-  const handleSubmit = async (e) => { // Change the function name to handleSignIn
-    // e.preventDefault();
+  const [mealtypes, setMealTypes] = React.useState("");
+  
+  const mealtypesData = [
+    {key:'1',value:'Breakfast'},
+    {key:'2',value:'Lunch'},
+    {key:'3',value:'Dinner'},
+    {key:'4',value:'Snack'},
+  ];
 
+  useEffect(() => {
+    const fetchData = async () => {
+        try {
+          const usrname = await AsyncStorage.getItem('curr_username');
+          setUsername(usrname);
+            // Do something with the retrieved values
+        } catch (e) {
+            // Handle errors here
+            console.error("Error retrieving data", e);
+        }
+    };
+    fetchData();
+  }, []); // Empty dependency array ensures this runs once after the component mounts
+
+  const bloodGlucoseLevelSubmit = async (e) => {
     try {
       // Make a POST request to your backend sign-in endpoint
-      const response = await axios.post('https://i-sole-backend.com/signin', {
+      const response = await axios.post(`https://2232-2604-3d09-3472-7800-1da4-da3b-2ce9-4dea.ngrok-free.app/add_blood_glucose_level`, {
         username: username, // Use the username state variable
-        password: password,
+        bloodGlucoseLevel: bloodGlucoseLevel,
       });
-
       if (response.data.success) {
-        // Authentication successful
-        const { username, patientID, role } = response.data.user_data;
-        console.log(patientID);
-        // Store curr_username and patientID in local storage
-        await AsyncStorage.setItem('curr_username', username);
-        await AsyncStorage.setItem('patientID', patientID.toString()); // Assuming patientID is a number
-        await AsyncStorage.setItem('userRole', role);
-        
-        // Log curr_username for debugging
-        console.log('curr_username:', username);
-
-        // Navigate to Main Page
-        navigation.navigate("MainPage");
+        console.log("Blood glucose level updated successfully");
       } 
       else {
-        // Authentication failed, handle the error (e.g., show an error message)
-        console.error("HERE");
-        console.error('Sign-in failed:', response.data.message);
-        setLoginErrorMessage("Incorrect Username or Password");
+        // Update failed
+        console.error('Blood glucose level update failed:', response.data.message);
       }
 
     } catch (error) {
       if (error.response) {
-        // The request was made and the server responded with a status code
-        // that falls out of the range of 2xx
-        setLoginErrorMessage("Incorrect Username or Password");
         console.error(error.response.data);
         console.error(error.response.status);
         console.error(error.response.headers);
@@ -65,7 +72,161 @@ export default function PersonalMetrics({navigation}) {
       }
       console.error(error.config);
     }
+  };
 
+  const weightSubmit = async (e) => {
+    try {
+      // Make a POST request to your backend sign-in endpoint
+      const response = await axios.post(`https://2232-2604-3d09-3472-7800-1da4-da3b-2ce9-4dea.ngrok-free.app/update_weight`, {
+        username: username, // Use the username state variable
+        weight: weight,
+      });
+      if (response.data.success) {
+        console.log("Weight updated successfully");
+      } 
+      else {
+        // Update failed
+        console.error('Weight update failed:', response.data.message);
+      }
+
+    } catch (error) {
+      if (error.response) {
+        console.error(error.response.data);
+        console.error(error.response.status);
+        console.error(error.response.headers);
+      } else if (error.request) {
+        // The request was made but no response was received
+        console.error(error.request);
+      } else {
+        // Something happened in setting up the request that triggered an Error
+        console.error('Error', error.message);
+      }
+      console.error(error.config);
+    }
+  };
+
+  const heightSubmit = async (e) => {
+    try {
+      // Make a POST request to your backend sign-in endpoint
+      const response = await axios.post(`https://2232-2604-3d09-3472-7800-1da4-da3b-2ce9-4dea.ngrok-free.app/update_height`, {
+        username: username, // Use the username state variable
+        height: height,
+      });
+      if (response.data.success) {
+        console.log("Height updated successfully");
+      } 
+      else {
+        // Update failed
+        console.error('Height update failed:', response.data.message);
+      }
+
+    } catch (error) {
+      if (error.response) {
+        console.error(error.response.data);
+        console.error(error.response.status);
+        console.error(error.response.headers);
+      } else if (error.request) {
+        // The request was made but no response was received
+        console.error(error.request);
+      } else {
+        // Something happened in setting up the request that triggered an Error
+        console.error('Error', error.message);
+      }
+      console.error(error.config);
+    }
+  };
+
+  const insulinDosageSubmit = async (e) => {
+    try {
+      // Make a POST request to your backend sign-in endpoint
+      const response = await axios.post(`https://2232-2604-3d09-3472-7800-1da4-da3b-2ce9-4dea.ngrok-free.app/update_insulin_dosage`, {
+        username: username, // Use the username state variable
+        insulinDosage: insulinDosage,
+      });
+      if (response.data.success) {
+        console.log("Insulin dosage updated successfully");
+      } 
+      else {
+        // Update failed
+        console.error('Insulin dosage update failed:', response.data.message);
+      }
+
+    } catch (error) {
+      if (error.response) {
+        console.error(error.response.data);
+        console.error(error.response.status);
+        console.error(error.response.headers);
+      } else if (error.request) {
+        // The request was made but no response was received
+        console.error(error.request);
+      } else {
+        // Something happened in setting up the request that triggered an Error
+        console.error('Error', error.message);
+      }
+      console.error(error.config);
+    }
+  };
+
+  const allergiesSaveChanges = async (e) => {
+    try {
+      // Make a POST request to your backend sign-in endpoint
+      const response = await axios.post(`https://2232-2604-3d09-3472-7800-1da4-da3b-2ce9-4dea.ngrok-free.app/update_allergies`, {
+        username: username, // Use the username state variable
+        allergies: allergies,
+      });
+      if (response.data.success) {
+        console.log("Allergies updated successfully");
+      } 
+      else {
+        // Update failed
+        console.error('Allergies update failed:', response.data.message);
+      }
+
+    } catch (error) {
+      if (error.response) {
+        console.error(error.response.data);
+        console.error(error.response.status);
+        console.error(error.response.headers);
+      } else if (error.request) {
+        // The request was made but no response was received
+        console.error(error.request);
+      } else {
+        // Something happened in setting up the request that triggered an Error
+        console.error('Error', error.message);
+      }
+      console.error(error.config);
+    }
+  };
+
+  const mealAdd = async (e) => {
+    try {
+      // Make a POST request to your backend sign-in endpoint
+      const response = await axios.post(`https://2232-2604-3d09-3472-7800-1da4-da3b-2ce9-4dea.ngrok-free.app/add_meal/${username}`, {
+        meal_type: mealType,
+        meal_description: mealDescription
+      });
+      if (response.data.success) {
+        console.log("Meal added successfully");
+      } 
+      else {
+        // Update failed
+        console.error('Meal update failed:', response.data.message);
+      }
+
+    } catch (error) {
+      if (error.response) {
+        console.error(error.response.data);
+        console.error(error.response.status);
+        console.error(error.response.headers);
+      } else if (error.request) {
+        // The request was made but no response was received
+        console.error(error.request);
+      } else {
+        // Something happened in setting up the request that triggered an Error
+        console.error('Error', error.message);
+      }
+      console.error(error.config);
+    }
   };
 
   return (
@@ -85,8 +246,9 @@ export default function PersonalMetrics({navigation}) {
             onChangeText={(text) => setBloodGlucoseLevel(text)}
             value={bloodGlucoseLevel}
           />
-          <Button onPress={() => handleSubmit()} title="Submit" />
+          <Button onPress={() => bloodGlucoseLevelSubmit()} title="Submit" />
         </View>
+
         <View style={styles.rowContainer}>
         <Text style={styles.label}>Weight</Text>
           <TextInput
@@ -95,8 +257,9 @@ export default function PersonalMetrics({navigation}) {
             onChangeText={(text) => setWeight(text)}
             value={weight}
           />
-          <Button onPress={() => handleSubmit()} title="Submit" />
+          <Button onPress={() => weightSubmit()} title="Submit" />
         </View>
+
         <View style={styles.rowContainer}>
         <Text style={styles.label}>Height</Text>
           <TextInput
@@ -105,8 +268,9 @@ export default function PersonalMetrics({navigation}) {
             onChangeText={(text) => setHeight(text)}
             value={height}
           />
-          <Button onPress={() => handleSubmit()} title="Submit" />
+          <Button onPress={() => heightSubmit()} title="Submit" />
         </View>
+
         <View style={styles.rowContainer}>
           <Text style={styles.label}>Insulin Dosage</Text>
           <TextInput
@@ -115,8 +279,9 @@ export default function PersonalMetrics({navigation}) {
             onChangeText={(text) => setInsulinDosage(text)}
             value={insulinDosage}
           />
-          <Button onPress={() => handleSubmit()} title="Submit" />
+          <Button onPress={() => insulinDosageSubmit()} title="Submit" />
         </View>
+
         <View style={styles.rowContainer}>
         <Text style={styles.label}>Allergies</Text>
         <TextInput
@@ -125,17 +290,33 @@ export default function PersonalMetrics({navigation}) {
           onChangeText={(text) => setAllergies(text)}
           value={allergies}
         />
-        <Button onPress={() => handleSubmit()} title="Save Changes" />
+        <Button onPress={() => allergiesSaveChanges()} title="Save Changes" />
         </View>
-        <View style={styles.rowContainer}>
+
         <Text style={styles.label}>Meal Type</Text>
+        <View>
+        <SelectList 
+          setSelected={(val) => setMealType(val)} 
+          // fontFamily='lato'
+          data={mealtypesData}  
+          arrowicon={<Icon name="down" size={12} color={'#DEB992'} />} 
+          searchicon={<Icon name="search1" size={12} color={'#DEB992'} />} 
+          search={false} 
+          boxStyles={{borderRadius:10, borderColor:'#1BA098'}} //override default styles
+          inputStyles={{color:'#DEB992'}}
+          dropdownTextStyles={{color:'#1BA098'}}
+          dropdownStyles={{borderColor:'#1BA098'}}
+          defaultOption={{ key:'1', value:'Breakfast' }}   //default selected option
+          save="value"
+        />
+        <Text style={styles.label}>Meal Description</Text>
         <TextInput
           style={[styles.input, { width: 160 }]}
-          placeholder="Ex. Breakfast, Lunch, Dinner"
-          onChangeText={(text) => setMealType(text)}
-          value={insulinDosage}
+          placeholder="Enter meal description"
+          onChangeText={(text) => setMealDescription(text)}
+          value={mealDescription}
         />
-        <Button onPress={() => handleSubmit()} title="Add" />
+        <Button onPress={() => mealAdd()} title="Add" />
         </View>
 
         <Button onPress={() => handleSubmit()} title="Meal Summary" />
@@ -154,6 +335,7 @@ export default function PersonalMetrics({navigation}) {
         <Button onPress={() => handleSubmit()} title="Activity Summary" />
       
       </View>
+
       <View style={styles.iconContainer}>
 
         {/* Home Icon */}
@@ -247,6 +429,7 @@ const styles = StyleSheet.create({
       borderRadius: 8,
       padding: 10,
       fontSize: 16,
+      color: '#DEB992',
     },
 
     label: {
@@ -258,5 +441,14 @@ const styles = StyleSheet.create({
 
     placeholder: {
       color: '#DEB992',
+    },
+    picker: {
+      borderWidth: 1,
+      borderColor: '#1BA098',
+      borderRadius: 3,
+      padding: 10,
+      fontSize: 3,
+      color: '#DEB992',
     }
+
 });
