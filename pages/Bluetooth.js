@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, Image } from 'react-native';
+import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
 import Button from '../components/Button';
 import { BleManager } from "react-native-ble-plx";
 import { useState, useEffect, useRef } from "react";
@@ -7,6 +7,7 @@ import { atob } from "react-native-quick-base64";
 import { AnimatedCircularProgress } from "react-native-circular-progress";
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import Icon from 'react-native-vector-icons/AntDesign';
 
 //=== Android Bluetooth Code ===//
 
@@ -52,7 +53,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 // });
 
 
-const Bluetooth = () => {
+export default function Bluetooth({navigation}) {
   // console.log("UID Check: ", GLUCOSE_CHARACTERISTIC_UUID);
   //=== Bluetooth Setup ===//
   const [deviceID, setDeviceID] = useState(null);
@@ -234,6 +235,34 @@ const Bluetooth = () => {
         <Text style={styles.text}>Pressure Value: {pressureValue}</Text>
         <StatusBar style="auto" />
         
+      
+        <View style={styles.iconContainerBottom}>
+        {/* Home Icon */}
+        <TouchableOpacity onPress={() => navigation.navigate("MainPage")} style={styles.iconButton}>
+            <Icon name="home" style={styles.icon} />
+          </TouchableOpacity>
+
+        {/* Profile Icon */}
+        <TouchableOpacity onPress={() => navigation.navigate("Profile")} style={styles.iconButton}>
+            <Icon name="user" style={styles.icon} />
+        </TouchableOpacity>
+        
+        {/* Line Chart Icon */}
+        <TouchableOpacity onPress={() => navigation.navigate("BloodGlucoseAnalytics")} style={styles.iconButton}>
+          <Icon name="linechart" style={styles.icon} />
+        </TouchableOpacity>
+        
+        {/* Dot Chart Icon */}
+        <TouchableOpacity onPress={() => navigation.navigate("PressureAnalytics")} style={styles.iconButton}>
+          <Icon name="dotchart" style={styles.icon} />
+        </TouchableOpacity>
+        
+        {/* Settings Icon */}
+        <TouchableOpacity onPress={() => navigation.navigate("Settings")} style={styles.iconButton}>
+          <Icon name="setting" style={styles.icon} />
+        </TouchableOpacity>
+
+      </View>
     </View>
   );
 
@@ -256,9 +285,28 @@ const styles = StyleSheet.create({
   image: {
     width: 200,
     height: 200,
-  }
+  },
+  specificIcon: {
+    fontSize: 30,
+    color: '#1BA098',
+},
+  iconButton: {
+    marginHorizontal: 20, // Add more space between icons
+  },
+  icon: {
+    fontSize: 30,
+    color: '#DEB992',
+  },
+  iconContainerBottom: {
+    flexDirection: 'row',
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    right: 0,
+    paddingTop: 65,
+    paddingBottom: 20,
+    backgroundColor: '#051622', // Add background color to match the container
+    marginLeft: 30,
+},
 
 });
-
-
-export default Bluetooth;
