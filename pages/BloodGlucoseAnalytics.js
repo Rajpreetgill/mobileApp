@@ -139,6 +139,7 @@ const monthlyData = {
           }
         } catch (error) {
             console.error('Error retrieving blood glucose level:', error);
+            console.error('Error retrieving blood glucose level:', error.message);
         }
       }
 
