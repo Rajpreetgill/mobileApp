@@ -33,30 +33,36 @@ export default function MainPage({navigation}) {
 
       <View style={styles.container}>
 
-        <Text style={styles.text}>Welcome, User</Text> 
+        <Text style={styles.titleText}>Welcome, User</Text> 
       
+        <Icon name="user" style={styles.iconUp} />
+
       {/* Display Blood Glucose Line Chart */}
       {/* <BloodGlucoseLineChart selectedView="weekly" />
       <PressureLineChart selectedView="weekly" /> */}
       
       {/* Pair Device Button */}
-      <View style={styles.pairDeviceContainer}>
-        <TouchableOpacity style={styles.pairDeviceButton}>
-          <Text style={styles.pairDeviceButtonText}>Pair Device</Text>
-        </TouchableOpacity>
-      </View>
-      
-      <TouchableOpacity onPress={() => navigation.navigate("PersonalMetrics")} style={styles.iconButton}>
-          <Icon name="profile" style={styles.icon} />
+
+      <TouchableOpacity onPress={() => navigation.navigate("PersonalMetrics")} style={styles.buttonContainer}>
+      <Icon name="profile" style={styles.icon} />
+      <TouchableOpacity onPress={() => navigation.navigate("PersonalMetrics")} style={styles.textContainer}>
+        <Text style={styles.text}>Metrics</Text>
       </TouchableOpacity>
-       
-        <TouchableOpacity onPress={() => navigation.navigate("Feedback")} style={styles.iconButton}>
-            <Icon name="mail" style={styles.icon} />
+    </TouchableOpacity>
+
+    <TouchableOpacity onPress={() => navigation.navigate("Feedback")} style={styles.buttonContainer}>
+        <Icon name="mail" style={styles.icon} />
+        <TouchableOpacity onPress={() => navigation.navigate("Feedback")} style={styles.textContainer}>
+          <Text style={styles.text}>Feedback</Text>
         </TouchableOpacity>
-       
-        <TouchableOpacity onPress={() => navigation.navigate("Bluetooth")} style={styles.iconButton}>
-            <MaterialIcons name="bluetooth" style={styles.icon} />
+      </TouchableOpacity>
+
+      <TouchableOpacity onPress={() => navigation.navigate("Bluetooth")} style={styles.buttonContainer}>
+        <MaterialIcons name="bluetooth" style={styles.icon} />
+        <TouchableOpacity onPress={() => navigation.navigate("Bluetooth")} style={styles.textContainer}>
+          <Text style={styles.text}>Pair Device</Text>
         </TouchableOpacity>
+      </TouchableOpacity>
         
       </View>
       
@@ -69,22 +75,22 @@ export default function MainPage({navigation}) {
 
         {/* Profile Icon */}
         <TouchableOpacity onPress={() => navigation.navigate("Profile")} style={styles.iconButton}>
-            <Icon name="user" style={styles.icon} />
+            <Icon name="user" style={styles.bottomicon} />
         </TouchableOpacity>
         
         {/* Line Chart Icon */}
         <TouchableOpacity onPress={() => navigation.navigate("BloodGlucoseAnalytics")} style={styles.iconButton}>
-          <Icon name="linechart" style={styles.icon} />
+          <Icon name="linechart" style={styles.bottomicon} />
         </TouchableOpacity>
         
         {/* Dot Chart Icon */}
         <TouchableOpacity onPress={() => navigation.navigate("PressureAnalytics")} style={styles.iconButton}>
-          <Icon name="dotchart" style={styles.icon} />
+          <Icon name="dotchart" style={styles.bottomicon} />
         </TouchableOpacity>
         
         {/* Settings Icon */}
         <TouchableOpacity onPress={() => navigation.navigate("Settings")} style={styles.iconButton}>
-          <Icon name="setting" style={styles.icon} />
+          <Icon name="setting" style={styles.bottomicon} />
         </TouchableOpacity>
 
       </View>
@@ -103,7 +109,7 @@ const styles = StyleSheet.create({
         justifyContent: 'space-around', // Align icons to the bottom
         paddingBottom: 20, // Add padding to bottom
     },
-    text: {
+    titleText: {
         color: '#DEB992',
         fontSize: 30,
     },
@@ -119,10 +125,16 @@ const styles = StyleSheet.create({
     iconButton: {
         marginHorizontal: 20, // Add more space between icons
     },
-    icon: {
+    bottomicon: {
         fontSize: 30,
         color: '#DEB992',
     },
+    iconUp: {
+      fontSize: 50,
+      color: '#DEB992',
+      paddingBottom: -30,
+      paddingTop: 0
+  },
     specificIcon: {
         fontSize: 30,
         color: '#1BA098',
@@ -135,13 +147,50 @@ const styles = StyleSheet.create({
     
     pairDeviceButton: {
       backgroundColor: '#1BA098',
-      paddingVertical: 15, // Increase vertical padding
-      paddingHorizontal: 70, // Increase horizontal padding
-      borderRadius: 15, // Increase border radius
+      paddingVertical: 8, // Increase vertical padding
+      borderRadius: 10, // Increase border radius
     },
     
+    metricsButtonText: {
+      color: '#DEB992',
+      fontSize: 24, // Increase font size
+      paddingLeft: 85
+    },
+
+    feedbackButtonText: {
+      color: '#DEB992',
+      fontSize: 24, // Increase font size
+      paddingLeft: 75
+    },
+
     pairDeviceButtonText: {
       color: '#DEB992',
       fontSize: 24, // Increase font size
+      paddingLeft: 70
     },
+
+    buttonContainer: {
+      flexDirection: 'row', // align items horizontally
+      alignItems: 'center', // align items vertically
+      padding: 15, // adjust padding as needed
+      borderWidth: 2, // example border width
+      borderColor: '#1BA098', // example border color
+      borderRadius: 10, // example border radius
+      marginBottom: 10, // adjust margin bottom as needed
+      width: 250,
+    },
+    icon: {
+      fontSize: 20, // adjust icon size as needed
+      marginRight: 10, // adjust margin right as needed
+      color: '#1BA098',
+    },
+    textContainer: {
+      flex: 1, // take up remaining space
+    },
+    text: {
+      fontSize: 16, // adjust text size as needed
+      color: '#DEB992',
+      fontWeight: 'bold'
+    },
+    
 });
