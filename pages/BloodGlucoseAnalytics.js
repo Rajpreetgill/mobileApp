@@ -20,7 +20,7 @@ const weeklyData = {
     labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
     datasets: [
       {
-        data: [20, 45, 28, 80, 100, 120, 20],
+        data: [70, 45, 90,  80, 45, 120, 75],
         color: (opacity = 1) => `rgba(222, 185, 146, ${opacity})`,
       },
     ],
@@ -37,111 +37,168 @@ const monthlyData = {
 };
 
 
-  const handleDataPointPress = (value) => {
-    setTooltipValue(value);
-  };
-
-  export function BloodGlucoseLineChart({ selectedView }) {
-    const weeklyData = {
-      labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
-      datasets: [
-        {
-          data: [20, 45, 28, 80, 100, 120, 20],
-          color: (opacity = 1) => `rgba(222, 185, 146, ${opacity})`,
-        },
-      ],
-    };
+  // export function BloodGlucoseLineChart({ selectedView }) {
+  //   const weeklyData = {
+  //     labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+  //     datasets: [
+  //       {
+  //         data: [20, 45, 28, 80, 100, 120, 20],
+  //         color: (opacity = 1) => `rgba(222, 185, 146, ${opacity})`,
+  //       },
+  //     ],
+  //   };
   
-    const monthlyData = {
-      labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'],
-      datasets: [
-        {
-          data: [80, 40, 60, 90, 50, 10],
-          color: (opacity = 1) => `rgba(222, 185, 146, ${opacity})`,
-        },
-      ],
-    };
+  //   const monthlyData = {
+  //     labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'],
+  //     datasets: [
+  //       {
+  //         data: [80, 40, 60, 90, 50, 10],
+  //         color: (opacity = 1) => `rgba(222, 185, 146, ${opacity})`,
+  //       },
+  //     ],
+  //   };
   
-    const renderChartData = () => {
-      switch (selectedView) {
-        case 'weekly':
-          return weeklyData;
-        case 'monthly':
-          return monthlyData;
-        default:
-          return weeklyData;
-      }
-    };
+  //   const renderChartData = () => {
+  //     switch (selectedView) {
+  //       case 'weekly':
+  //         return weeklyData;
+  //       case 'monthly':
+  //         return monthlyData;
+  //       default:
+  //         return weeklyData;
+  //     }
+  //   };
   
-    return (
-      <View>
-      <Text style={styles.infoValue}>Blood Sugar: 120 mg/dL </Text>
-      <LineChart
-        data={renderChartData()}
-        width={350}
-        height={220}
-        chartConfig={{
-          backgroundColor: '#1B2130',
-          backgroundGradientFrom: '#1B2130',
-          backgroundGradientTo: '#1B2130',
-          decimalPlaces: 0,
-          color: (opacity = 1) => `rgba(27, 160, 152, ${opacity})`,
-          labelColor: (opacity = 1) => `rgba(222, 185, 146, ${opacity})`,
-          style: {
-            borderRadius: 16,
-          },
-          propsForDots: {
-            r: '6',
-            strokeWidth: '2',
-            stroke: '#1BA098',
-          },
-        }}
-        bezier
-        style={{
-          marginVertical: 8,
-          borderRadius: 16,
-        }}
-      />
-      </View>
-    );
-  }
+  //   return (
+  //     <View>
+  //     <Text style={styles.infoValue}>Blood Sugar: 120 mg/dL </Text>
+  //     <LineChart
+  //       data={renderChartData()}
+  //       width={350}
+  //       height={220}
+  //       chartConfig={{
+  //         backgroundColor: '#1B2130',
+  //         backgroundGradientFrom: '#1B2130',
+  //         backgroundGradientTo: '#1B2130',
+  //         decimalPlaces: 0,
+  //         color: (opacity = 1) => `rgba(27, 160, 152, ${opacity})`,
+  //         labelColor: (opacity = 1) => `rgba(222, 185, 146, ${opacity})`,
+  //         style: {
+  //           borderRadius: 16,
+  //         },
+  //         propsForDots: {
+  //           r: '6',
+  //           strokeWidth: '2',
+  //           stroke: '#1BA098',
+  //         },
+  //       }}
+  //       bezier
+  //       style={{
+  //         marginVertical: 8,
+  //         borderRadius: 16,
+  //       }}
+  //     />
+  //     </View>
+  //   );
+  // }
   
   export default function BloodGlucoseAnalytics({navigation}) {
     const [selectedView, setSelectedView] = useState('day');
     const [sweatGlucose, setSweatGlucose] = useState([[]]);
     var [glucoseValues, setGlucoseValues] = useState([]);
     var [glucoseValuesTimestamps, setGlucoseValuesTimestamp] = useState([]);
+    var [bloodGlucoseLevel, setBloodGlucoseLevel] = useState([]);
+    var [predictedHypoglycemia, setPredictedHypoglycemia] = useState([]);
+    var [predictedHyperglycemia, setPredictedHyperglycemia] = useState([]);
     const [username, setUsername] = useState('');
 
     useEffect(() => {
       const fetchData = async () => {
           try {
-              const usrname = await AsyncStorage.getItem('curr_username');
-              setUsername(usrname);
-              // Do something with the retrieved values
-              console.log(username);
+              const username = await AsyncStorage.getItem('curr_username');
+              setUsername(username);
           } catch (e) {
               // Handle errors here
               console.error("Error retrieving data", e);
           }
       };
+  
+      const getBloodGlucoseLevel = async () => {
+        try {
+          if(username != null)
+          {
+            const response = await axios.get(`https://2232-2604-3d09-3472-7800-1da4-da3b-2ce9-4dea.ngrok-free.app/get_blood_glucose_level/${username}`);
+            if (response.data.success) {
+                const glucoseData = response.data.data;
+                console.log(glucoseData.blood_glucose_leve);
+                setBloodGlucoseLevel(glucoseData.blood_glucose_level);
+            } else {
+                // Update failed
+                console.error('Blood Glucose Level retrieval failed:', response.data.message);
+            }
+          }
+        } catch (error) {
+            console.error('Error retrieving blood glucose level:', error);
+        }
+      }
+
+      const getPredictedHypoglycemia = async () => {
+        try {
+          if(username != null)
+          {
+            const response = await axios.get(`https://2232-2604-3d09-3472-7800-1da4-da3b-2ce9-4dea.ngrok-free.app/get_predicted_hypoglycemia/${username}`);
+            if (response.data.success) {
+                const glucoseData = response.data.data;
+                console.log(glucoseData.predicted_hypoglycemia);
+                setPredictedHypoglycemia(glucoseData.predicted_hypoglycemia);
+            } else {
+                // Update failed
+                console.error('Predcited Hypoglycemia retrieval failed:', response.data.message);
+            }
+          }
+        } catch (error) {
+            console.error('Error retrieving predicted hypoglycemia:', error);
+        }
+      }
+
+      const getPredictedHyperglycemia = async () => {
+        try {
+          if(username != null)
+          {
+            const response = await axios.get(`https://2232-2604-3d09-3472-7800-1da4-da3b-2ce9-4dea.ngrok-free.app/get_predicted_hyperglycemia/${username}`);
+            if (response.data.success) {
+                const glucoseData = response.data.data;
+                console.log(glucoseData.predicted_hyperglycemia);
+                setPredictedHyperglycemia(glucoseData.predicted_hyperglycemia);
+            } else {
+                // Update failed
+                console.error('Predcited Hyperglycemia retrieval failed:', response.data.message);
+            }
+          }
+        } catch (error) {
+            console.error('Error retrieving predicted hyperglycemia:', error);
+        }
+      }
+
       fetchData();
-      fetchSweatGlucoseValues(username);
-    }, [selectedView]); // Empty dependency array ensures this runs once after the component mounts
+      getBloodGlucoseLevel();
+      getPredictedHypoglycemia();
+      getPredictedHyperglycemia();
+    }, [selectedView, username]); // Empty dependency array ensures this runs once after the component mounts
 
 
     const renderChartData = () => {
 
-      const graphData = {
-        labels: glucoseValuesTimestamps,
-        datasets: [
-          {
-            data: glucoseValues,
-            color: (opacity = 1) => `rgba(222, 185, 146, ${opacity})`,
-          },
-        ],
-      };
-      return graphData;
+      // const graphData = {
+      //   labels: glucoseValuesTimestamps,
+      //   datasets: [
+      //     {
+      //       data: glucoseValues,
+      //       color: (opacity = 1) => `rgba(222, 185, 146, ${opacity})`,
+      //     },
+      //   ],
+      // };
+      // return graphData;
       // switch (selectedView) {
       //   case 'week':
       //     return weeklyData;
@@ -151,6 +208,17 @@ const monthlyData = {
       //   default:
       //     return weeklyData;
       // }
+      
+      switch (selectedView) {
+        case 'day':
+          return dailyData;
+        case 'week':
+          return weeklyData;
+        case 'month':
+          return monthlyData;
+        default:
+          return dailyData;
+      }
     };
 
     
@@ -277,10 +345,8 @@ const monthlyData = {
         {/* Current Blood Glucose Level Section */}
         <View style={styles.infoSection}>
           <View style={styles.infoBox}>
-            <Text style={styles.infoTitle}>Current Blood Glucose Level</Text>
-              {/* You can replace the value below with the actual current blood glucose level */}
-            <Text style={styles.infoValue}>120 mg/dL</Text>
-            <Text style={styles.infoValue}>120 mg/dL</Text>
+            <Text style={styles.infoTitle}>Blood Glucose Level</Text>
+            <Text style={styles.infoValue}>{bloodGlucoseLevel} mg/dL</Text>
           </View>
         </View>
   
@@ -288,9 +354,10 @@ const monthlyData = {
         <View style={styles.infoSection}>
           <View style={styles.infoBox}>
             <Text style={styles.infoTitle}>Predictions</Text>
-            {/* You can replace the text below with the actual predictions */}
-            <Text style={styles.infoValue}>Next Hypoglycemia: 160mg/dL</Text>
-            <Text style={styles.infoValue}>Next Hypoglycemia: 160mg/dL</Text>
+            <Text style={styles.infoValue}>Next Hypoglycemia:</Text>
+            <Text style={styles.prediction}>{predictedHypoglycemia}</Text>
+            <Text style={styles.infoValue}>Next Hypoglycemia:</Text>
+            <Text style={styles.prediction}>{predictedHyperglycemia}</Text>
           </View>
         </View>
 
@@ -373,6 +440,10 @@ const monthlyData = {
     },
     infoValue: {
       color: '#DEB992',
+      fontSize: 18,
+    },
+    prediction: {
+      color: '#BD482A',
       fontSize: 18,
     },
     userIcon: {
