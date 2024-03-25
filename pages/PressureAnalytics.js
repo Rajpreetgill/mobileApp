@@ -5,17 +5,26 @@ import Icon from 'react-native-vector-icons/AntDesign';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
+const dailyData = {
+  labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+  datasets: [
+    {
+      data: [20, 45, 28, 80, 100, 120, 20],
+      color: (opacity = 1) => `rgba(222, 185, 146, ${opacity})`,
+    },
+  ],
+};
 
 const weeklyData = {
-    labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
-    datasets: [
-      {
-        data: [20, 45, 28, 80, 100, 120, 20],
-        color: (opacity = 1) => `rgba(222, 185, 146, ${opacity})`,
-      },
-    ],
-  };
-  
+  labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+  datasets: [
+    {
+      data: [70, 45, 90,  80, 45, 120, 75],
+      color: (opacity = 1) => `rgba(222, 185, 146, ${opacity})`,
+    },
+  ],
+};
+ 
   const monthlyData = {
     labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'],
     datasets: [
@@ -24,29 +33,6 @@ const weeklyData = {
         color: (opacity = 1) => `rgba(222, 185, 146, ${opacity})`,
       },
     ],
-  };
-  
-  const renderChartData = () => {
-
-    const graphData = {
-      labels: glucoseValuesTimestamps,
-      datasets: [
-        {
-          data: glucoseValues,
-          color: (opacity = 1) => `rgba(222, 185, 146, ${opacity})`,
-        },
-      ],
-    };
-    return graphData;
-    // switch (selectedView) {
-    //   case 'week':
-    //     return weeklyData;
-    //   case 'month':
-    //     return monthlyData;
-    //   // Add cases for monthly and yearly views...
-    //   default:
-    //     return weeklyData;
-    // }
   };
   
   export function PressureLineChart({ selectedView }) {
@@ -122,6 +108,31 @@ export default function PressureAnalytics({navigation}) {
     var [pressureValuesTimestamps, setPressureValuesTimestamp] = useState([]);
     const [username, setUsername] = useState('');
 
+    const renderChartData = () => {
+
+      // const graphData = {
+      //   labels: glucoseValuesTimestamps,
+      //   datasets: [
+      //     {
+      //       data: glucoseValues,
+      //       color: (opacity = 1) => `rgba(222, 185, 146, ${opacity})`,
+      //     },
+      //   ],
+      // };
+      // return graphData;
+  
+      switch (selectedView) {
+        case 'day':
+          return dailyData;
+        case 'week':
+          return weeklyData;
+        case 'month':
+          return monthlyData;
+        default:
+          return dailyData;
+      }
+    };
+
     useEffect(() => {
       const fetchData = async () => {
           try {
@@ -135,37 +146,8 @@ export default function PressureAnalytics({navigation}) {
           }
       };
       fetchData();
-      fetchPressuerValues(username);
+      // fetchPressuerValues(username);
     }, [selectedView]); // Empty dependency array ensures this runs once after the component mounts
-
-
-
-    const renderChartData = () => {
-
-      const graphData = {
-        labels: pressureValuesTimestamps,
-        datasets: [
-          {
-            data: pressureValues,
-            color: (opacity = 1) => `rgba(222, 185, 146, ${opacity})`,
-          },
-        ],
-      };
-      return graphData;
-      // switch (selectedView) {
-      //   case 'week':
-      //     return weeklyData;
-      //   case 'month':
-      //     return monthlyData;
-      //   // Add cases for monthly and yearly views...
-      //   default:
-      //     return weeklyData;
-      // }
-    };
-  
-    const handleDataPointPress = (value) => {
-      setTooltipValue(value);
-    };
 
     const fetchPressuerValues = async (username) => {
       try {
@@ -261,6 +243,7 @@ export default function PressureAnalytics({navigation}) {
             borderRadius: 16,
           }}
         />
+
         <View style={styles.toggleContainer}>
         <TouchableOpacity
               style={[styles.toggleButton, selectedView === 'day' && styles.selectedToggle]}
@@ -283,7 +266,14 @@ export default function PressureAnalytics({navigation}) {
           {/* Add buttons for monthly and yearly views as needed... */}
         </View>
 
-        <View style={styles.iconContainerBottom}>
+        <View style={styles.infoSection}>
+          <View style={styles.infoBox}>
+            <Text style={styles.infoTitle}>Diabetic Ulceration Risk</Text>
+            <Text style={styles.prediction}>Low</Text>
+          </View>
+        </View>
+
+        <View style={styles.iconContainer}>
 
           {/* Home Icon */}
           <TouchableOpacity onPress={() => navigation.navigate("MainPage")} style={styles.iconButton}>
@@ -332,8 +322,27 @@ export default function PressureAnalytics({navigation}) {
       flexDirection: 'row',
       justifyContent: 'center',
     },
+    infoSection: {
+      alignItems: 'center',
+      marginBottom: 20,
+    },
+    infoTitle: {
+      color: '#DEB992',
+      fontSize: 24,
+      marginBottom: 8,
+    },
     infoValue: {
       color: '#DEB992',
+      fontSize: 18,
+    },
+    infoBox: {
+      backgroundColor: '#1A1A1A',
+      borderRadius: 10,
+      padding: 16,
+      alignItems: 'center',
+    },
+    prediction: {
+      color: '#BD482A',
       fontSize: 18,
     },
     toggleButton: {
