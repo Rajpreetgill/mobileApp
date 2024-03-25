@@ -21,6 +21,20 @@ export default function PersonalMetrics({navigation}) {
   const [username, setUsername] = useState('');
 
   const [mealtypes, setMealTypes] = React.useState("");
+
+    // Add states for new fields
+    const [insulinType, setInsulinType] = useState('');
+    const [physicalActivity, setPhysicalActivity] = useState('');
+    const [activityIntensity, setActivityIntensity] = useState('');
+    const [activityDuration, setActivityDuration] = useState('');
+    const [stressLevel, setStressLevel] = useState('');
+    const [illness, setIllness] = useState('');
+    const [hormonalChanges, setHormonalChanges] = useState('');
+    const [alcoholConsumption, setAlcoholConsumption] = useState('');
+    const [medication, setMedication] = useState('');
+    const [medicationDosage, setMedicationDosage] = useState('');
+    const [weatherConditions, setWeatherConditions] = useState('');
+    const [carbIntake, setCarbIntake] = useState('');
   
   const mealtypesData = [
     {key:'1',value:'Breakfast'},
@@ -230,12 +244,10 @@ export default function PersonalMetrics({navigation}) {
   };
 
   return (
-    <ScrollView contentContainerStyle={styles.scrollContainer}>
     <View style={styles.container}>
+    <ScrollView contentContainerStyle={styles.scrollContainer}>
 
-      <View style={[styles.container, { marginBottom: -60 }]}>
-        <Text style={styles.text}>Personal Metrics Page</Text>
-      </View>
+    <Text style={styles.text}>Personal Metrics Page</Text>
 
       <View style={styles.formContainer}>
         <View style={styles.rowContainer}>
@@ -293,6 +305,138 @@ export default function PersonalMetrics({navigation}) {
         <Button onPress={() => allergiesSaveChanges()} title="Save Changes" />
         </View>
 
+        <View style={styles.rowContainer}>
+          <Text style={styles.label}>Insulin Type</Text>
+          <TextInput
+            style={[styles.input, { width: 160 }]}
+            placeholder="Enter insulin type"
+            onChangeText={(text) => setInsulinType(text)}
+            value={insulinType}
+          />
+          <Button onPress={() => insulinDosageSubmit()} title="Submit" />
+        </View>
+
+        <View style={styles.rowContainer}>
+          <Text style={styles.label}>Physical Activity</Text>
+          <TextInput
+            style={[styles.input, { width: 160 }]}
+            placeholder="Enter physical activity"
+            onChangeText={(text) => setPhysicalActivity(text)}
+            value={physicalActivity}
+          />
+        <Button onPress={() => insulinDosageSubmit()} title="Submit" />
+        </View>
+
+        <View style={styles.rowContainer}>
+          <Text style={styles.label}>Activity Intensity</Text>
+          <TextInput
+            style={[styles.input, { width: 160 }]}
+            placeholder="Enter activity intensity"
+            onChangeText={(text) => setActivityIntensity(text)}
+            value={activityIntensity}
+          />
+          <Button onPress={() => insulinDosageSubmit()} title="Submit" />
+        </View>
+
+        <View style={styles.rowContainer}>
+          <Text style={styles.label}>Activity Duration (min)</Text>
+          <TextInput
+            style={[styles.input, { width: 160 }]}
+            placeholder="Enter activity duration"
+            onChangeText={(text) => setActivityDuration(text)}
+            value={activityDuration}
+          />
+          <Button onPress={() => insulinDosageSubmit()} title="Submit" />
+        </View>
+
+        <View style={styles.rowContainer}>
+          <Text style={styles.label}>Stress Level</Text>
+          <TextInput
+            style={[styles.input, { width: 160 }]}
+            placeholder="Enter stress level"
+            onChangeText={(text) => setStressLevel(text)}
+            value={stressLevel}
+          />
+          <Button onPress={() => insulinDosageSubmit()} title="Submit" />
+        </View>
+
+        <View style={styles.rowContainer}>
+          <Text style={styles.label}>Illness</Text>
+          <TextInput
+            style={[styles.input, { width: 160 }]}
+            placeholder="Enter illness"
+            onChangeText={(text) => setIllness(text)}
+            value={illness}
+          />
+          <Button onPress={() => insulinDosageSubmit()} title="Submit" />
+        </View>
+
+        <View style={styles.rowContainer}>
+          <Text style={styles.label}>Hormonal Changes</Text>
+          <TextInput
+            style={[styles.input, { width: 160 }]}
+            placeholder="Enter hormonal changes"
+            onChangeText={(text) => setHormonalChanges(text)}
+            value={hormonalChanges}
+          />
+          <Button onPress={() => insulinDosageSubmit()} title="Submit" />
+        </View>
+
+        <View style={styles.rowContainer}>
+          <Text style={styles.label}>Alcohol Consumption</Text>
+          <TextInput
+            style={[styles.input, { width: 160 }]}
+            placeholder="Enter alcohol consumption"
+            onChangeText={(text) => setAlcoholConsumption(text)}
+            value={alcoholConsumption}
+          />
+          <Button onPress={() => insulinDosageSubmit()} title="Submit" />
+        </View>
+
+        <View style={styles.rowContainer}>
+          <Text style={styles.label}>Medication</Text>
+          <TextInput
+            style={[styles.input, { width: 160 }]}
+            placeholder="Enter medication"
+            onChangeText={(text) => setMedication(text)}
+            value={medication}
+          />
+          <Button onPress={() => insulinDosageSubmit()} title="Submit" />
+        </View>
+
+        <View style={styles.rowContainer}>
+          <Text style={styles.label}>Medication Dosage</Text>
+          <TextInput
+            style={[styles.input, { width: 160 }]}
+            placeholder="Enter medication dosage"
+            onChangeText={(text) => setMedicationDosage(text)}
+            value={medicationDosage}
+          />
+          <Button onPress={() => insulinDosageSubmit()} title="Submit" />
+        </View>
+
+        <View style={styles.rowContainer}>
+          <Text style={styles.label}>Weather Conditions</Text>
+          <TextInput
+            style={[styles.input, { width: 160 }]}
+            placeholder="Enter weather conditions"
+            onChangeText={(text) => setWeatherConditions(text)}
+            value={weatherConditions}
+          />
+          <Button onPress={() => insulinDosageSubmit()} title="Submit" />
+        </View>
+
+        <View style={styles.rowContainer}>
+          <Text style={styles.label}>Carbohydrate Intake (g)</Text>
+          <TextInput
+            style={[styles.input, { width: 160 }]}
+            placeholder="Enter carbohydrate intake"
+            onChangeText={(text) => setCarbIntake(text)}
+            value={carbIntake}
+          />
+          <Button onPress={() => insulinDosageSubmit()} title="Submit" />
+        </View>
+
         <Text style={styles.label}>Meal Type</Text>
         <View>
         <SelectList 
@@ -309,6 +453,8 @@ export default function PersonalMetrics({navigation}) {
           defaultOption={{ key:'1', value:'Breakfast' }}   //default selected option
           save="value"
         />
+        
+        <View style={styles.rowContainer}>
         <Text style={styles.label}>Meal Description</Text>
         <TextInput
           style={[styles.input, { width: 160 }]}
@@ -317,6 +463,7 @@ export default function PersonalMetrics({navigation}) {
           value={mealDescription}
         />
         <Button onPress={() => mealAdd()} title="Add" />
+        </View>
         </View>
 
         <Button onPress={() => handleSubmit()} title="Meal Summary" />
@@ -335,7 +482,7 @@ export default function PersonalMetrics({navigation}) {
         <Button onPress={() => handleSubmit()} title="Activity Summary" />
       
       </View>
-
+      </ScrollView>
       <View style={styles.iconContainer}>
 
         {/* Home Icon */}
@@ -367,7 +514,6 @@ export default function PersonalMetrics({navigation}) {
 
     
     </View>
-    </ScrollView>
   );
 
 }

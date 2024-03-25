@@ -15,12 +15,11 @@ export default function Profile({navigation}) {
   const [username, setUsername] = useState('');
 
   
-
   useEffect(() => {
     const fetchData = async () => {
         try {
-            const usrname = await AsyncStorage.getItem('curr_username');
-            setUsername(usrname);
+            const username = await AsyncStorage.getItem('curr_username');
+            setUsername(username);
         } catch (e) {
             // Handle errors here
             console.error("Error retrieving data", e);
@@ -29,11 +28,13 @@ export default function Profile({navigation}) {
 
     const getProfileData = async () => {
       try {
-        const response = await axios.get(`https://2232-2604-3d09-3472-7800-1da4-da3b-2ce9-4dea.ngrok-free.app/get_profile_data/${username}`);
+        const response = await axios.get(`https://d399-2001-56a-7d82-ae00-1556-d777-fa9d-9ec8.ngrok-free.app/get_profile_data/${username}`);
         if (response.data.success) {
             // console.log("Retrieved profile data successfully:", response.data);
             // Do something with the retrieved profile data
             const userData = response.data.data;
+            console.log(userData.fullName);
+            console.log(userData.fullName);
             setName(userData.fullName);
             setEmail(userData.email);
             setPhoneNumber(userData.phoneNumber);
@@ -45,25 +46,26 @@ export default function Profile({navigation}) {
             console.error('Profile data retrieval failed:', response.data.message);
         }
       } catch (error) {
-          console.error('Error retrieving profile data:', error);
+          //console.error('Error retrieving profile data:', error);
       }
     }
 
     fetchData();
     getProfileData();
-  }, []); // Empty dependency array ensures this runs once after the component mounts
+  }, [username]); // Empty dependency array ensures this runs once after the component mounts
 
 
   return (
     <View style={styles.container}>
       <View style={styles.container}>
         <Text style={styles.text}>Profile</Text>
+        
       </View>
 
       <View style={styles.iconContainer}>
-        <Text style={styles.text}>Profile</Text>
         {/* Golden Profile Icon */}
         <TouchableOpacity onPress={() => navigation.navigate("ProfileEdit")} style={styles.iconButton}>
+        <Text style={styles.goldenIconText}>Edit</Text>
           <Icon name="edit" style={styles.goldenIcon} />
         </TouchableOpacity>
       </View>
@@ -179,8 +181,8 @@ const styles = StyleSheet.create({
         marginHorizontal: 20, // Add more space between icons
     },
     icon: {
-        fontSize: 30,
-        color: '#DEB992',
+      fontSize: 30,
+      color: '#DEB992',
     },
     specificIcon: {
         fontSize: 30,
@@ -188,7 +190,13 @@ const styles = StyleSheet.create({
     },
     goldenIcon: {
       color: '#DEB992',
-      fontSize: 65,
+      fontSize: 28,
+    },
+
+    goldenIconText: {
+      color: '#DEB992',
+      fontSize: 23,
+      marginLeft: 1
     },
 
     inputContainer: {
@@ -211,4 +219,8 @@ const styles = StyleSheet.create({
       borderLeftWidth: 1, // Add left border
       borderRightWidth: 1, // Add right border
     },
+    textSmall: {
+      color: '#DEB992',
+
+    }
 });

@@ -372,5 +372,16 @@ export default function PressureAnalytics({navigation}) {
     specificIcon: {
       fontSize: 30,
       color: '#1BA098',
-    }
+    },
+    iconContainerBottom: {
+      flexDirection: 'row',
+      position: 'absolute',
+      bottom: 0,
+      left: 0,
+      right: 0,
+      paddingTop: 65,
+      paddingBottom: 20,
+      backgroundColor: '#051622', // Add background color to match the container
+      marginLeft: 30,
+  },
   });  

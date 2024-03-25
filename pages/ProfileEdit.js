@@ -31,7 +31,7 @@ export default function Profile({navigation}) {
   const nameSave = async (e) => {
     try {
       // Make a POST request to your backend sign-in endpoint
-      const response = await axios.post(`https://2232-2604-3d09-3472-7800-1da4-da3b-2ce9-4dea.ngrok-free.app/update_name`, {
+      const response = await axios.post(`https://d399-2001-56a-7d82-ae00-1556-d777-fa9d-9ec8.ngrok-free.app/update_name`, {
         username: username, // Use the username state variable
         name: name,
       });
@@ -137,7 +137,7 @@ export default function Profile({navigation}) {
         <Text style={styles.label}>Name</Text>
         <View style={styles.rowContainer}>
             <TextInput
-            style={[styles.input, { width: 220 }]}
+            style={[styles.input, { width: 200 }]}
             value={name}
             onChangeText={(text) => setName(text)}
             placeholder='Ex: Austin'
@@ -151,7 +151,7 @@ export default function Profile({navigation}) {
         <Text style={styles.label}>Email</Text>
         <View style={styles.rowContainer}>
             <TextInput
-            style={styles.input}
+            style={[styles.input, { width: 200 }]}
             value={email}
             onChangeText={(text) => setEmail(text)}
             placeholder='Ex: austin@gmail.com'
@@ -165,7 +165,7 @@ export default function Profile({navigation}) {
         <Text style={styles.label}>Phone Number</Text>
         <View style={styles.rowContainer}>
             <TextInput
-            style={styles.input}
+                 style={[styles.input, { width: 200 }]}
             value={phoneNumber}
             onChangeText={(text) => setPhoneNumber(text)}
             placeholder='Ex: 403-888-888'
@@ -179,7 +179,7 @@ export default function Profile({navigation}) {
         <Text style={styles.label}>Date of Birth</Text>
         <View style={styles.rowContainer}>
             <TextInput
-            style={styles.input}
+            style={[styles.input, { width: 200 }]}
             value={dateOfBirth}
             onChangeText={(text) => setDateOfBirth(text)}
             placeholder='Ex: DD/MM/YYYY'
@@ -193,7 +193,7 @@ export default function Profile({navigation}) {
         <Text style={styles.label}>Emergency Contact</Text>
         <View style={styles.rowContainer}>
             <TextInput
-            style={styles.input}
+            style={[styles.input, { width: 200 }]}
             value={emergencyContact}
             onChangeText={(text) => setEmergencyContact(text)}
             placeholder='Ex: 403-888-888'
@@ -202,7 +202,7 @@ export default function Profile({navigation}) {
         </View>
       </View>
       
-      <View style={styles.iconContainer}>
+      <View style={styles.iconContainerBottom}>
 
         {/* Home Icon */}
         <TouchableOpacity onPress={() => navigation.navigate("MainPage")} style={styles.iconButton}>
@@ -250,6 +250,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         paddingTop: 0, // Add padding to the top
         paddingBottom: 10, // Add padding to the bottom
+        marginTop:30
     },
 
     text: {
@@ -266,6 +267,18 @@ const styles = StyleSheet.create({
         paddingTop: 65, // Add padding to the top
         paddingBottom: 20, // Add padding to the bottom
     },
+    iconContainerBottom: {
+      flexDirection: 'row',
+      position: 'absolute',
+      bottom: 0,
+      left: 0,
+      right: 0,
+      paddingTop: 65,
+      paddingBottom: 20,
+      backgroundColor: '#051622', // Add background color to match the container
+      justifyContent: 'space-around', // Align items horizontally with equal spacing
+    
+  },
     iconButton: {
         marginHorizontal: 20, // Add more space between icons
     },

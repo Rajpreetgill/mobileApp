@@ -68,7 +68,7 @@ export default function Settings({navigation}) {
 
         </View>
 
-      <View style={styles.iconContainer}>
+      <View style={styles.iconContainerBottom}>
         {/* Home Icon */}
         <TouchableOpacity onPress={() => navigation.navigate("MainPage")} style={styles.iconButton}>
             <Icon name="home" style={styles.icon} />
@@ -162,4 +162,15 @@ const styles = StyleSheet.create({
       marginRight: 70, // Adjust this value to increase or decrease the distance
       marginLeft: -15 // Adjust this value to increase or decrease the distance
     },
+    iconContainerBottom: {
+      flexDirection: 'row',
+      position: 'absolute',
+      bottom: 0,
+      left: 0,
+      right: 0,
+      paddingTop: 65,
+      paddingBottom: 20,
+      backgroundColor: '#051622', // Add background color to match the container
+      marginLeft: 30,
+  },
 });
