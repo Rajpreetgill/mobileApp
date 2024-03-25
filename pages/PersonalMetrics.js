@@ -22,25 +22,39 @@ export default function PersonalMetrics({navigation}) {
 
   const [mealtypes, setMealTypes] = React.useState("");
 
-    // Add states for new fields
-    const [insulinType, setInsulinType] = useState('');
-    const [physicalActivity, setPhysicalActivity] = useState('');
-    const [activityIntensity, setActivityIntensity] = useState('');
-    const [activityDuration, setActivityDuration] = useState('');
-    const [stressLevel, setStressLevel] = useState('');
-    const [illness, setIllness] = useState('');
-    const [hormonalChanges, setHormonalChanges] = useState('');
-    const [alcoholConsumption, setAlcoholConsumption] = useState('');
-    const [medication, setMedication] = useState('');
-    const [medicationDosage, setMedicationDosage] = useState('');
-    const [weatherConditions, setWeatherConditions] = useState('');
-    const [carbIntake, setCarbIntake] = useState('');
+  // Add states for new fields
+  const [insulinType, setInsulinType] = useState('');
+  const [physicalActivity, setPhysicalActivity] = useState('');
+  const [activityIntensity, setActivityIntensity] = useState('');
+  const [activityDuration, setActivityDuration] = useState('');
+  const [stressLevel, setStressLevel] = useState('');
+  const [illness, setIllness] = useState('');
+  const [hormonalChanges, setHormonalChanges] = useState('');
+  const [alcoholConsumption, setAlcoholConsumption] = useState('');
+  const [medication, setMedication] = useState('');
+  const [medicationDosage, setMedicationDosage] = useState('');
+  const [weatherConditions, setWeatherConditions] = useState('');
+  const [carbIntake, setCarbIntake] = useState('');
   
   const mealtypesData = [
     {key:'1',value:'Breakfast'},
     {key:'2',value:'Lunch'},
     {key:'3',value:'Dinner'},
     {key:'4',value:'Snack'},
+  ];
+
+  const activityTypesData = [
+    {key:'1',value:'Walking'},
+    {key:'2',value:'Running'},
+    {key:'3',value:'Cycling'},
+    {key:'4',value:'Swimming'},
+    {key:'5',value:'None'},
+  ];
+
+  const levelData = [
+    {key:'1',value:'Low'},
+    {key:'2',value:'Moderate'},
+    {key:'3',value:'High'},
   ];
 
   useEffect(() => {
@@ -150,6 +164,27 @@ export default function PersonalMetrics({navigation}) {
     }
   };
 
+  const insulinTypeSubmit = async (e) => {
+    try {
+      // Make a POST request to your backend sign-in endpoint
+      const response = await axios.post(`https://2232-2604-3d09-3472-7800-1da4-da3b-2ce9-4dea.ngrok-free.app/update_insulin_type`, {
+        username: username, // Use the username state variable
+        insulin_type: insulinType,
+      });
+      if (response.data.success) {
+        console.log("Insulin type updated successfully");
+      } 
+      else {
+        // Update failed
+        console.error('Insulin type update failed:', response.data.message);
+      }
+      
+    } catch (error) {
+      console.error('Error: ', error.message);
+      console.error(error.config);
+    }
+  };
+
   const insulinDosageSubmit = async (e) => {
     try {
       // Make a POST request to your backend sign-in endpoint
@@ -197,17 +232,175 @@ export default function PersonalMetrics({navigation}) {
       }
 
     } catch (error) {
-      if (error.response) {
-        console.error(error.response.data);
-        console.error(error.response.status);
-        console.error(error.response.headers);
-      } else if (error.request) {
-        // The request was made but no response was received
-        console.error(error.request);
-      } else {
-        // Something happened in setting up the request that triggered an Error
-        console.error('Error', error.message);
+      console.error('Error: ', error.message);
+      console.error(error.config);
+    }
+  };
+
+  const physicalActivitySubmit = async (e) => {
+    try {
+      // Make a POST request to your backend sign-in endpoint
+      const response = await axios.post(`https://2232-2604-3d09-3472-7800-1da4-da3b-2ce9-4dea.ngrok-free.app/update_physical_activity`, {
+        username: username, // Use the username state variable
+        physical_activity: physicalActivity,
+      });
+      if (response.data.success) {
+        console.log("Physical activity updated successfully");
+      } 
+      else {
+        // Update failed
+        console.error('Physical Activity update failed:', response.data.message);
       }
+      
+    } catch (error) {
+      console.error('Error: ', error.message);
+      console.error(error.config);
+    }
+  };
+
+  const activityIntensitySubmit = async (e) => {
+    try {
+      // Make a POST request to your backend sign-in endpoint
+      const response = await axios.post(`https://2232-2604-3d09-3472-7800-1da4-da3b-2ce9-4dea.ngrok-free.app/update_activity_intensity`, {
+        username: username, // Use the username state variable
+        activity_intensity: activityIntensity,
+      });
+      if (response.data.success) {
+        console.log("Activity intensity updated successfully");
+      } 
+      else {
+        // Update failed
+        console.error('Activity intensity update failed:', response.data.message);
+      }
+      
+    } catch (error) {
+      console.error('Error: ', error.message);
+      console.error(error.config);
+    }
+  };
+
+  const activityDurationSubmit = async (e) => {
+    try {
+      // Make a POST request to your backend sign-in endpoint
+      const response = await axios.post(`https://2232-2604-3d09-3472-7800-1da4-da3b-2ce9-4dea.ngrok-free.app/update_activity_duration`, {
+        username: username, // Use the username state variable
+        activity_duration: activityDuration,
+      });
+      if (response.data.success) {
+        console.log("Activity duration updated successfully");
+      } 
+      else {
+        // Update failed
+        console.error('Activity duration update failed:', response.data.message);
+      }
+      
+    } catch (error) {
+      console.error('Error: ', error.message);
+      console.error(error.config);
+    }
+  };
+
+  const stressLevelSubmit = async (e) => {
+    try {
+      // Make a POST request to your backend sign-in endpoint
+      const response = await axios.post(`https://2232-2604-3d09-3472-7800-1da4-da3b-2ce9-4dea.ngrok-free.app/update_stress_level`, {
+        username: username, // Use the username state variable
+        stress_level: stressLevel,
+      });
+      if (response.data.success) {
+        console.log("Stress level updated successfully");
+      } 
+      else {
+        // Update failed
+        console.error('Stress level update failed:', response.data.message);
+      }
+      
+    } catch (error) {
+      console.error('Error: ', error.message);
+      console.error(error.config);
+    }
+  };
+
+  const illnessSubmit = async (e) => {
+    try {
+      // Make a POST request to your backend sign-in endpoint
+      const response = await axios.post(`https://2232-2604-3d09-3472-7800-1da4-da3b-2ce9-4dea.ngrok-free.app/update_illness`, {
+        username: username, // Use the username state variable
+        illness: illness,
+      });
+      if (response.data.success) {
+        console.log("Illness updated successfully");
+      } 
+      else {
+        // Update failed
+        console.error('Illness update failed:', response.data.message);
+      }
+      
+    } catch (error) {
+      console.error('Error: ', error.message);
+      console.error(error.config);
+    }
+  };
+
+  const hormonalChangesSubmit = async (e) => {
+    try {
+      // Make a POST request to your backend sign-in endpoint
+      const response = await axios.post(`https://2232-2604-3d09-3472-7800-1da4-da3b-2ce9-4dea.ngrok-free.app/update_hormonal_changes`, {
+        username: username, // Use the username state variable
+        hormonal_changes: hormonalChanges,
+      });
+      if (response.data.success) {
+        console.log("Hormonal changes updated successfully");
+      } 
+      else {
+        // Update failed
+        console.error('Hormonal changes update failed:', response.data.message);
+      }
+      
+    } catch (error) {
+      console.error('Error: ', error.message);
+      console.error(error.config);
+    }
+  };
+
+  const alcoholConsumptionSubmit = async (e) => {
+    try {
+      // Make a POST request to your backend sign-in endpoint
+      const response = await axios.post(`https://2232-2604-3d09-3472-7800-1da4-da3b-2ce9-4dea.ngrok-free.app/update_alcohol_consumption`, {
+        username: username, // Use the username state variable
+        alcohol_consumption: alcoholConsumption,
+      });
+      if (response.data.success) {
+        console.log("Alcohol consumption updated successfully");
+      } 
+      else {
+        // Update failed
+        console.error('Alcohol consumption update failed:', response.data.message);
+      }
+      
+    } catch (error) {
+      console.error('Error: ', error.message);
+      console.error(error.config);
+    }
+  };
+
+  const medicationSubmit = async (e) => {
+    try {
+      // Make a POST request to your backend sign-in endpoint
+      const response = await axios.post(`https://2232-2604-3d09-3472-7800-1da4-da3b-2ce9-4dea.ngrok-free.app/update_medication`, {
+        username: username, // Use the username state variable
+        medication: medication,
+      });
+      if (response.data.success) {
+        console.log("Medication updated successfully");
+      } 
+      else {
+        // Update failed
+        console.error('Medication update failed:', response.data.message);
+      }
+      
+    } catch (error) {
+      console.error('Error: ', error.message);
       console.error(error.config);
     }
   };
@@ -217,7 +410,8 @@ export default function PersonalMetrics({navigation}) {
       // Make a POST request to your backend sign-in endpoint
       const response = await axios.post(`https://2232-2604-3d09-3472-7800-1da4-da3b-2ce9-4dea.ngrok-free.app/add_meal/${username}`, {
         meal_type: mealType,
-        meal_description: mealDescription
+        meal_description: mealDescription,
+        carbohydrate_intake: carbIntake
       });
       if (response.data.success) {
         console.log("Meal added successfully");
@@ -284,6 +478,17 @@ export default function PersonalMetrics({navigation}) {
         </View>
 
         <View style={styles.rowContainer}>
+          <Text style={styles.label}>Insulin Type</Text>
+          <TextInput
+            style={[styles.input, { width: 160 }]}
+            placeholder="Enter insulin type"
+            onChangeText={(text) => setInsulinType(text)}
+            value={insulinType}
+          />
+          <Button onPress={() => insulinDosageSubmit()} title="Submit" />
+        </View>
+
+        <View style={styles.rowContainer}>
           <Text style={styles.label}>Insulin Dosage</Text>
           <TextInput
             style={[styles.input, { width: 160 }]} // Manually setting width here
@@ -306,34 +511,39 @@ export default function PersonalMetrics({navigation}) {
         </View>
 
         <View style={styles.rowContainer}>
-          <Text style={styles.label}>Insulin Type</Text>
-          <TextInput
-            style={[styles.input, { width: 160 }]}
-            placeholder="Enter insulin type"
-            onChangeText={(text) => setInsulinType(text)}
-            value={insulinType}
-          />
-          <Button onPress={() => insulinDosageSubmit()} title="Submit" />
-        </View>
-
-        <View style={styles.rowContainer}>
           <Text style={styles.label}>Physical Activity</Text>
-          <TextInput
-            style={[styles.input, { width: 160 }]}
-            placeholder="Enter physical activity"
-            onChangeText={(text) => setPhysicalActivity(text)}
-            value={physicalActivity}
+          <SelectList 
+            setSelected={(val) => setPhysicalActivity(val)} 
+            // fontFamily='lato'
+            data={activityTypesData}  
+            arrowicon={<Icon name="down" size={12} color={'#DEB992'} />} 
+            searchicon={<Icon name="search1" size={12} color={'#DEB992'} />} 
+            search={false} 
+            boxStyles={{borderRadius:10, borderColor:'#1BA098', width:200}} //override default styles
+            inputStyles={{color:'#DEB992'}}
+            dropdownTextStyles={{color:'#1BA098'}}
+            dropdownStyles={{borderColor:'#1BA098'}}
+            defaultOption={{ key:'1', value:'Walking' }}   //default selected option
+            save="value"
           />
         <Button onPress={() => insulinDosageSubmit()} title="Submit" />
         </View>
 
         <View style={styles.rowContainer}>
           <Text style={styles.label}>Activity Intensity</Text>
-          <TextInput
-            style={[styles.input, { width: 160 }]}
-            placeholder="Enter activity intensity"
-            onChangeText={(text) => setActivityIntensity(text)}
-            value={activityIntensity}
+          <SelectList 
+            setSelected={(val) => setActivityIntensity(val)} 
+            // fontFamily='lato'
+            data={levelData}  
+            arrowicon={<Icon name="down" size={12} color={'#DEB992'} />} 
+            searchicon={<Icon name="search1" size={12} color={'#DEB992'} />} 
+            search={false} 
+            boxStyles={{borderRadius:10, borderColor:'#1BA098', width:200}} //override default styles
+            inputStyles={{color:'#DEB992'}}
+            dropdownTextStyles={{color:'#1BA098'}}
+            dropdownStyles={{borderColor:'#1BA098'}}
+            defaultOption={{ key:'1', value:'Low' }}   //default selected option
+            save="value"
           />
           <Button onPress={() => insulinDosageSubmit()} title="Submit" />
         </View>
@@ -351,11 +561,19 @@ export default function PersonalMetrics({navigation}) {
 
         <View style={styles.rowContainer}>
           <Text style={styles.label}>Stress Level</Text>
-          <TextInput
-            style={[styles.input, { width: 160 }]}
-            placeholder="Enter stress level"
-            onChangeText={(text) => setStressLevel(text)}
-            value={stressLevel}
+          <SelectList 
+            setSelected={(val) => setStressLevel(val)} 
+            // fontFamily='lato'
+            data={levelData}  
+            arrowicon={<Icon name="down" size={12} color={'#DEB992'} />} 
+            searchicon={<Icon name="search1" size={12} color={'#DEB992'} />} 
+            search={false} 
+            boxStyles={{borderRadius:10, borderColor:'#1BA098', width:200}} //override default styles
+            inputStyles={{color:'#DEB992'}}
+            dropdownTextStyles={{color:'#1BA098'}}
+            dropdownStyles={{borderColor:'#1BA098'}}
+            defaultOption={{ key:'1', value:'Low' }}   //default selected option
+            save="value"
           />
           <Button onPress={() => insulinDosageSubmit()} title="Submit" />
         </View>
@@ -427,18 +645,7 @@ export default function PersonalMetrics({navigation}) {
         </View>
 
         <View style={styles.rowContainer}>
-          <Text style={styles.label}>Carbohydrate Intake (g)</Text>
-          <TextInput
-            style={[styles.input, { width: 160 }]}
-            placeholder="Enter carbohydrate intake"
-            onChangeText={(text) => setCarbIntake(text)}
-            value={carbIntake}
-          />
-          <Button onPress={() => insulinDosageSubmit()} title="Submit" />
-        </View>
-
         <Text style={styles.label}>Meal Type</Text>
-        <View>
         <SelectList 
           setSelected={(val) => setMealType(val)} 
           // fontFamily='lato'
@@ -446,14 +653,25 @@ export default function PersonalMetrics({navigation}) {
           arrowicon={<Icon name="down" size={12} color={'#DEB992'} />} 
           searchicon={<Icon name="search1" size={12} color={'#DEB992'} />} 
           search={false} 
-          boxStyles={{borderRadius:10, borderColor:'#1BA098'}} //override default styles
+          boxStyles={{borderRadius:10, borderColor:'#1BA098', width:200}} //override default styles
           inputStyles={{color:'#DEB992'}}
           dropdownTextStyles={{color:'#1BA098'}}
           dropdownStyles={{borderColor:'#1BA098'}}
           defaultOption={{ key:'1', value:'Breakfast' }}   //default selected option
           save="value"
         />
-        
+        </View>
+
+        <View style={styles.rowContainer}>
+          <Text style={styles.label}>Carbohydrate Intake (g)</Text>
+          <TextInput
+            style={[styles.input, { width: 160 }]}
+            placeholder="Enter carbohydrate intake"
+            onChangeText={(text) => setCarbIntake(text)}
+            value={carbIntake}
+          />
+        </View>
+
         <View style={styles.rowContainer}>
         <Text style={styles.label}>Meal Description</Text>
         <TextInput
@@ -468,20 +686,8 @@ export default function PersonalMetrics({navigation}) {
 
         <Button onPress={() => handleSubmit()} title="Meal Summary" />
 
-        <View style={styles.rowContainer}>
-        <Text style={styles.label}>Activity Type</Text>
-        <TextInput
-        style={[styles.input, { width: 160 }]}
-        placeholder="Ex. Walking, Running, Swimming"
-        onChangeText={(text) => setInsulinDosage(text)}
-        value={insulinDosage}
-        />
-        <Button onPress={() => handleSubmit()} title="Add" />
-        </View>
-
-        <Button onPress={() => handleSubmit()} title="Activity Summary" />
+        {/* <Button onPress={() => handleSubmit()} title="Activity Summary" /> */}
       
-      </View>
       </ScrollView>
       <View style={styles.iconContainer}>
 
