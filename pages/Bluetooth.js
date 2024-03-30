@@ -140,6 +140,7 @@ useEffect(() => {
             const rawData = atob(char.value); // taking data coming from I-SOLE device and setting it to rawSweatData
             console.log("Received data:", rawData);
             
+            
             const splitResult = rawData.toString().split('|');
             const rawPressureData1 = splitResult[0];    // '75kPa'
             const rawPressureData2 = splitResult[1];    // '75kPa'
@@ -158,9 +159,12 @@ useEffect(() => {
 
             if (rawSweatData != null)
             {
+              console.log("username: ",username);
+              if(username != '')
+              {
                 try {
-                    const glucoseResponse = await axios.post(`https://2232-2604-3d09-3472-7800-1da4-da3b-2ce9-4dea.ngrok-free.app/add_glucose_value/${username}`, {
-                    glucose: rawSweatData,
+                  const glucoseResponse = await axios.post(`https://i-sole-backend.com/add_glucose_value/${username}`, {
+                  glucose: rawSweatData,
                 });
                 console.log('USERNAME: ' + username)
                 if (glucoseResponse.data.success) {
@@ -170,12 +174,17 @@ useEffect(() => {
                 }
                 } catch (error) {
                     console.error('Error Blutooth Glucose Post Request:', error);
-                }                
+                }           
+
+              }
+                     
             }
             if (rawPressureData1 != null)
             {
+              if (username != '')
+              {
                 try {
-                    const pressureResponse = await axios.post(`https://2232-2604-3d09-3472-7800-1da4-da3b-2ce9-4dea.ngrok-free.app/add_pressure_value/${username}`, {
+                    const pressureResponse = await axios.post(`https://i-sole-backend.com/add_pressure_value/${username}`, {
                     p1: rawPressureData1,
                     p2: rawPressureData2,
                     p3: rawPressureData3,
@@ -190,7 +199,10 @@ useEffect(() => {
                 }
                 } catch (error) {
                     console.error('Error Blutooth Presssure Post Request:', error);
-                }                
+                }     
+
+              }
+                           
             }
             
           });
