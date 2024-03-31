@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useFocusEffect } from '@react-navigation/native';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, Image, TouchableOpacity, TextInput } from 'react-native';
+import { StyleSheet, Text, View, Image, TouchableOpacity, TextInput, ScrollView } from 'react-native';
 import Button from '../components/Button';
 import Icon from 'react-native-vector-icons/AntDesign';
 import axios from 'axios';
@@ -22,7 +22,8 @@ export default function PersonalMetrics({navigation}) {
   const [insulinDosage, setInsulinDosage] = useState('');
   const [mealType, setMealType] = useState('');
   const [mealDescription, setMealDescription] = useState('');
-  const [mealtypes, setMealTypes] = React.useState("");
+  const [carbIntake, setCarbIntake] = useState('');
+
 
   // Add states for new fields
   const [insulinType, setInsulinType] = useState('');
@@ -36,7 +37,6 @@ export default function PersonalMetrics({navigation}) {
   const [medication, setMedication] = useState('');
   const [medicationDosage, setMedicationDosage] = useState('');
   const [weatherConditions, setWeatherConditions] = useState('');
-  const [carbIntake, setCarbIntake] = useState('');
 
   
   useFocusEffect(
@@ -70,7 +70,16 @@ export default function PersonalMetrics({navigation}) {
           setInsulinType(userData.insulin_type);
           setInsulinDosage(userData.insulin_dosage);
           setAllergies(userData.allergies);
+          setPhysicalActivity(userData.physical_activity);
+          setActivityIntensity(userData.activity_intensity);
+          setActivityDuration(userData.activity_duration);
           setStressLevel(userData.stress_level);
+          setIllness(userData.illness);
+          setHormonalChanges(userData.hormonal_changes);
+          setAlcoholConsumption(userData.alcohol_consumption);
+          setMedication(userData.medication);
+          setMedicationDosage(userData.medication_dosage);
+          setWeatherConditions(userData.weather_conditions);
 
       } else {
           // Update failed
@@ -84,24 +93,22 @@ export default function PersonalMetrics({navigation}) {
 
   return (
     <View style={styles.container}>
+    <ScrollView contentContainerStyle={styles.scrollContainer}>
 
-    <View style={styles.backContainer}> 
-      <TouchableOpacity onPress={() => navigation.navigate("MainPage")} style={styles.iconButton}>
-      <Icon name="left" style={styles.goldenIcon} />
-      <Text style={styles.goldenIconText}>Main Page</Text>
-      </TouchableOpacity>
+    <View style={styles.titleContainer}>
+        <TouchableOpacity onPress={() => navigation.navigate("MainPage")} style={styles.iconButton}>
+        <Icon name="arrowleft" style={styles.backIcon} />
+        </TouchableOpacity>
+        
+        <Text style={styles.text}>Personal Metrics</Text>
+
+        <TouchableOpacity onPress={() => navigation.navigate("PersonalMetricsEdit")} style={styles.iconButton}>
+        <Icon name="edit" style={styles.editIcon} />
+        </TouchableOpacity>
     </View>
 
-      <View style={styles.iconContainer}>
-      <Text style={styles.text}>Personal Metrics</Text>
-        {/* Golden Profile Icon */}
-        <TouchableOpacity onPress={() => navigation.navigate("PersonalMetricsEdit")} style={styles.iconButton}>
-        <Text style={styles.goldenIconText}>Edit</Text>
-          <Icon name="edit" style={styles.goldenIcon} />
-        </TouchableOpacity>
-      </View>
-
-      {/* Name Input */}
+    <View style={styles.bodyContainer}>
+      {/* Blood glucose level */}
       <View style={styles.inputContainer}>
         <Text style={styles.label}>Blood Glucose Level</Text>
         <TextInput
@@ -111,7 +118,7 @@ export default function PersonalMetrics({navigation}) {
         />
       </View>
 
-      {/* Email Input */}
+      {/* Weight */}
       <View style={styles.inputContainer}>
         <Text style={styles.label}>Weight</Text>
         <TextInput
@@ -121,7 +128,7 @@ export default function PersonalMetrics({navigation}) {
         />
       </View>
 
-      {/* Phone Number Input */}
+      {/* Height */}
         <View style={styles.inputContainer}>
         <Text style={styles.label}>Height</Text>
         <TextInput
@@ -131,7 +138,7 @@ export default function PersonalMetrics({navigation}) {
         />
       </View>
 
-      {/* Date of Birth Input */}
+      {/* Insulin Type */}
       <View style={styles.inputContainer}>
         <Text style={styles.label}>Insulin Type</Text>
         <TextInput
@@ -141,7 +148,7 @@ export default function PersonalMetrics({navigation}) {
         />
       </View>
 
-      {/* Emergency Contact Input */}
+      {/* Insulin dosage */}
       <View style={styles.inputContainer}>
         <Text style={styles.label}>Insulin Dosage</Text>
         <TextInput
@@ -151,6 +158,47 @@ export default function PersonalMetrics({navigation}) {
         />
       </View>
 
+      {/* Allergies */}
+      <View style={styles.inputContainer}>
+        <Text style={styles.label}>Allergies</Text>
+        <TextInput
+          style={styles.input}
+          value={allergies}
+          onChangeText={(text) => setEmergencyContact(text)}
+        />
+      </View>
+
+      {/* Physical Activity */}
+      <View style={styles.inputContainer}>
+        <Text style={styles.label}>Physical Activity</Text>
+        <TextInput
+          style={styles.input}
+          value={physicalActivity}
+          onChangeText={(text) => setEmergencyContact(text)}
+        />
+      </View>
+
+      {/* Activity Intensity */}
+      <View style={styles.inputContainer}>
+        <Text style={styles.label}>Activity Intensity</Text>
+        <TextInput
+          style={styles.input}
+          value={activityIntensity}
+          onChangeText={(text) => setEmergencyContact(text)}
+        />
+      </View>
+
+      {/* Activity Duration */}
+      <View style={styles.inputContainer}>
+        <Text style={styles.label}>Activity Duration</Text>
+        <TextInput
+          style={styles.input}
+          value={activityDuration + ' minutes'}
+          onChangeText={(text) => setEmergencyContact(text)}
+        />
+      </View>
+
+      {/* Stress Level */}
       <View style={styles.inputContainer}>
         <Text style={styles.label}>Stress Level</Text>
         <TextInput
@@ -159,8 +207,76 @@ export default function PersonalMetrics({navigation}) {
           onChangeText={(text) => setEmergencyContact(text)}
         />
       </View>
-      
-      <View style={styles.iconContainerBottom}>
+
+      {/* Illness */}
+      <View style={styles.inputContainer}>
+        <Text style={styles.label}>Illness</Text>
+        <TextInput
+          style={styles.input}
+          value={illness}
+          onChangeText={(text) => setEmergencyContact(text)}
+        />
+      </View>
+
+      {/* Hormonal Changes */}
+      <View style={styles.inputContainer}>
+        <Text style={styles.label}>Hormonal Changes</Text>
+        <TextInput
+          style={styles.input}
+          value={hormonalChanges}
+          onChangeText={(text) => setEmergencyContact(text)}
+        />
+      </View>
+
+      {/* Alcohol Consumption */}
+      <View style={styles.inputContainer}>
+        <Text style={styles.label}>Alcohol Consumption</Text>
+        <TextInput
+          style={styles.input}
+          value={alcoholConsumption}
+          onChangeText={(text) => setEmergencyContact(text)}
+        />
+      </View>
+
+      {/* Medication */}
+      <View style={styles.inputContainer}>
+        <Text style={styles.label}>Medication</Text>
+        <TextInput
+          style={styles.input}
+          value={medication}
+          onChangeText={(text) => setEmergencyContact(text)}
+        />
+      </View>
+
+      {/* Medication Dosage */}
+      <View style={styles.inputContainer}>
+        <Text style={styles.label}>Medication  Dosage</Text>
+        <TextInput
+          style={styles.input}
+          value={medicationDosage + ' mg'}
+          onChangeText={(text) => setEmergencyContact(text)}
+        />
+      </View>
+
+      {/* Weather Conditions */}
+      <View style={styles.inputContainer}>
+        <Text style={styles.label}>Weather Conditions</Text>
+        <TextInput
+          style={styles.input}
+          value={weatherConditions}
+          onChangeText={(text) => setEmergencyContact(text)}
+        />
+      </View>
+
+      {/* <Button onPress={() => handleSubmit()} title="Meal Summary" />
+
+      <Button onPress={() => handleSubmit()} title="Activity Summary" /> */}
+
+      </View>
+
+      </ScrollView>
+
+      <View style={styles.iconContainer}>
 
         {/* Home Icon */}
         <TouchableOpacity onPress={() => navigation.navigate("MainPage")} style={styles.iconButton}>
@@ -188,94 +304,96 @@ export default function PersonalMetrics({navigation}) {
         </TouchableOpacity>
 
       </View>
-
     </View>
   );
 
 }
 
 const styles = StyleSheet.create({
-  scrollContainer: {
-    flexGrow: 1,
-    backgroundColor: '#051622',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  container: {
-    flex: 1,
-    backgroundColor: '#051622',
-    alignItems: 'center',
-    paddingTop: 35, // Add padding to the top
-    paddingBottom: 10, // Add padding to the bottom
-  },
-  text: {
-      color: '#DEB992',
-      fontSize: 40,
-  },
-  userIcon: {
-      marginLeft: 10,
-      fontSize: 20,
-      color: '#DEB992',
-  },
-  iconContainer: {
-    flexDirection: 'row',
-    paddingTop: 65, // Add padding to the top
-    paddingBottom: 20, // Add padding to the bottom
-  },
-  iconContainerBottom: {
-    flexDirection: 'row',
-    position: 'absolute',
-    bottom: 0,
-    left: 0,
-    right: 0,
-    paddingTop: 65,
-    paddingBottom: 20,
-    backgroundColor: '#051622', // Add background color to match the container
-    justifyContent: 'space-around', // Align items horizontally with equal spacing
-  },
-  iconButton: {
-      marginHorizontal: 20, // Add more space between icons
-  },
-  icon: {
-    fontSize: 30,
-    color: '#DEB992',
-  },
-  specificIcon: {
-      fontSize: 30,
-      color: '#1BA098',
-  },
-  goldenIcon: {
-    color: '#DEB992',
-    fontSize: 28,
-  },
+    scrollContainer: {
+      flexGrow: 1,
+      backgroundColor: '#051622',
+      alignItems: 'flex-start',
+      paddingTop: 10, // Add padding to the top
+      paddingBottom: 10, // Add padding to the bottom
+    },
+    container: {
+        flex: 1,
+        backgroundColor: '#051622',
+        alignItems: 'center',
+        justifyContent: 'center', // Align icons to the bottom
+        paddingBottom: 20, // Add padding to bottom
+    },
+    text: {
+        color: '#DEB992',
+        fontSize: 29,
+        fontWeight: 'bold',
+    },
+    titleContainer: {
+        flex: 1,
+        flexDirection: 'row',
+        alignItems: 'baseline',
+        justifyContent: 'center',
+        alignContent: 'center',
+        paddingRight: 20,
+        paddingTop: 10,
+        paddingBottom : 10,
+        backgroundColor: '#1B2130',
+    },
+    bodyContainer: {
+        flex: 1,
+        flexDirection: 'column',
+        alignItems: 'baseline',
+        justifyContent: 'center',
+        alignContent: 'center',
+        paddingLeft: 50,
+        paddingTop: 20,
+        width: '100%',
+    },
+    iconContainer: {
+        flexDirection: 'row',
+        justifyContent: 'center',
+    },
+    iconButton: {
+        marginHorizontal: 20, // Add more space between icons
+    },
+    icon: {
+        fontSize: 30,
+        color: '#DEB992',
+    },
+    specificIcon: {
+        fontSize: 30,
+        color: '#1BA098',
+    },
+    input: {
+        backgroundColor: '#1A1A1A',
+        color: '#DEB992',
+        padding: 10,
+        borderRadius: 5,
+        borderColor: '#1BA098',
+        borderTopWidth: 1, // Add top border
+        borderBottomWidth: 1, // Add bottom border
+        borderLeftWidth: 1, // Add left border
+        borderRightWidth: 1, // Add right border
+        fontSize: 18,
+    },
+    inputContainer: {
+        marginVertical: 10,
+        width: '80%',
+    },
+    label: {
+        color: '#DEB992',
+        fontSize: 20,
+        marginBottom: 5,
+    },
+    editIcon: {
+        color: '#DEB992',
+        borderColor: '#DEB992',
+        fontSize: 30,
+    },
+    backIcon: {
+        color: '#DEB992',
+        fontSize: 30,
+    },
 
-  goldenIconText: {
-    color: '#DEB992',
-    fontSize: 23,
-    marginLeft: 1
-  },
-
-  inputContainer: {
-    marginVertical: 10,
-    width: '80%',
-  },
-  label: {
-    color: '#DEB992',
-    fontSize: 18,
-    marginBottom: 5,
-  },
-  input: {
-    backgroundColor: '#1A1A1A',
-    color: '#DEB992',
-    padding: 10,
-    borderRadius: 5,
-    borderColor: '#1BA098',
-    borderTopWidth: 1, // Add top border
-    borderBottomWidth: 1, // Add bottom border
-    borderLeftWidth: 1, // Add left border
-    borderRightWidth: 1, // Add right border
-  },
-  textSmall: {
-    color: '#DEB992',
-  }
 });

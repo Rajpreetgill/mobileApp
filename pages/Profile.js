@@ -157,12 +157,6 @@ export default function Profile({navigation}) {
 }
 
 const styles = StyleSheet.create({
-  scrollContainer: {
-    flexGrow: 1,
-    backgroundColor: '#051622',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
   container: {
     flex: 1,
     backgroundColor: '#051622',
@@ -216,7 +210,6 @@ const styles = StyleSheet.create({
     fontSize: 23,
     marginLeft: 1
   },
-
   inputContainer: {
     marginVertical: 10,
     width: '80%',

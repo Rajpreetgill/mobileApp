@@ -216,7 +216,7 @@ export default function PersonalMetricsEdit({navigation}) {
     }
   };
 
-  const allergiesSaveChanges = async (e) => {
+  const allergiesSubmit = async (e) => {
     try {
       // Make a POST request to your backend sign-in endpoint
       const response = await axios.post(`https://i-sole-backend.com/update_allergies`, {
@@ -240,6 +240,7 @@ export default function PersonalMetricsEdit({navigation}) {
   const physicalActivitySubmit = async (e) => {
     try {
       // Make a POST request to your backend sign-in endpoint
+      console.log("physicalActivityData: ", physicalActivity);
       const response = await axios.post(`https://i-sole-backend.com/update_physical_activity`, {
         username: username, // Use the username state variable
         physical_activity: physicalActivity,
@@ -405,6 +406,48 @@ export default function PersonalMetricsEdit({navigation}) {
     }
   };
 
+  const medicationDosageSubmit = async (e) => {
+    try {
+      // Make a POST request to your backend sign-in endpoint
+      const response = await axios.post(`https://i-sole-backend.com/update_medication_dosage`, {
+        username: username, // Use the username state variable
+        medication_dosage: medicationDosage,
+      });
+      if (response.data.success) {
+        console.log("Medication dosage updated successfully");
+      } 
+      else {
+        // Update failed
+        console.error('Medication dosage update failed:', response.data.message);
+      }
+      
+    } catch (error) {
+      console.error('Error: ', error.message);
+      console.error(error.config);
+    }
+  };
+
+  const weatherConditionsSubmit = async (e) => {
+    try {
+      // Make a POST request to your backend sign-in endpoint
+      const response = await axios.post(`https://i-sole-backend.com/update_weather_conditions`, {
+        username: username, // Use the username state variable
+        weather_conditions: weatherConditions,
+      });
+      if (response.data.success) {
+        console.log("Weather conditions updated successfully");
+      } 
+      else {
+        // Update failed
+        console.error('Weather conditions update failed:', response.data.message);
+      }
+      
+    } catch (error) {
+      console.error('Error: ', error.message);
+      console.error(error.config);
+    }
+  };
+
   const mealAdd = async (e) => {
     try {
       // Make a POST request to your backend sign-in endpoint
@@ -441,21 +484,20 @@ export default function PersonalMetricsEdit({navigation}) {
     <View style={styles.container}>
     <ScrollView contentContainerStyle={styles.scrollContainer}>
 
-    <View style={styles.backContainer}>
-      {/* Golden Profile Icon */}
-      <TouchableOpacity onPress={() => navigation.navigate("PersonalMetrics")} style={styles.iconButton}>
-      <Icon name="left" style={styles.goldenIcon} />
-      <Text style={styles.goldenIconText}>Back</Text>
-      </TouchableOpacity>
+    <View style={styles.titleContainer}>
+        <TouchableOpacity onPress={() => navigation.navigate("PersonalMetrics")} style={styles.iconButton}>
+        <Icon name="arrowleft" style={styles.backIcon} />
+        </TouchableOpacity>
+        
+        <Text style={styles.text}>Edit Personal Metrics</Text>
+        
     </View>
 
-    <Text style={styles.text}>Personal Metrics Page</Text>
-
-      <View style={styles.formContainer}>
+    <View style={styles.bodyContainer}>
         <View style={styles.rowContainer}>
           <Text style={styles.label}>Blood Glucose Level</Text>
           <TextInput
-            style={[styles.input, { width: 160 }]} // Manually setting width here
+            style={[styles.input, { width: 170 }]} // Manually setting width here
             placeholder="Ex. 10.6"
             onChangeText={(text) => setBloodGlucoseLevel(text)}
             value={bloodGlucoseLevel}
@@ -466,7 +508,7 @@ export default function PersonalMetricsEdit({navigation}) {
         <View style={styles.rowContainer}>
         <Text style={styles.label}>Weight</Text>
           <TextInput
-            style={[styles.input, { width: 160 }]} // Manually setting width here
+            style={[styles.input, { width: 170 }]} // Manually setting width here
             placeholder="Ex. 55"
             onChangeText={(text) => setWeight(text)}
             value={weight}
@@ -477,7 +519,7 @@ export default function PersonalMetricsEdit({navigation}) {
         <View style={styles.rowContainer}>
         <Text style={styles.label}>Height</Text>
           <TextInput
-            style={[styles.input, { width: 160}]} // Manually setting width here
+            style={[styles.input, { width: 170}]} // Manually setting width here
             placeholder="Ex. 10.6"
             onChangeText={(text) => setHeight(text)}
             value={height}
@@ -488,7 +530,7 @@ export default function PersonalMetricsEdit({navigation}) {
         <View style={styles.rowContainer}>
           <Text style={styles.label}>Insulin Type</Text>
           <TextInput
-            style={[styles.input, { width: 160 }]}
+            style={[styles.input, { width: 170 }]}
             placeholder="Enter insulin type"
             onChangeText={(text) => setInsulinType(text)}
             value={insulinType}
@@ -499,7 +541,7 @@ export default function PersonalMetricsEdit({navigation}) {
         <View style={styles.rowContainer}>
           <Text style={styles.label}>Insulin Dosage</Text>
           <TextInput
-            style={[styles.input, { width: 160 }]} // Manually setting width here
+            style={[styles.input, { width: 170 }]} // Manually setting width here
             placeholder="Ex. 10.6"
             onChangeText={(text) => setInsulinDosage(text)}
             value={insulinDosage}
@@ -510,18 +552,18 @@ export default function PersonalMetricsEdit({navigation}) {
         <View style={styles.rowContainer}>
         <Text style={styles.label}>Allergies</Text>
         <TextInput
-          style={[styles.input, { width: 160 }]} // Manually setting width here
+          style={[styles.input, { width: 170 }]} // Manually setting width here
           placeholder="Ex. 10.6"
           onChangeText={(text) => setAllergies(text)}
           value={allergies}
         />
-        <Button onPress={() => allergiesSaveChanges()} title="Save Changes" />
+        <Button onPress={() => allergiesSubmit()} title="Submit" />
         </View>
 
         <View style={styles.rowContainer}>
           <Text style={styles.label}>Physical Activity</Text>
           <SelectList 
-            setSelected={(val) => setPhysicalActivity(val)} 
+            setSelected={(value) => setPhysicalActivity(value)} 
             // fontFamily='lato'
             data={activityTypesData}  
             arrowicon={<Icon name="down" size={12} color={'#DEB992'} />} 
@@ -531,10 +573,10 @@ export default function PersonalMetricsEdit({navigation}) {
             inputStyles={{color:'#DEB992'}}
             dropdownTextStyles={{color:'#1BA098'}}
             dropdownStyles={{borderColor:'#1BA098'}}
-            defaultOption={{ key:'1', value:'Walking' }}   //default selected option
+            defaultOption={activityTypesData[0]}   //default selected option
             save="value"
           />
-        <Button onPress={() => insulinDosageSubmit()} title="Submit" />
+        <Button onPress={() => physicalActivitySubmit()} title="Submit" />
         </View>
 
         <View style={styles.rowContainer}>
@@ -553,18 +595,18 @@ export default function PersonalMetricsEdit({navigation}) {
             defaultOption={{ key:'1', value:'Low' }}   //default selected option
             save="value"
           />
-          <Button onPress={() => insulinDosageSubmit()} title="Submit" />
+          <Button onPress={() => activityIntensitySubmit()} title="Submit" />
         </View>
 
         <View style={styles.rowContainer}>
           <Text style={styles.label}>Activity Duration (min)</Text>
           <TextInput
-            style={[styles.input, { width: 160 }]}
+            style={[styles.input, { width: 170 }]}
             placeholder="Enter activity duration"
             onChangeText={(text) => setActivityDuration(text)}
             value={activityDuration}
           />
-          <Button onPress={() => insulinDosageSubmit()} title="Submit" />
+          <Button onPress={() => activityDurationSubmit()} title="Submit" />
         </View>
 
         <View style={styles.rowContainer}>
@@ -589,67 +631,67 @@ export default function PersonalMetricsEdit({navigation}) {
         <View style={styles.rowContainer}>
           <Text style={styles.label}>Illness</Text>
           <TextInput
-            style={[styles.input, { width: 160 }]}
+            style={[styles.input, { width: 170 }]}
             placeholder="Enter illness"
             onChangeText={(text) => setIllness(text)}
             value={illness}
           />
-          <Button onPress={() => insulinDosageSubmit()} title="Submit" />
+          <Button onPress={() => illnessSubmit()} title="Submit" />
         </View>
 
         <View style={styles.rowContainer}>
           <Text style={styles.label}>Hormonal Changes</Text>
           <TextInput
-            style={[styles.input, { width: 160 }]}
+            style={[styles.input, { width: 170 }]}
             placeholder="Enter hormonal changes"
             onChangeText={(text) => setHormonalChanges(text)}
             value={hormonalChanges}
           />
-          <Button onPress={() => insulinDosageSubmit()} title="Submit" />
+          <Button onPress={() => hormonalChangesSubmit()} title="Submit" />
         </View>
 
         <View style={styles.rowContainer}>
           <Text style={styles.label}>Alcohol Consumption</Text>
           <TextInput
-            style={[styles.input, { width: 160 }]}
+            style={[styles.input, { width: 170 }]}
             placeholder="Enter alcohol consumption"
             onChangeText={(text) => setAlcoholConsumption(text)}
             value={alcoholConsumption}
           />
-          <Button onPress={() => insulinDosageSubmit()} title="Submit" />
+          <Button onPress={() => alcoholConsumptionSubmit()} title="Submit" />
         </View>
 
         <View style={styles.rowContainer}>
           <Text style={styles.label}>Medication</Text>
           <TextInput
-            style={[styles.input, { width: 160 }]}
+            style={[styles.input, { width: 170 }]}
             placeholder="Enter medication"
             onChangeText={(text) => setMedication(text)}
             value={medication}
           />
-          <Button onPress={() => insulinDosageSubmit()} title="Submit" />
+          <Button onPress={() => medicationSubmit()} title="Submit" />
         </View>
 
         <View style={styles.rowContainer}>
           <Text style={styles.label}>Medication Dosage</Text>
           <TextInput
-            style={[styles.input, { width: 160 }]}
+            style={[styles.input, { width: 170 }]}
             placeholder="Enter medication dosage"
             onChangeText={(text) => setMedicationDosage(text)}
             value={medicationDosage}
           />
-          <Button onPress={() => insulinDosageSubmit()} title="Submit" />
+          <Button onPress={() => medicationDosageSubmit()} title="Submit" />
         </View>
 
         <View style={styles.rowContainer}>
           <Text style={styles.label}>Weather Conditions</Text>
           <TextInput
-            style={[styles.input, { width: 160 }]}
+            style={[styles.input, { width: 170 }]}
             placeholder="Enter weather conditions"
             onChangeText={(text) => setWeatherConditions(text)}
             value={weatherConditions}
           />
-          <Button onPress={() => insulinDosageSubmit()} title="Submit" />
+          <Button onPress={() => weatherConditionsSubmit()} title="Submit" />
         </View>
 
         <View style={styles.rowContainer}>
@@ -673,7 +715,7 @@ export default function PersonalMetricsEdit({navigation}) {
         <View style={styles.rowContainer}>
           <Text style={styles.label}>Carbohydrate Intake (g)</Text>
           <TextInput
-            style={[styles.input, { width: 160 }]}
+            style={[styles.input, { width: 170 }]}
             placeholder="Enter carbohydrate intake"
             onChangeText={(text) => setCarbIntake(text)}
             value={carbIntake}
@@ -683,20 +725,17 @@ export default function PersonalMetricsEdit({navigation}) {
         <View style={styles.rowContainer}>
         <Text style={styles.label}>Meal Description</Text>
         <TextInput
-          style={[styles.input, { width: 160 }]}
+          style={[styles.input, { width: 170 }]}
           placeholder="Enter meal description"
           onChangeText={(text) => setMealDescription(text)}
           value={mealDescription}
         />
         <Button onPress={() => mealAdd()} title="Add" />
         </View>
-        </View>
-
-        <Button onPress={() => handleSubmit()} title="Meal Summary" />
-
-        {/* <Button onPress={() => handleSubmit()} title="Activity Summary" /> */}
       
+    </View>
       </ScrollView>
+
       <View style={styles.iconContainer}>
 
         {/* Home Icon */}
@@ -725,36 +764,52 @@ export default function PersonalMetricsEdit({navigation}) {
         </TouchableOpacity>
 
       </View>
-
-    
     </View>
   );
 
 }
 
 const styles = StyleSheet.create({
-    scrollContainer: {
-      flexGrow: 1,
+  scrollContainer: {
+    flexGrow: 1,
+    backgroundColor: '#051622',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  container: {
+      flex: 1,
       backgroundColor: '#051622',
       alignItems: 'center',
+      justifyContent: 'center', // Align icons to the bottom
+      paddingBottom: 20, // Add padding to bottom
+  },
+  text: {
+    color: '#DEB992',
+    fontSize: 29,
+    fontWeight: 'bold',
+  },
+  titleContainer: {
+      flex: 1,
+      flexDirection: 'row',
+      alignItems: 'baseline',
       justifyContent: 'center',
-    },
-    container: {
-        flex: 1,
-        backgroundColor: '#051622',
-        alignItems: 'center',
-        justifyContent: 'center', // Align icons to the bottom
-        paddingBottom: 20, // Add padding to bottom
-    },
-    text: {
-        color: '#DEB992',
-        fontSize: 30,
-    },
-    userIcon: {
-        marginLeft: 10,
-        fontSize: 20,
-        color: '#DEB992',
-    },
+      alignContent: 'center',
+      paddingRight: 20,
+      paddingTop: 10,
+      paddingBottom : 10,
+      backgroundColor: '#1B2130',
+      width: '100%',
+  },
+  bodyContainer: {
+      flex: 1,
+      flexDirection: 'column',
+      alignItems: 'flex-start',
+      justifyContent: 'space-between',
+      alignContent: 'space-between',
+      // paddingLeft: 10,
+      // paddingTop: 20,
+      width: '100%',
+  },
     iconContainer: {
         flexDirection: 'row',
         justifyContent: 'center',
@@ -770,17 +825,13 @@ const styles = StyleSheet.create({
         fontSize: 30,
         color: '#1BA098',
     },
-    formContainer: {
-      flex: 1,
-      flexDirection: 'column', // Arrange items horizontally
-      //width: '100%', // Set the width to 100% to take up the full width
-      justifyContent: 'space-evenly', // Center the content vertically
-      alignItems: 'center',
-    },
     rowContainer: {
       flexDirection: 'row', // Arrange items horizontally
       alignItems: 'center', // Align items vertically in the center
-      justifyContent: 'space-evenly', // Align items horizontally in the center
+      // alignContent: 'space-between',
+      justifyContent: 'space-between', // Align items horizontally in the center
+      width: '40%',
+      paddingBottom: 5,
     },
     input: {
       borderWidth: 1,
@@ -791,12 +842,11 @@ const styles = StyleSheet.create({
       color: '#DEB992',
     },
     label: {
-      marginRight: 10,
       color: '#DEB992',
       fontSize: 15,
-      marginBottom: 4,
+      flexWrap: 'wrap',
+      marginRight: 50,
     },
-
     placeholder: {
       color: '#DEB992',
     },
@@ -804,16 +854,14 @@ const styles = StyleSheet.create({
       borderWidth: 1,
       borderColor: '#1BA098',
       borderRadius: 3,
-      padding: 10,
+      // padding: 10,
       fontSize: 3,
       color: '#DEB992',
+      size: 10,
     },
-    backContainer: {
-      flexDirection: 'row', // Arrange items horizontally
-      alignItems: 'center', // Align items vertically in the center
-      justifyContent: 'space-evenly', // Align items horizontally in the center
+    backIcon: {
       color: '#DEB992',
-      // fontSize: 10,
-    },
+      fontSize: 30,
+  },
 
 });

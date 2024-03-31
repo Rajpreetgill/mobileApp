@@ -40,17 +40,9 @@ import Icon from 'react-native-vector-icons/AntDesign';
 //=== END Android Bluetooth Code ===//
 
 //=== Bluetooth Setup ===//
-const bleManager = new BleManager();
+// const bleManager = new BleManager();
 const ISOLE_SVC_UUID = "00000001-710e-4a5b-8d75-3e5b444bc3cf";
 const CHARACTERISTIC_UUID = "00000003-710e-4a5b-8d75-3e5b444bc3cf";
-
-// const bleManager = new BleManager({
-//   restoreStateIdentifier: "123", // Replace with a unique identifier
-//   restoreStateFunction: (peripherals) => {
-//     // Handle the restoration of peripherals if needed
-//     console.log("Restored peripherals:", peripherals);
-//   },
-// });
 
 
 export default function Bluetooth({navigation}) {
@@ -84,9 +76,6 @@ useEffect(() => {
     fetchData();
 }, []); // Empty dependency array ensures this runs once after the component mounts
 
-
-  const deviceRef = useRef(null);
-
   const searchAndConnectToDevice = () => {
     bleManager.startDeviceScan(null, null, (error, device) => {
       if (error) {
@@ -103,9 +92,9 @@ useEffect(() => {
     });
   };
 
-  useEffect(() => {
-    searchAndConnectToDevice();
-  }, []);
+  // useEffect(() => {
+  //   searchAndConnectToDevice();
+  // }, []);
 
   const connectToDevice = async (device) => {
     return device
@@ -217,29 +206,29 @@ useEffect(() => {
   };
 
   // this useeffect is for when the device disconnects
-  useEffect(() => {
-    const subscription = bleManager.onDeviceDisconnected(
-      deviceID,
-      (error, device) => {
-        if (error) {
-          console.log("Disconnected with error:", error); // Shows disconnection error
-        }
-        setConnectionStatus("Disconnected"); // sets connection status to disconnected
-        console.log("Disconnected device");
-        setSweatValue(0); // Reset the step count or sweat value?
-        if (deviceRef.current) {
-          setConnectionStatus("Reconnecting...");
-          connectToDevice(deviceRef.current) // Attempts to reconnect to the device
-            .then(() => setConnectionStatus("Connected")) // id success then we see connected
-            .catch((error) => {
-              console.log("Reconnection failed: ", error); // if fail then we see disconnected
-              setConnectionStatus("Reconnection failed");
-            });
-        }
-      }
-    );
-    return () => subscription.remove();
-  }, [deviceID]);
+  // useEffect(() => {
+  //   const subscription = bleManager.onDeviceDisconnected(
+  //     deviceID,
+  //     (error, device) => {
+  //       if (error) {
+  //         console.log("Disconnected with error:", error); // Shows disconnection error
+  //       }
+  //       setConnectionStatus("Disconnected"); // sets connection status to disconnected
+  //       console.log("Disconnected device");
+  //       setSweatValue(0); // Reset the step count or sweat value?
+  //       if (deviceRef.current) {
+  //         setConnectionStatus("Reconnecting...");
+  //         connectToDevice(deviceRef.current) // Attempts to reconnect to the device
+  //           .then(() => setConnectionStatus("Connected")) // id success then we see connected
+  //           .catch((error) => {
+  //             console.log("Reconnection failed: ", error); // if fail then we see disconnected
+  //             setConnectionStatus("Reconnection failed");
+  //           });
+  //       }
+  //     }
+  //   );
+  //   return () => subscription.remove();
+  // }, [deviceID]);
 
 
   //=== Bluetooth Setup End ===//
@@ -287,8 +276,6 @@ useEffect(() => {
       </View>
     </View>
   );
-
-
 
 }
 
