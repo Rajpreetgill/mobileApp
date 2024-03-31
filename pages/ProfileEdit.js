@@ -128,8 +128,8 @@ export default function Profile({navigation}) {
   };
 
   return (
-    <ScrollView contentContainerStyle={styles.scrollContainer}>
     <View style={styles.container}>
+          <ScrollView contentContainerStyle={styles.scrollContainer}>
 
       <View style={styles.backContainer}>
         {/* Golden Profile Icon */}
@@ -212,7 +212,7 @@ export default function Profile({navigation}) {
             <Button onPress={() => emergencyContactSave()} title="Save" />
         </View>
       </View>
-      
+      </ScrollView>
       <View style={styles.iconContainerBottom}>
 
         {/* Home Icon */}
@@ -243,7 +243,7 @@ export default function Profile({navigation}) {
       </View>
 
     </View>
-    </ScrollView>
+
   );
 
 }
@@ -260,13 +260,13 @@ const styles = StyleSheet.create({
         backgroundColor: '#051622',
         alignItems: 'center',
         paddingTop: 0, // Add padding to the top
-        paddingBottom: 10, // Add padding to the bottom
-        marginTop:30
+        paddingBottom: 90, // Add padding to the bottom
     },
 
     text: {
         color: '#DEB992',
         fontSize: 35,
+        paddingTop: -25
     },
     userIcon: {
         marginLeft: 10,
@@ -308,7 +308,7 @@ const styles = StyleSheet.create({
     goldenIconText: {
       color: '#DEB992',
       fontSize: 23,
-      marginLeft: 1
+      marginLeft: 1,
     },
     rowContainer: {
         flexDirection: 'row', // Arrange items horizontally
