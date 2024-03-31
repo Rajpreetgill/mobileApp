@@ -26,32 +26,35 @@ export default function Profile({navigation}) {
         }
     };
     fetchData();
-  }, []); // Empty dependency array ensures this runs once after the component mounts
+  }, [username]); // Empty dependency array ensures this runs once after the component mounts
 
   const nameSave = async (e) => {
-    try {
-      // Make a POST request to your backend sign-in endpoint
-      const response = await axios.post(`https://d399-2001-56a-7d82-ae00-1556-d777-fa9d-9ec8.ngrok-free.app/update_name`, {
-        username: username, // Use the username state variable
-        name: name,
-      });
-      if (response.data.success) {
-        console.log("Name updated successfully");
-      } 
-      else {
-        // Update failed
-        console.error('Name update failed:', response.data.message);
-      }
+    if(username != '')
+    {
+      try {
+        // Make a POST request to your backend sign-in endpoint
+        const response = await axios.post(`https://i-sole-backend.com/update_name`, {
+          username: username, // Use the username state variable
+          name: name,
+        });
+        if (response.data.success) {
+          console.log("Name updated successfully");
+        } 
+        else {
+          // Update failed
+          console.error('Name update failed:', response.data.message);
+        }
 
-    } catch (error) {
-        console.error('Error updating name:', error);
+      } catch (error) {
+          console.error('Error updating name:', error);
+      }
     }
   };
 
   const emailSave = async (e) => {
     try {
       // Make a POST request to your backend sign-in endpoint
-      const response = await axios.post(`https://2232-2604-3d09-3472-7800-1da4-da3b-2ce9-4dea.ngrok-free.app/update_email`, {
+      const response = await axios.post(`https://i-sole-backend.com/update_email`, {
         username: username, // Use the username state variable
         email: email,
       });
@@ -70,7 +73,7 @@ export default function Profile({navigation}) {
   const phoneNumberSave = async (e) => {
     try {
       // Make a POST request to your backend sign-in endpoint
-      const response = await axios.post(`https://2232-2604-3d09-3472-7800-1da4-da3b-2ce9-4dea.ngrok-free.app/update_phone_number`, {
+      const response = await axios.post(`https://i-sole-backend.com/update_phone_number`, {
         username: username, // Use the username state variable
         phoneNumber: phoneNumber,
       });
@@ -89,7 +92,7 @@ export default function Profile({navigation}) {
   const dateOfBirthSave = async (e) => {
     try {
       // Make a POST request to your backend sign-in endpoint
-      const response = await axios.post(`https://2232-2604-3d09-3472-7800-1da4-da3b-2ce9-4dea.ngrok-free.app/update_date_of_birth`, {
+      const response = await axios.post(`https://i-sole-backend.com/update_date_of_birth`, {
         username: username, // Use the username state variable
         dateOfBirth: dateOfBirth,
       });
@@ -108,7 +111,7 @@ export default function Profile({navigation}) {
   const emergencyContactSave = async (e) => {
     try {
       // Make a POST request to your backend sign-in endpoint
-      const response = await axios.post(`https://2232-2604-3d09-3472-7800-1da4-da3b-2ce9-4dea.ngrok-free.app/update_emergency_contact`, {
+      const response = await axios.post(`https://i-sole-backend.com/update_emergency_contact`, {
         username: username, // Use the username state variable
         emergencyContact: emergencyContact,
       });
@@ -127,6 +130,14 @@ export default function Profile({navigation}) {
   return (
     <ScrollView contentContainerStyle={styles.scrollContainer}>
     <View style={styles.container}>
+
+      <View style={styles.backContainer}>
+        {/* Golden Profile Icon */}
+        <TouchableOpacity onPress={() => navigation.navigate("Profile")} style={styles.iconButton}>
+        <Icon name="left" style={styles.goldenIcon} />
+        <Text style={styles.goldenIconText}>Back</Text>
+        </TouchableOpacity>
+      </View>
 
       <View style={styles.iconContainer}>
         <Text style={styles.text}>Edit Profile</Text>
@@ -255,7 +266,7 @@ const styles = StyleSheet.create({
 
     text: {
         color: '#DEB992',
-        fontSize: 40,
+        fontSize: 35,
     },
     userIcon: {
         marginLeft: 10,
@@ -294,6 +305,11 @@ const styles = StyleSheet.create({
         color: '#DEB992',
         fontSize: 40,
     },
+    goldenIconText: {
+      color: '#DEB992',
+      fontSize: 23,
+      marginLeft: 1
+    },
     rowContainer: {
         flexDirection: 'row', // Arrange items horizontally
         alignItems: 'center', // Align items vertically in the center
@@ -319,5 +335,12 @@ const styles = StyleSheet.create({
         borderBottomWidth: 1, // Add bottom border
         borderLeftWidth: 1, // Add left border
         borderRightWidth: 1, // Add right border
+    },
+    backContainer: {
+      flexDirection: 'row', // Arrange items horizontally
+      alignItems: 'flex-start', // Align items vertically in the center
+      justifyContent: 'space-around', // Align items horizontally in the center
+      color: '#DEB992',
+      paddingRight: 300,
     },
 });

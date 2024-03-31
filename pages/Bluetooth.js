@@ -40,17 +40,9 @@ import Icon from 'react-native-vector-icons/AntDesign';
 //=== END Android Bluetooth Code ===//
 
 //=== Bluetooth Setup ===//
-const bleManager = new BleManager();
+// const bleManager = new BleManager();
 const ISOLE_SVC_UUID = "00000001-710e-4a5b-8d75-3e5b444bc3cf";
 const CHARACTERISTIC_UUID = "00000003-710e-4a5b-8d75-3e5b444bc3cf";
-
-// const bleManager = new BleManager({
-//   restoreStateIdentifier: "123", // Replace with a unique identifier
-//   restoreStateFunction: (peripherals) => {
-//     // Handle the restoration of peripherals if needed
-//     console.log("Restored peripherals:", peripherals);
-//   },
-// });
 
 
 export default function Bluetooth({navigation}) {
@@ -84,9 +76,6 @@ useEffect(() => {
     fetchData();
 }, []); // Empty dependency array ensures this runs once after the component mounts
 
-
-  const deviceRef = useRef(null);
-
   const searchAndConnectToDevice = () => {
     bleManager.startDeviceScan(null, null, (error, device) => {
       if (error) {
@@ -103,9 +92,9 @@ useEffect(() => {
     });
   };
 
-  useEffect(() => {
-    searchAndConnectToDevice();
-  }, []);
+  // useEffect(() => {
+  //   searchAndConnectToDevice();
+  // }, []);
 
   const connectToDevice = async (device) => {
     return device
@@ -140,6 +129,7 @@ useEffect(() => {
             const rawData = atob(char.value); // taking data coming from I-SOLE device and setting it to rawSweatData
             console.log("Received data:", rawData);
             
+            
             const splitResult = rawData.toString().split('|');
             const rawPressureData1 = splitResult[0];    // '75kPa'
             const rawPressureData2 = splitResult[1];    // '75kPa'
@@ -158,9 +148,12 @@ useEffect(() => {
 
             if (rawSweatData != null)
             {
+              console.log("username: ",username);
+              if(username != '')
+              {
                 try {
-                    const glucoseResponse = await axios.post(`https://2232-2604-3d09-3472-7800-1da4-da3b-2ce9-4dea.ngrok-free.app/add_glucose_value/${username}`, {
-                    glucose: rawSweatData,
+                  const glucoseResponse = await axios.post(`https://i-sole-backend.com/add_glucose_value/${username}`, {
+                  glucose: rawSweatData,
                 });
                 console.log('USERNAME: ' + username)
                 if (glucoseResponse.data.success) {
@@ -170,12 +163,17 @@ useEffect(() => {
                 }
                 } catch (error) {
                     console.error('Error Blutooth Glucose Post Request:', error);
-                }                
+                }           
+
+              }
+                     
             }
             if (rawPressureData1 != null)
             {
+              if (username != '')
+              {
                 try {
-                    const pressureResponse = await axios.post(`https://2232-2604-3d09-3472-7800-1da4-da3b-2ce9-4dea.ngrok-free.app/add_pressure_value/${username}`, {
+                    const pressureResponse = await axios.post(`https://i-sole-backend.com/add_pressure_value/${username}`, {
                     p1: rawPressureData1,
                     p2: rawPressureData2,
                     p3: rawPressureData3,
@@ -190,7 +188,10 @@ useEffect(() => {
                 }
                 } catch (error) {
                     console.error('Error Blutooth Presssure Post Request:', error);
-                }                
+                }     
+
+              }
+                           
             }
             
           });
@@ -205,29 +206,29 @@ useEffect(() => {
   };
 
   // this useeffect is for when the device disconnects
-  useEffect(() => {
-    const subscription = bleManager.onDeviceDisconnected(
-      deviceID,
-      (error, device) => {
-        if (error) {
-          console.log("Disconnected with error:", error); // Shows disconnection error
-        }
-        setConnectionStatus("Disconnected"); // sets connection status to disconnected
-        console.log("Disconnected device");
-        setSweatValue(0); // Reset the step count or sweat value?
-        if (deviceRef.current) {
-          setConnectionStatus("Reconnecting...");
-          connectToDevice(deviceRef.current) // Attempts to reconnect to the device
-            .then(() => setConnectionStatus("Connected")) // id success then we see connected
-            .catch((error) => {
-              console.log("Reconnection failed: ", error); // if fail then we see disconnected
-              setConnectionStatus("Reconnection failed");
-            });
-        }
-      }
-    );
-    return () => subscription.remove();
-  }, [deviceID]);
+  // useEffect(() => {
+  //   const subscription = bleManager.onDeviceDisconnected(
+  //     deviceID,
+  //     (error, device) => {
+  //       if (error) {
+  //         console.log("Disconnected with error:", error); // Shows disconnection error
+  //       }
+  //       setConnectionStatus("Disconnected"); // sets connection status to disconnected
+  //       console.log("Disconnected device");
+  //       setSweatValue(0); // Reset the step count or sweat value?
+  //       if (deviceRef.current) {
+  //         setConnectionStatus("Reconnecting...");
+  //         connectToDevice(deviceRef.current) // Attempts to reconnect to the device
+  //           .then(() => setConnectionStatus("Connected")) // id success then we see connected
+  //           .catch((error) => {
+  //             console.log("Reconnection failed: ", error); // if fail then we see disconnected
+  //             setConnectionStatus("Reconnection failed");
+  //           });
+  //       }
+  //     }
+  //   );
+  //   return () => subscription.remove();
+  // }, [deviceID]);
 
 
   //=== Bluetooth Setup End ===//
@@ -275,8 +276,6 @@ useEffect(() => {
       </View>
     </View>
   );
-
-
 
 }
 

@@ -124,60 +124,69 @@ const monthlyData = {
       };
   
       const getBloodGlucoseLevel = async () => {
-        try {
-          if(username != null)
-          {
-            const response = await axios.get(`https://2232-2604-3d09-3472-7800-1da4-da3b-2ce9-4dea.ngrok-free.app/get_blood_glucose_level/${username}`);
-            if (response.data.success) {
-                const glucoseData = response.data.data;
-                console.log(glucoseData.blood_glucose_leve);
-                setBloodGlucoseLevel(glucoseData.blood_glucose_level);
-            } else {
-                // Update failed
-                console.error('Blood Glucose Level retrieval failed:', response.data.message);
+        if (username != '')
+        {
+          try {
+            if(username != null)
+            {
+              const response = await axios.get(`https://i-sole-backend.com/get_blood_glucose_level/${username}`);
+              if (response.data.success) {
+                  const glucoseData = response.data.data;
+                  console.log(glucoseData.blood_glucose_leve);
+                  setBloodGlucoseLevel(glucoseData.blood_glucose_level);
+              } else {
+                  // Update failed
+                  console.error('Blood Glucose Level retrieval failed:', response.data.message);
+              }
             }
+          } catch (error) {
+              console.error('Error retrieving blood glucose level:', error);
+              console.error('Error retrieving blood glucose level:', error.message);
           }
-        } catch (error) {
-            console.error('Error retrieving blood glucose level:', error);
-            console.error('Error retrieving blood glucose level:', error.message);
         }
       }
 
       const getPredictedHypoglycemia = async () => {
-        try {
-          if(username != null)
-          {
-            const response = await axios.get(`https://2232-2604-3d09-3472-7800-1da4-da3b-2ce9-4dea.ngrok-free.app/get_predicted_hypoglycemia/${username}`);
-            if (response.data.success) {
-                const glucoseData = response.data.data;
-                console.log(glucoseData.predicted_hypoglycemia);
-                setPredictedHypoglycemia(glucoseData.predicted_hypoglycemia);
-            } else {
-                // Update failed
-                console.error('Predcited Hypoglycemia retrieval failed:', response.data.message);
+        if (username != '')
+        {
+          try {
+            if(username != null)
+            {
+              const response = await axios.get(`https://i-sole-backend.com/get_predicted_hypoglycemia/${username}`);
+              if (response.data.success) {
+                  const glucoseData = response.data.data;
+                  console.log(glucoseData.predicted_hypoglycemia);
+                  setPredictedHypoglycemia(glucoseData.predicted_hypoglycemia);
+              } else {
+                  // Update failed
+                  console.error('Predcited Hypoglycemia retrieval failed:', response.data.message);
+              }
             }
+          } catch (error) {
+              console.error('Error retrieving predicted hypoglycemia:', error);
           }
-        } catch (error) {
-            console.error('Error retrieving predicted hypoglycemia:', error);
         }
       }
 
       const getPredictedHyperglycemia = async () => {
-        try {
-          if(username != null)
-          {
-            const response = await axios.get(`https://2232-2604-3d09-3472-7800-1da4-da3b-2ce9-4dea.ngrok-free.app/get_predicted_hyperglycemia/${username}`);
-            if (response.data.success) {
-                const glucoseData = response.data.data;
-                console.log(glucoseData.predicted_hyperglycemia);
-                setPredictedHyperglycemia(glucoseData.predicted_hyperglycemia);
-            } else {
-                // Update failed
-                console.error('Predcited Hyperglycemia retrieval failed:', response.data.message);
+        if (username != '')
+        {
+          try {
+            if(username != null)
+            {
+              const response = await axios.get(`https://i-sole-backend.com/get_predicted_hyperglycemia/${username}`);
+              if (response.data.success) {
+                  const glucoseData = response.data.data;
+                  console.log(glucoseData.predicted_hyperglycemia);
+                  setPredictedHyperglycemia(glucoseData.predicted_hyperglycemia);
+              } else {
+                  // Update failed
+                  console.error('Predcited Hyperglycemia retrieval failed:', response.data.message);
+              }
             }
+          } catch (error) {
+              console.error('Error retrieving predicted hyperglycemia:', error);
           }
-        } catch (error) {
-            console.error('Error retrieving predicted hyperglycemia:', error);
         }
       }
 

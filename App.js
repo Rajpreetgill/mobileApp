@@ -12,6 +12,7 @@ import PressureAnalytics from './pages/PressureAnalytics';
 import Settings from './pages/Settings';
 import Profile from './pages/Profile';
 import PersonalMetrics from './pages/PersonalMetrics';
+import PersonalMetricsEdit from './pages/PersonalMetricsEdit';
 import Feedback from './pages/Feedback';
 import Bluetooth from './pages/Bluetooth';
 import ProfileEdit from './pages/ProfileEdit';
@@ -32,6 +33,7 @@ export default function App() {
         <Stack.Screen name="Profile" component={Profile} />
         <Stack.Screen name="ProfileEdit" component={ProfileEdit} />
         <Stack.Screen name="PersonalMetrics" component={PersonalMetrics} />
+        <Stack.Screen name="PersonalMetricsEdit" component={PersonalMetricsEdit} />
         <Stack.Screen name="Feedback" component={Feedback} />
         <Stack.Screen name="Bluetooth" component={Bluetooth} />
       </Stack.Navigator>
