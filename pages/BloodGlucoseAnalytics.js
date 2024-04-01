@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, Image, TouchableOpacity, ScrollView } from 'react-native';
 import { LineChart } from 'react-native-chart-kit';
 import Icon from 'react-native-vector-icons/AntDesign';
 import axios from 'axios';
@@ -111,6 +111,8 @@ const monthlyData = {
     var [predictedHypoglycemia, setPredictedHypoglycemia] = useState([]);
     var [predictedHyperglycemia, setPredictedHyperglycemia] = useState([]);
     const [username, setUsername] = useState('');
+    const [weeklyGlucoseGraphPath, setWeeklyGlucoseGraphPath] = useState('../images/WeeklyBloodGlucoseGraph.png');
+    const [monthlyGlucoseGraphPath, setMonthlyGlucoseGraphPath] = useState('../images/MonthlyBloodGlucoseGraph.png');
 
     useEffect(() => {
       const fetchData = async () => {
@@ -231,8 +233,6 @@ const monthlyData = {
       }
     };
 
-    
-    
 
     const fetchSweatGlucoseValues = async (username) => {
       try {
@@ -298,43 +298,39 @@ const monthlyData = {
           console.error('Error fetching glucose values:', error);
       }
     }
+
+    const getImageSource = () => {
+      // Depending on the selected period, return the appropriate image source
+      if (selectedView === 'week') {
+        return require('../images/WeeklyBloodGlucoseGraph.png'); // Local file path for week
+      } 
+      else if (selectedView === 'month') {
+        return require('../images/MonthlyBloodGlucoseGraph.png'); // Local file path for month
+      } 
+      else {
+        
+        return { uri: 'https://example.com/dayImage.png' }; // URL for day
+      }
+    };
   
   
   
     return (
       <View style={styles.container}>
+      <ScrollView contentContainerStyle={styles.scrollContainer}>
+
         <Text style={styles.text}>Blood Glucose Data</Text>
-        <LineChart
-          data={renderChartData()}
-          width={350}
-          height={220}
-          chartConfig={{
-            backgroundColor: '#1B2130',
-            backgroundGradientFrom: '#1B2130',
-            backgroundGradientTo: '#1B2130',
-            decimalPlaces: 0,
-            color: (opacity = 1) => `rgba(27, 160, 152, ${opacity})`,
-            labelColor: (opacity = 1) => `rgba(222, 185, 146, ${opacity})`,
-            style: {
-              borderRadius: 16,
-            },
-            propsForDots: {
-              r: '6',
-              strokeWidth: '2',
-              stroke: '#1BA098',
-            },
-          }}
-          bezier
-          style={{
-            marginVertical: 8,
-            borderRadius: 16,
-          }}
-        />
+        <View style={styles.graphBox}>
+        <Text style={styles.text}>Graph Title</Text>
+          <Image
+            source={getImageSource()}
+            style={styles.image}
+          />
+        </View>
         <View style={styles.toggleContainer}>
           <TouchableOpacity
               style={[styles.toggleButton, selectedView === 'day' && styles.selectedToggle]}
-              onPress={() => setSelectedView('day')}
-          >
+              onPress={() => setSelectedView('day')}>
             <Text style={styles.toggleText}>Day</Text>
           </TouchableOpacity>
           <TouchableOpacity
@@ -370,6 +366,7 @@ const monthlyData = {
             <Text style={styles.prediction}>{predictedHyperglycemia}</Text>
           </View>
         </View>
+        </ScrollView>
 
         <View style={styles.iconContainer}>
           {/* Home Icon */}
@@ -404,6 +401,13 @@ const monthlyData = {
   };
   
   const styles = StyleSheet.create({
+    scrollContainer: {
+      flexGrow: 1,
+      flexDirection: 'column',
+      backgroundColor: '#051622',
+      alignItems: 'center',
+      justifyContent: 'space-around',
+    },
     container: {
       flex: 1,
       backgroundColor: '#051622',
@@ -443,9 +447,15 @@ const monthlyData = {
       marginBottom: 8,
     },
     infoBox: {
-      backgroundColor: '#1A1A1A',
+      backgroundColor: '#1B2130',
       borderRadius: 10,
       padding: 16,
+      alignItems: 'center',
+    },
+    graphBox: {
+      backgroundColor: '#1B2130',
+      borderRadius: 10,
+      padding: 6,
       alignItems: 'center',
     },
     infoValue: {
@@ -475,7 +485,13 @@ const monthlyData = {
     specificIcon: {
       fontSize: 30,
       color: '#1BA098',
-    }
+    },
+    image: {
+      width: 370, // Set width of the image
+      resizeMode: 'contain',
+      marginTop: -220,
+      marginBottom: -220,
+    },
   });
 
 
