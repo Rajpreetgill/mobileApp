@@ -129,7 +129,7 @@ export default function Profile({navigation}) {
 
   return (
     <View style={styles.container}>
-          <ScrollView contentContainerStyle={styles.scrollContainer}>
+      <ScrollView contentContainerStyle={styles.scrollContainer}>
 
       <View style={styles.backContainer}>
         {/* Golden Profile Icon */}

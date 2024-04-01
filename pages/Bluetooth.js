@@ -78,8 +78,9 @@ useEffect(() => {
 
   const searchAndConnectToDevice = () => {
     bleManager.startDeviceScan(null, null, (error, device) => {
+      console.log(device.name);
       if (error) {
-        console.error(error);
+        console.error(error.message);
         setConnectionStatus("Error searching for devices");
         return;
       }
@@ -91,6 +92,8 @@ useEffect(() => {
       }
     });
   };
+
+  // const deviceRef = useRef(null);
 
   // useEffect(() => {
   //   searchAndConnectToDevice();
@@ -120,7 +123,6 @@ useEffect(() => {
             // console.log("Char uuid: ", char);
             return char.uuid;
           }
-
         );
         // Ensure that stepDataCharacteristic is not undefined before calling monitor
         if (dataCharacteristic) {
@@ -128,7 +130,6 @@ useEffect(() => {
           dataCharacteristic.monitor(async (error, char) => {
             const rawData = atob(char.value); // taking data coming from I-SOLE device and setting it to rawSweatData
             console.log("Received data:", rawData);
-            
             
             const splitResult = rawData.toString().split('|');
             const rawPressureData1 = splitResult[0];    // '75kPa'
@@ -206,29 +207,29 @@ useEffect(() => {
   };
 
   // this useeffect is for when the device disconnects
-  // useEffect(() => {
-  //   const subscription = bleManager.onDeviceDisconnected(
-  //     deviceID,
-  //     (error, device) => {
-  //       if (error) {
-  //         console.log("Disconnected with error:", error); // Shows disconnection error
-  //       }
-  //       setConnectionStatus("Disconnected"); // sets connection status to disconnected
-  //       console.log("Disconnected device");
-  //       setSweatValue(0); // Reset the step count or sweat value?
-  //       if (deviceRef.current) {
-  //         setConnectionStatus("Reconnecting...");
-  //         connectToDevice(deviceRef.current) // Attempts to reconnect to the device
-  //           .then(() => setConnectionStatus("Connected")) // id success then we see connected
-  //           .catch((error) => {
-  //             console.log("Reconnection failed: ", error); // if fail then we see disconnected
-  //             setConnectionStatus("Reconnection failed");
-  //           });
-  //       }
-  //     }
-  //   );
-  //   return () => subscription.remove();
-  // }, [deviceID]);
+  useEffect(() => {
+    const subscription = bleManager.onDeviceDisconnected(
+      deviceID,
+      (error, device) => {
+        if (error) {
+          console.log("Disconnected with error:", error); // Shows disconnection error
+        }
+        setConnectionStatus("Disconnected"); // sets connection status to disconnected
+        console.log("Disconnected device");
+        setSweatValue(0); // Reset the step count or sweat value?
+        if (deviceRef.current) {
+          setConnectionStatus("Reconnecting...");
+          connectToDevice(deviceRef.current) // Attempts to reconnect to the device
+            .then(() => setConnectionStatus("Connected")) // id success then we see connected
+            .catch((error) => {
+              console.log("Reconnection failed: ", error); // if fail then we see disconnected
+              setConnectionStatus("Reconnection failed");
+            });
+        }
+      }
+    );
+    return () => subscription.remove();
+  }, [deviceID]);
 
 
   //=== Bluetooth Setup End ===//

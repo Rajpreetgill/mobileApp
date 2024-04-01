@@ -49,7 +49,6 @@ export default function LoginPage({navigation}) {
       } 
       else {
         // Authentication failed, handle the error (e.g., show an error message)
-        console.error("HERE");
         console.error('Sign-in failed:', response.data.message);
         setLoginErrorMessage("Incorrect Username or Password");
       }
