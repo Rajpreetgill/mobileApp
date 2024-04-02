@@ -37,7 +37,7 @@ export default function Profile({navigation}) {
 
   const getProfileData = async (username) => {
     try {
-      const response = await axios.get(`https://i-sole-backend.com/get_profile_data/${username}`);
+      const response = await axios.get(`https://2232-2604-3d09-3472-7800-1da4-da3b-2ce9-4dea.ngrok-free.app/get_profile_data/${username}`);
       if (response.data.success) {
           // console.log("Retrieved profile data successfully:", response.data);
           // Do something with the retrieved profile data

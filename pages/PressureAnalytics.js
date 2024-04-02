@@ -194,7 +194,7 @@ export default function PressureAnalytics({navigation}) {
           endTimestamp = currentDateTimeISO;
         }
 
-        // const response = await axios.get(`https://i-sole-backend.com/get-sweat-glucose-values/${username}`);
+        // const response = await axios.get(`https://2232-2604-3d09-3472-7800-1da4-da3b-2ce9-4dea.ngrok-free.app/get-sweat-glucose-values/${username}`);
         const response = await axios.get(`https://7a5f-136-159-213-241.ngrok-free.app/get_pressure_data/${username}?start=${startTimestamp}&end=${endTimestamp}`);
         // const response = await axios.get(`https://7a5f-136-159-213-241.ngrok-free.app/get_pressure_data/Lubaba?start=2024-02-25T00:00:00&end=2024-02-29T09:09:31`);
         // Extract glucose values and timestamps from the response

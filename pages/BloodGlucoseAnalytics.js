@@ -131,7 +131,7 @@ const monthlyData = {
           try {
             if(username != null)
             {
-              const response = await axios.get(`https://i-sole-backend.com/get_blood_glucose_level/${username}`);
+              const response = await axios.get(`https://2232-2604-3d09-3472-7800-1da4-da3b-2ce9-4dea.ngrok-free.app/get_blood_glucose_level/${username}`);
               if (response.data.success) {
                   const glucoseData = response.data.data;
                   console.log(glucoseData.blood_glucose_leve);
@@ -154,7 +154,7 @@ const monthlyData = {
           try {
             if(username != null)
             {
-              const response = await axios.get(`https://i-sole-backend.com/get_predicted_hypoglycemia/${username}`);
+              const response = await axios.get(`https://2232-2604-3d09-3472-7800-1da4-da3b-2ce9-4dea.ngrok-free.app/get_predicted_hypoglycemia/${username}`);
               if (response.data.success) {
                   const glucoseData = response.data.data;
                   console.log(glucoseData.predicted_hypoglycemia);
@@ -176,7 +176,7 @@ const monthlyData = {
           try {
             if(username != null)
             {
-              const response = await axios.get(`https://i-sole-backend.com/get_predicted_hyperglycemia/${username}`);
+              const response = await axios.get(`https://2232-2604-3d09-3472-7800-1da4-da3b-2ce9-4dea.ngrok-free.app/get_predicted_hyperglycemia/${username}`);
               if (response.data.success) {
                   const glucoseData = response.data.data;
                   console.log(glucoseData.predicted_hyperglycemia);
@@ -278,7 +278,7 @@ const monthlyData = {
           endTimestamp = currentDateTimeISO;
         }
 
-        // const response = await axios.get(`https://i-sole-backend.com/get-sweat-glucose-values/${username}`);
+        // const response = await axios.get(`https://2232-2604-3d09-3472-7800-1da4-da3b-2ce9-4dea.ngrok-free.app/get-sweat-glucose-values/${username}`);
         const response = await axios.get(`https://7a5f-136-159-213-241.ngrok-free.app/get_glucose_data/${username}?start=${startTimestamp}&end=${endTimestamp}`);
         // const response = await axios.get(`https://7a5f-136-159-213-241.ngrok-free.app/get_glucose_data/Lubaba?start=2024-02-25T00:00:00&end=2024-02-29T09:09:31`);
         // Extract glucose values and timestamps from the response

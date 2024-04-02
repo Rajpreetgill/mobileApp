@@ -35,6 +35,11 @@ export default function PersonalMetricsEdit({navigation}) {
   const [medicationDosage, setMedicationDosage] = useState('');
   const [weatherConditions, setWeatherConditions] = useState('');
   const [carbIntake, setCarbIntake] = useState('');
+  const [fingerStickValue, setFingerStickValue] = useState('');
+  const [basalValue, setBasalValue] = useState('');
+  const [basisGsrValue, setBasisGsrValue] = useState('');
+  const [basisSkinTemperatureValue, setBasisSkinTemperatureValue] = useState('');
+  const [bolusDose, setBolusDose] = useState('');
   
   const mealtypesData = [
     {key:'1',value:'Breakfast'},
@@ -74,7 +79,7 @@ export default function PersonalMetricsEdit({navigation}) {
   const bloodGlucoseLevelSubmit = async (e) => {
     try {
       // Make a POST request to your backend sign-in endpoint
-      const response = await axios.post(`https://i-sole-backend.com/add_blood_glucose_level`, {
+      const response = await axios.post(`https://2232-2604-3d09-3472-7800-1da4-da3b-2ce9-4dea.ngrok-free.app/add_blood_glucose_level`, {
         username: username, // Use the username state variable
         bloodGlucoseLevel: bloodGlucoseLevel,
       });
@@ -99,6 +104,107 @@ export default function PersonalMetricsEdit({navigation}) {
         console.error('Error', error.message);
       }
       console.error(error.config);
+    }
+  };
+
+  const fingerStickValueSubmit = async (e) => {
+    try {
+      // Make a POST request to your backend sign-in endpoint
+      const response = await axios.post(`https://2232-2604-3d09-3472-7800-1da4-da3b-2ce9-4dea.ngrok-free.app/update_finger_stick_value`, {
+        username: username, // Use the username state variable
+        finger_stick_value: fingerStickValue,
+      });
+      if (response.data.success) {
+        console.log("finger_stick_value updated successfully");
+      } 
+      else {
+        // Update failed
+        console.error('finger_stick_value update failed:', response.data.message);
+      }
+      
+    } catch (error) {
+      console.error('Error: ', error.message);
+      console.error(error.config);
+    }
+  };
+
+  const basalValueSubmit = async (e) => {
+    try {
+      // Make a POST request to your backend sign-in endpoint
+      const response = await axios.post(`https://2232-2604-3d09-3472-7800-1da4-da3b-2ce9-4dea.ngrok-free.app/update_basal_value`, {
+        username: username, // Use the username state variable
+        basal_value: basalValue,
+      });
+      if (response.data.success) {
+        console.log("basal_value updated successfully");
+      } 
+      else {
+        // Update failed
+        console.error('basal_value update failed:', response.data.message);
+      }
+      
+    } catch (error) {
+      console.error('Error: ', error.message);
+    }
+  };
+
+  const basisGsrValueSubmit = async (e) => {
+    try {
+      // Make a POST request to your backend sign-in endpoint
+      const response = await axios.post(`https://2232-2604-3d09-3472-7800-1da4-da3b-2ce9-4dea.ngrok-free.app/update_basis_gsr_value`, {
+        username: username, // Use the username state variable
+        basis_gsr_value: basisGsrValue,
+      });
+      if (response.data.success) {
+        console.log("basis_gsr_value updated successfully");
+      } 
+      else {
+        // Update failed
+        console.error('basis_gsr_value update failed:', response.data.message);
+      }
+      
+    } catch (error) {
+      console.error('Error: ', error.message);
+    }
+  };
+
+  const basisSkinTemperatureValueSubmit = async (e) => {
+    try {
+      // Make a POST request to your backend sign-in endpoint
+      const response = await axios.post(`https://2232-2604-3d09-3472-7800-1da4-da3b-2ce9-4dea.ngrok-free.app/update_basis_skin_temperature_value`, {
+        username: username, // Use the username state variable
+        basis_skin_temperature_value: basisSkinTemperatureValue,
+      });
+      if (response.data.success) {
+        console.log("basis_skin_temperature_value updated successfully");
+      } 
+      else {
+        // Update failed
+        console.error('basis_skin_temperature_value update failed:', response.data.message);
+      }
+      
+    } catch (error) {
+      console.error('Error: ', error.message);
+    }
+  };
+
+  const bolusDoseSubmit = async (e) => {
+    try {
+      // Make a POST request to your backend sign-in endpoint
+      const response = await axios.post(`https://2232-2604-3d09-3472-7800-1da4-da3b-2ce9-4dea.ngrok-free.app/update_bolus_dose`, {
+        username: username, // Use the username state variable
+        bolus_dose: bolusDose,
+      });
+      if (response.data.success) {
+        console.log("bolus_dose updated successfully");
+      } 
+      else {
+        // Update failed
+        console.error('bolus_dose update failed:', response.data.message);
+      }
+      
+    } catch (error) {
+      console.error('Error: ', error.message);
     }
   };
 
@@ -136,7 +242,7 @@ export default function PersonalMetricsEdit({navigation}) {
   const heightSubmit = async (e) => {
     try {
       // Make a POST request to your backend sign-in endpoint
-      const response = await axios.post(`https://i-sole-backend.com/update_height`, {
+      const response = await axios.post(`https://2232-2604-3d09-3472-7800-1da4-da3b-2ce9-4dea.ngrok-free.app/update_height`, {
         username: username, // Use the username state variable
         height: height,
       });
@@ -167,7 +273,7 @@ export default function PersonalMetricsEdit({navigation}) {
   const insulinTypeSubmit = async (e) => {
     try {
       // Make a POST request to your backend sign-in endpoint
-      const response = await axios.post(`https://i-sole-backend.com/update_insulin_type`, {
+      const response = await axios.post(`https://2232-2604-3d09-3472-7800-1da4-da3b-2ce9-4dea.ngrok-free.app/update_insulin_type`, {
         username: username, // Use the username state variable
         insulin_type: insulinType,
       });
@@ -188,7 +294,7 @@ export default function PersonalMetricsEdit({navigation}) {
   const insulinDosageSubmit = async (e) => {
     try {
       // Make a POST request to your backend sign-in endpoint
-      const response = await axios.post(`https://i-sole-backend.com/update_insulin_dosage`, {
+      const response = await axios.post(`https://2232-2604-3d09-3472-7800-1da4-da3b-2ce9-4dea.ngrok-free.app/update_insulin_dosage`, {
         username: username, // Use the username state variable
         insulinDosage: insulinDosage,
       });
@@ -219,7 +325,7 @@ export default function PersonalMetricsEdit({navigation}) {
   const allergiesSubmit = async (e) => {
     try {
       // Make a POST request to your backend sign-in endpoint
-      const response = await axios.post(`https://i-sole-backend.com/update_allergies`, {
+      const response = await axios.post(`https://2232-2604-3d09-3472-7800-1da4-da3b-2ce9-4dea.ngrok-free.app/update_allergies`, {
         username: username, // Use the username state variable
         allergies: allergies,
       });
@@ -241,7 +347,7 @@ export default function PersonalMetricsEdit({navigation}) {
     try {
       // Make a POST request to your backend sign-in endpoint
       console.log("physicalActivityData: ", physicalActivity);
-      const response = await axios.post(`https://i-sole-backend.com/update_physical_activity`, {
+      const response = await axios.post(`https://2232-2604-3d09-3472-7800-1da4-da3b-2ce9-4dea.ngrok-free.app/update_physical_activity`, {
         username: username, // Use the username state variable
         physical_activity: physicalActivity,
       });
@@ -262,7 +368,7 @@ export default function PersonalMetricsEdit({navigation}) {
   const activityIntensitySubmit = async (e) => {
     try {
       // Make a POST request to your backend sign-in endpoint
-      const response = await axios.post(`https://i-sole-backend.com/update_activity_intensity`, {
+      const response = await axios.post(`https://2232-2604-3d09-3472-7800-1da4-da3b-2ce9-4dea.ngrok-free.app/update_activity_intensity`, {
         username: username, // Use the username state variable
         activity_intensity: activityIntensity,
       });
@@ -283,7 +389,7 @@ export default function PersonalMetricsEdit({navigation}) {
   const activityDurationSubmit = async (e) => {
     try {
       // Make a POST request to your backend sign-in endpoint
-      const response = await axios.post(`https://i-sole-backend.com/update_activity_duration`, {
+      const response = await axios.post(`https://2232-2604-3d09-3472-7800-1da4-da3b-2ce9-4dea.ngrok-free.app/update_activity_duration`, {
         username: username, // Use the username state variable
         activity_duration: activityDuration,
       });
@@ -304,7 +410,7 @@ export default function PersonalMetricsEdit({navigation}) {
   const stressLevelSubmit = async (e) => {
     try {
       // Make a POST request to your backend sign-in endpoint
-      const response = await axios.post(`https://i-sole-backend.com/update_stress_level`, {
+      const response = await axios.post(`https://2232-2604-3d09-3472-7800-1da4-da3b-2ce9-4dea.ngrok-free.app/update_stress_level`, {
         username: username, // Use the username state variable
         stress_level: stressLevel,
       });
@@ -325,7 +431,7 @@ export default function PersonalMetricsEdit({navigation}) {
   const illnessSubmit = async (e) => {
     try {
       // Make a POST request to your backend sign-in endpoint
-      const response = await axios.post(`https://i-sole-backend.com/update_illness`, {
+      const response = await axios.post(`https://2232-2604-3d09-3472-7800-1da4-da3b-2ce9-4dea.ngrok-free.app/update_illness`, {
         username: username, // Use the username state variable
         illness: illness,
       });
@@ -346,7 +452,7 @@ export default function PersonalMetricsEdit({navigation}) {
   const hormonalChangesSubmit = async (e) => {
     try {
       // Make a POST request to your backend sign-in endpoint
-      const response = await axios.post(`https://i-sole-backend.com/update_hormonal_changes`, {
+      const response = await axios.post(`https://2232-2604-3d09-3472-7800-1da4-da3b-2ce9-4dea.ngrok-free.app/update_hormonal_changes`, {
         username: username, // Use the username state variable
         hormonal_changes: hormonalChanges,
       });
@@ -367,7 +473,7 @@ export default function PersonalMetricsEdit({navigation}) {
   const alcoholConsumptionSubmit = async (e) => {
     try {
       // Make a POST request to your backend sign-in endpoint
-      const response = await axios.post(`https://i-sole-backend.com/update_alcohol_consumption`, {
+      const response = await axios.post(`https://2232-2604-3d09-3472-7800-1da4-da3b-2ce9-4dea.ngrok-free.app/update_alcohol_consumption`, {
         username: username, // Use the username state variable
         alcohol_consumption: alcoholConsumption,
       });
@@ -388,7 +494,7 @@ export default function PersonalMetricsEdit({navigation}) {
   const medicationSubmit = async (e) => {
     try {
       // Make a POST request to your backend sign-in endpoint
-      const response = await axios.post(`https://i-sole-backend.com/update_medication`, {
+      const response = await axios.post(`https://2232-2604-3d09-3472-7800-1da4-da3b-2ce9-4dea.ngrok-free.app/update_medication`, {
         username: username, // Use the username state variable
         medication: medication,
       });
@@ -409,7 +515,7 @@ export default function PersonalMetricsEdit({navigation}) {
   const medicationDosageSubmit = async (e) => {
     try {
       // Make a POST request to your backend sign-in endpoint
-      const response = await axios.post(`https://i-sole-backend.com/update_medication_dosage`, {
+      const response = await axios.post(`https://2232-2604-3d09-3472-7800-1da4-da3b-2ce9-4dea.ngrok-free.app/update_medication_dosage`, {
         username: username, // Use the username state variable
         medication_dosage: medicationDosage,
       });
@@ -430,7 +536,7 @@ export default function PersonalMetricsEdit({navigation}) {
   const weatherConditionsSubmit = async (e) => {
     try {
       // Make a POST request to your backend sign-in endpoint
-      const response = await axios.post(`https://i-sole-backend.com/update_weather_conditions`, {
+      const response = await axios.post(`https://2232-2604-3d09-3472-7800-1da4-da3b-2ce9-4dea.ngrok-free.app/update_weather_conditions`, {
         username: username, // Use the username state variable
         weather_conditions: weatherConditions,
       });
@@ -451,7 +557,7 @@ export default function PersonalMetricsEdit({navigation}) {
   const mealAdd = async (e) => {
     try {
       // Make a POST request to your backend sign-in endpoint
-      const response = await axios.post(`https://i-sole-backend.com/add_meal/${username}`, {
+      const response = await axios.post(`https://2232-2604-3d09-3472-7800-1da4-da3b-2ce9-4dea.ngrok-free.app/add_meal/${username}`, {
         meal_type: mealType,
         meal_description: mealDescription,
         carbohydrate_intake: carbIntake
@@ -488,79 +594,155 @@ export default function PersonalMetricsEdit({navigation}) {
         <TouchableOpacity onPress={() => navigation.navigate("PersonalMetrics")} style={styles.iconButton}>
         <Icon name="arrowleft" style={styles.backIcon} />
         </TouchableOpacity>
-        
         <Text style={styles.text}>Edit Personal Metrics</Text>
-        
     </View>
 
     <View style={styles.bodyContainer}>
         <View style={styles.rowContainer}>
+          <View style={styles.inputContainer}>
           <Text style={styles.label}>Blood Glucose Level</Text>
           <TextInput
-            style={[styles.input, { width: 170 }]} // Manually setting width here
+            style={[styles.input, { width: 230 }]} // Manually setting width here
             placeholder="Ex. 10.6"
             onChangeText={(text) => setBloodGlucoseLevel(text)}
             value={bloodGlucoseLevel}
           />
+          </View>
           <Button onPress={() => bloodGlucoseLevelSubmit()} title="Submit" />
         </View>
 
         <View style={styles.rowContainer}>
-        <Text style={styles.label}>Weight</Text>
+          <View style={styles.inputContainer}>
+          <Text style={styles.label}>Finger Stick Value</Text>
           <TextInput
-            style={[styles.input, { width: 170 }]} // Manually setting width here
+            style={[styles.input, { width: 230 }]} // Manually setting width here
+            placeholder="Ex. 10.6"
+            onChangeText={(text) => setFingerStickValue(text)}
+            value={fingerStickValue}
+          />
+          </View>
+          <Button onPress={() => fingerStickValueSubmit()} title="Submit" />
+        </View>
+
+        <View style={styles.rowContainer}>
+          <View style={styles.inputContainer}>
+          <Text style={styles.label}>Basal Value</Text>
+          <TextInput
+            style={[styles.input, { width: 230 }]} // Manually setting width here
+            placeholder="Ex. 10.6"
+            onChangeText={(text) => setBasalValue(text)}
+            value={basalValue}
+          />
+          </View>
+          <Button onPress={() => basalValueSubmit()} title="Submit" />
+        </View>
+
+        <View style={styles.rowContainer}>
+          <View style={styles.inputContainer}>
+          <Text style={styles.label}>Basis Gsr Value</Text>
+          <TextInput
+            style={[styles.input, { width: 230 }]} // Manually setting width here
+            placeholder="Ex. 10.6"
+            onChangeText={(text) => setBasisGsrValue(text)}
+            value={basisGsrValue}
+          />
+          </View>
+          <Button onPress={() => basisGsrValueSubmit()} title="Submit" />
+        </View>
+
+        <View style={styles.rowContainer}>
+          <View style={styles.inputContainer}>
+          <Text style={styles.label}>Basis Skin Temperature</Text>
+          <TextInput
+            style={[styles.input, { width: 230 }]} // Manually setting width here
+            placeholder="Ex. 10.6"
+            onChangeText={(text) => setBasisSkinTemperatureValue(text)}
+            value={basisSkinTemperatureValue}
+          />
+          </View>
+          <Button onPress={() => basisSkinTemperatureValueSubmit()} title="Submit" />
+        </View>
+
+        <View style={styles.rowContainer}>
+          <View style={styles.inputContainer}>
+          <Text style={styles.label}>Bolus Dose</Text>
+          <TextInput
+            style={[styles.input, { width: 230 }]} // Manually setting width here
+            placeholder="Ex. 10.6"
+            onChangeText={(text) => setBolusDose(text)}
+            value={bolusDose}
+          />
+          </View>
+          <Button onPress={() => bolusDoseSubmit()} title="Submit" />
+        </View>
+
+        <View style={styles.rowContainer}>
+        <View style={styles.inputContainer}>
+          <Text style={styles.label}>Weight</Text>
+          <TextInput
+            style={[styles.input, { width: 230 }]} // Manually setting width here
             placeholder="Ex. 55"
             onChangeText={(text) => setWeight(text)}
             value={weight}
           />
+          </View>
           <Button onPress={() => weightSubmit()} title="Submit" />
         </View>
 
         <View style={styles.rowContainer}>
-        <Text style={styles.label}>Height</Text>
+        <View style={styles.inputContainer}>
+          <Text style={styles.label}>Height</Text>
           <TextInput
-            style={[styles.input, { width: 170}]} // Manually setting width here
+            style={[styles.input, { width: 230}]} // Manually setting width here
             placeholder="Ex. 10.6"
             onChangeText={(text) => setHeight(text)}
             value={height}
           />
+          </View>
           <Button onPress={() => heightSubmit()} title="Submit" />
         </View>
 
         <View style={styles.rowContainer}>
+          <View style={styles.inputContainer}>
           <Text style={styles.label}>Insulin Type</Text>
           <TextInput
-            style={[styles.input, { width: 170 }]}
+            style={[styles.input, { width: 230 }]}
             placeholder="Enter insulin type"
             onChangeText={(text) => setInsulinType(text)}
             value={insulinType}
           />
+          </View>
           <Button onPress={() => insulinTypeSubmit()} title="Submit" />
         </View>
 
         <View style={styles.rowContainer}>
+          <View style={styles.inputContainer}>
           <Text style={styles.label}>Insulin Dosage</Text>
           <TextInput
-            style={[styles.input, { width: 170 }]} // Manually setting width here
+            style={[styles.input, { width: 230 }]} // Manually setting width here
             placeholder="Ex. 10.6"
             onChangeText={(text) => setInsulinDosage(text)}
             value={insulinDosage}
           />
+          </View>
           <Button onPress={() => insulinDosageSubmit()} title="Submit" />
         </View>
 
         <View style={styles.rowContainer}>
-        <Text style={styles.label}>Allergies</Text>
+        <View style={styles.inputContainer}>
+          <Text style={styles.label}>Allergies</Text>
         <TextInput
-          style={[styles.input, { width: 170 }]} // Manually setting width here
+          style={[styles.input, { width: 230 }]} // Manually setting width here
           placeholder="Ex. 10.6"
           onChangeText={(text) => setAllergies(text)}
           value={allergies}
         />
+        </View>
         <Button onPress={() => allergiesSubmit()} title="Submit" />
         </View>
 
         <View style={styles.rowContainer}>
+          <View style={styles.inputContainer}>
           <Text style={styles.label}>Physical Activity</Text>
           <SelectList 
             setSelected={(value) => setPhysicalActivity(value)} 
@@ -569,17 +751,19 @@ export default function PersonalMetricsEdit({navigation}) {
             arrowicon={<Icon name="down" size={12} color={'#DEB992'} />} 
             searchicon={<Icon name="search1" size={12} color={'#DEB992'} />} 
             search={false} 
-            boxStyles={{borderRadius:10, borderColor:'#1BA098', width:200}} //override default styles
+            boxStyles={{borderRadius:10, borderColor:'#1BA098', width:230}} //override default styles
             inputStyles={{color:'#DEB992'}}
             dropdownTextStyles={{color:'#1BA098'}}
             dropdownStyles={{borderColor:'#1BA098'}}
             defaultOption={activityTypesData[0]}   //default selected option
             save="value"
           />
+          </View>
         <Button onPress={() => physicalActivitySubmit()} title="Submit" />
         </View>
 
         <View style={styles.rowContainer}>
+          <View style={styles.inputContainer}>
           <Text style={styles.label}>Activity Intensity</Text>
           <SelectList 
             setSelected={(val) => setActivityIntensity(val)} 
@@ -588,28 +772,32 @@ export default function PersonalMetricsEdit({navigation}) {
             arrowicon={<Icon name="down" size={12} color={'#DEB992'} />} 
             searchicon={<Icon name="search1" size={12} color={'#DEB992'} />} 
             search={false} 
-            boxStyles={{borderRadius:10, borderColor:'#1BA098', width:200}} //override default styles
+            boxStyles={{borderRadius:10, borderColor:'#1BA098', width:230}} //override default styles
             inputStyles={{color:'#DEB992'}}
             dropdownTextStyles={{color:'#1BA098'}}
             dropdownStyles={{borderColor:'#1BA098'}}
             defaultOption={{ key:'1', value:'Low' }}   //default selected option
             save="value"
           />
+          </View>
           <Button onPress={() => activityIntensitySubmit()} title="Submit" />
         </View>
 
         <View style={styles.rowContainer}>
+          <View style={styles.inputContainer}>
           <Text style={styles.label}>Activity Duration (min)</Text>
           <TextInput
-            style={[styles.input, { width: 170 }]}
+            style={[styles.input, { width: 230 }]}
             placeholder="Enter activity duration"
             onChangeText={(text) => setActivityDuration(text)}
             value={activityDuration}
           />
+          </View>
           <Button onPress={() => activityDurationSubmit()} title="Submit" />
         </View>
 
         <View style={styles.rowContainer}>
+          <View style={styles.inputContainer}>
           <Text style={styles.label}>Stress Level</Text>
           <SelectList 
             setSelected={(val) => setStressLevel(val)} 
@@ -618,84 +806,98 @@ export default function PersonalMetricsEdit({navigation}) {
             arrowicon={<Icon name="down" size={12} color={'#DEB992'} />} 
             searchicon={<Icon name="search1" size={12} color={'#DEB992'} />} 
             search={false} 
-            boxStyles={{borderRadius:10, borderColor:'#1BA098', width:200}} //override default styles
+            boxStyles={{borderRadius:10, borderColor:'#1BA098', width:230}} //override default styles
             inputStyles={{color:'#DEB992'}}
             dropdownTextStyles={{color:'#1BA098'}}
             dropdownStyles={{borderColor:'#1BA098'}}
             defaultOption={{ key:'1', value:'Low' }}   //default selected option
             save="value"
           />
+          </View>
           <Button onPress={() => stressLevelSubmit()} title="Submit" />
         </View>
 
         <View style={styles.rowContainer}>
+          <View style={styles.inputContainer}>
           <Text style={styles.label}>Illness</Text>
           <TextInput
-            style={[styles.input, { width: 170 }]}
+            style={[styles.input, { width: 230 }]}
             placeholder="Enter illness"
             onChangeText={(text) => setIllness(text)}
             value={illness}
           />
+          </View>
           <Button onPress={() => illnessSubmit()} title="Submit" />
         </View>
 
         <View style={styles.rowContainer}>
+          <View style={styles.inputContainer}>
           <Text style={styles.label}>Hormonal Changes</Text>
           <TextInput
-            style={[styles.input, { width: 170 }]}
+            style={[styles.input, { width: 230 }]}
             placeholder="Enter hormonal changes"
             onChangeText={(text) => setHormonalChanges(text)}
             value={hormonalChanges}
           />
+          </View>
           <Button onPress={() => hormonalChangesSubmit()} title="Submit" />
         </View>
 
         <View style={styles.rowContainer}>
+          <View style={styles.inputContainer}>
           <Text style={styles.label}>Alcohol Consumption</Text>
           <TextInput
-            style={[styles.input, { width: 170 }]}
+            style={[styles.input, { width: 230 }]}
             placeholder="Enter alcohol consumption"
             onChangeText={(text) => setAlcoholConsumption(text)}
             value={alcoholConsumption}
           />
+          </View>
           <Button onPress={() => alcoholConsumptionSubmit()} title="Submit" />
         </View>
 
         <View style={styles.rowContainer}>
+          <View style={styles.inputContainer}>
           <Text style={styles.label}>Medication</Text>
           <TextInput
-            style={[styles.input, { width: 170 }]}
+            style={[styles.input, { width: 230 }]}
             placeholder="Enter medication"
             onChangeText={(text) => setMedication(text)}
             value={medication}
           />
+          </View>
           <Button onPress={() => medicationSubmit()} title="Submit" />
         </View>
 
         <View style={styles.rowContainer}>
+          <View style={styles.inputContainer}>
           <Text style={styles.label}>Medication Dosage</Text>
           <TextInput
-            style={[styles.input, { width: 170 }]}
+            style={[styles.input, { width: 230 }]}
             placeholder="Enter medication dosage"
             onChangeText={(text) => setMedicationDosage(text)}
             value={medicationDosage}
           />
+          </View>
           <Button onPress={() => medicationDosageSubmit()} title="Submit" />
         </View>
 
         <View style={styles.rowContainer}>
+          <View style={styles.inputContainer}>
           <Text style={styles.label}>Weather Conditions</Text>
           <TextInput
-            style={[styles.input, { width: 170 }]}
+            style={[styles.input, { width: 230 }]}
             placeholder="Enter weather conditions"
             onChangeText={(text) => setWeatherConditions(text)}
             value={weatherConditions}
           />
+          </View>
           <Button onPress={() => weatherConditionsSubmit()} title="Submit" />
         </View>
 
         <View style={styles.rowContainer}>
-        <Text style={styles.label}>Meal Type</Text>
+        <View style={styles.inputContainer}>
+          <Text style={styles.label}>Meal Type</Text>
         <SelectList 
           setSelected={(val) => setMealType(val)} 
           // fontFamily='lato'
@@ -703,7 +905,7 @@ export default function PersonalMetricsEdit({navigation}) {
           arrowicon={<Icon name="down" size={12} color={'#DEB992'} />} 
           searchicon={<Icon name="search1" size={12} color={'#DEB992'} />} 
           search={false} 
-          boxStyles={{borderRadius:10, borderColor:'#1BA098', width:200}} //override default styles
+          boxStyles={{borderRadius:10, borderColor:'#1BA098', width:230}} //override default styles
           inputStyles={{color:'#DEB992'}}
           dropdownTextStyles={{color:'#1BA098'}}
           dropdownStyles={{borderColor:'#1BA098'}}
@@ -711,30 +913,35 @@ export default function PersonalMetricsEdit({navigation}) {
           save="value"
         />
         </View>
+        </View>
 
         <View style={styles.rowContainer}>
+          <View style={styles.inputContainer}>
           <Text style={styles.label}>Carbohydrate Intake (g)</Text>
           <TextInput
-            style={[styles.input, { width: 170 }]}
+            style={[styles.input, { width: 230 }]}
             placeholder="Enter carbohydrate intake"
             onChangeText={(text) => setCarbIntake(text)}
             value={carbIntake}
           />
+          </View>
         </View>
 
         <View style={styles.rowContainer}>
-        <Text style={styles.label}>Meal Description</Text>
+        <View style={styles.inputContainer}>
+          <Text style={styles.label}>Meal Description</Text>
         <TextInput
-          style={[styles.input, { width: 170 }]}
+          style={[styles.input, { width: 230 }]}
           placeholder="Enter meal description"
           onChangeText={(text) => setMealDescription(text)}
           value={mealDescription}
         />
+        </View>
         <Button onPress={() => mealAdd()} title="Add" />
         </View>
-      
-    </View>
-      </ScrollView>
+        </View>
+
+    </ScrollView>
 
       <View style={styles.iconContainer}>
 
@@ -794,22 +1001,27 @@ const styles = StyleSheet.create({
       alignItems: 'baseline',
       justifyContent: 'center',
       alignContent: 'center',
-      paddingRight: 20,
+      paddingRight: 30,
       paddingTop: 10,
       paddingBottom : 10,
       backgroundColor: '#1B2130',
       width: '100%',
   },
   bodyContainer: {
-      flex: 1,
-      flexDirection: 'column',
-      alignItems: 'flex-start',
-      justifyContent: 'space-between',
-      alignContent: 'space-between',
-      // paddingLeft: 10,
-      // paddingTop: 20,
-      width: '100%',
+    flex: 1,
+    flexDirection: 'column',
+    alignItems: 'baseline',
+    justifyContent: 'center',
+    alignContent: 'center',
+    paddingLeft: 50,
+    paddingTop: 20,
+    width: '100%',
   },
+    inputContainer: {
+      marginBottom: 25,
+      alignItems: 'flex-start',
+      justifyContent: 'space-around',
+    },
     iconContainer: {
         flexDirection: 'row',
         justifyContent: 'center',
@@ -828,25 +1040,26 @@ const styles = StyleSheet.create({
     rowContainer: {
       flexDirection: 'row', // Arrange items horizontally
       alignItems: 'center', // Align items vertically in the center
-      // alignContent: 'space-between',
       justifyContent: 'space-between', // Align items horizontally in the center
       width: '40%',
-      paddingBottom: 5,
+      marginTop: 20,
     },
     input: {
-      borderWidth: 1,
-      borderColor: '#1BA098',
-      borderRadius: 8,
-      padding: 10,
-      fontSize: 16,
+      backgroundColor: '#1A1A1A',
       color: '#DEB992',
+      padding: 10,
+      borderRadius: 5,
+      borderColor: '#1BA098',
+      borderTopWidth: 1, // Add top border
+      borderBottomWidth: 1, // Add bottom border
+      borderLeftWidth: 1, // Add left border
+      borderRightWidth: 1, // Add right border
     },
     label: {
       color: '#DEB992',
-      fontSize: 15,
-      flexWrap: 'wrap',
-      marginRight: 50,
-    },
+      fontSize: 18,
+      marginBottom: 5,
+  },
     placeholder: {
       color: '#DEB992',
     },
