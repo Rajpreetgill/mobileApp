@@ -36,7 +36,7 @@ export default function Settings({navigation}) {
 
   const getSettingsData = async (username) => {
     try {
-      const response = await axios.get(`https://i-sole-backend.com/get_profile_data/${username}`);
+      const response = await axios.get(`https://2232-2604-3d09-3472-7800-1da4-da3b-2ce9-4dea.ngrok-free.app/get_profile_data/${username}`);
       if (response.data.success) {
           // Do something with the retrieved profile data
           const userData = response.data.data;
@@ -68,7 +68,7 @@ export default function Settings({navigation}) {
 
   const toggleNotificationSwitch = async () => {
     try {
-      const response = await axios.post('https://i-sole-backend.com/update_notifications', {
+      const response = await axios.post('https://2232-2604-3d09-3472-7800-1da4-da3b-2ce9-4dea.ngrok-free.app/update_notifications', {
         username: username,
         value: !notifications
       });
@@ -88,7 +88,7 @@ export default function Settings({navigation}) {
 
   const toggleViewActivitySwitch = async () => {
     try {
-      const response = await axios.post('https://i-sole-backend.com/update_view_activity', {
+      const response = await axios.post('https://2232-2604-3d09-3472-7800-1da4-da3b-2ce9-4dea.ngrok-free.app/update_view_activity', {
         username: username,
         value: !allowActivity
       });
@@ -108,7 +108,7 @@ export default function Settings({navigation}) {
 
   const toggleViewMealsSwitch = async () => {
     try {
-      const response = await axios.post('https://i-sole-backend.com/update_view_meals', {
+      const response = await axios.post('https://2232-2604-3d09-3472-7800-1da4-da3b-2ce9-4dea.ngrok-free.app/update_view_meals', {
         username: username,
         value: !allowMeals
       });
@@ -128,7 +128,7 @@ export default function Settings({navigation}) {
 
   const toggleViewFeedbackSwitch = async () => {
     try {
-      const response = await axios.post('https://i-sole-backend.com/update_view_feedback', {
+      const response = await axios.post('https://2232-2604-3d09-3472-7800-1da4-da3b-2ce9-4dea.ngrok-free.app/update_view_feedback', {
         username: username,
         value: !allowFeedback
       });

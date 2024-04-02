@@ -38,6 +38,12 @@ export default function PersonalMetrics({navigation}) {
   const [medicationDosage, setMedicationDosage] = useState('');
   const [weatherConditions, setWeatherConditions] = useState('');
 
+  const [fingerStickValue, setFingerStickValue] = useState('');
+  const [basalValue, setBasalValue] = useState('');
+  const [basisGsrValue, setBasisGsrValue] = useState('');
+  const [basisSkinTemperatureValue, setBasisSkinTemperatureValue] = useState('');
+  const [bolusDose, setBolusDose] = useState('');
+
   
   useFocusEffect(
     React.useCallback(() => {
@@ -59,7 +65,7 @@ export default function PersonalMetrics({navigation}) {
 
   const getPersonalMetricsData = async (username) => {
     try {
-      const response = await axios.get(`https://i-sole-backend.com/get_personal_metrics/${username}`);
+      const response = await axios.get(`https://2232-2604-3d09-3472-7800-1da4-da3b-2ce9-4dea.ngrok-free.app/get_personal_metrics/${username}`);
       if (response.data.success) {
           // console.log("Retrieved profile data successfully:", response.data);
           // Do something with the retrieved profile data
@@ -80,7 +86,11 @@ export default function PersonalMetrics({navigation}) {
           setMedication(userData.medication);
           setMedicationDosage(userData.medication_dosage);
           setWeatherConditions(userData.weather_conditions);
-
+          setFingerStickValue(userData.finger_stick_value);
+          setBasalValue(userData.basal_value);
+          setBasisGsrValue(userData.basis_gsr_value);
+          setBasisSkinTemperatureValue(userData.basis_skin_temperature_value);
+          setBolusDose(userData.bolus_dose);
       } else {
           // Update failed
           console.error('personal metrics retrieval failed:', response.data.message);
@@ -115,6 +125,51 @@ export default function PersonalMetrics({navigation}) {
           style={styles.input}
           value={bloodGlucoseLevel + ' mg/dl'}
           onChangeText={(text) => setName(text)}
+        />
+      </View>
+
+      <View style={styles.inputContainer}>
+        <Text style={styles.label}>Finger Stick Value</Text>
+        <TextInput
+          style={styles.input}
+          value={fingerStickValue + ' mg/dl'}
+          onChangeText={(text) => setFingerStickValue(text)}
+        />
+      </View>
+
+      <View style={styles.inputContainer}>
+        <Text style={styles.label}>Basal Value</Text>
+        <TextInput
+          style={styles.input}
+          value={basalValue + ' µIU/mL'}
+          onChangeText={(text) => setBasalValue(text)}
+        />
+      </View>
+
+      <View style={styles.inputContainer}>
+        <Text style={styles.label}>Basis Gsr Value</Text>
+        <TextInput
+          style={styles.input}
+          value={basisGsrValue + ' µS'}
+          onChangeText={(text) => setBasisGsrValue(text)}
+        />
+      </View>
+
+      <View style={styles.inputContainer}>
+        <Text style={styles.label}>Basis Skin Temperature Value</Text>
+        <TextInput
+          style={styles.input}
+          value={basisSkinTemperatureValue + ' F'}
+          onChangeText={(text) => setBasisSkinTemperatureValue(text)}
+        />
+      </View>
+
+      <View style={styles.inputContainer}>
+        <Text style={styles.label}>Bolus Dose</Text>
+        <TextInput
+          style={styles.input}
+          value={bolusDose + ' mg'}
+          onChangeText={(text) => setBolusDose(text)}
         />
       </View>
 

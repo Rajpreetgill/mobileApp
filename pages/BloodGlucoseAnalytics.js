@@ -4,134 +4,158 @@ import { LineChart } from 'react-native-chart-kit';
 import Icon from 'react-native-vector-icons/AntDesign';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
-
-const dailyData = {
-  labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
-  datasets: [
-    {
-      data: [20, 45, 28, 80, 100, 120, 20],
-      color: (opacity = 1) => `rgba(222, 185, 146, ${opacity})`,
-    },
-  ],
-};
-
-const weeklyData = {
-    labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
-    datasets: [
-      {
-        data: [70, 45, 90,  80, 45, 120, 75],
-        color: (opacity = 1) => `rgba(222, 185, 146, ${opacity})`,
-      },
-    ],
-  };
-  
-const monthlyData = {
-  labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'],
-  datasets: [
-    {
-      data: [80, 40, 60, 90, 50, 10 ],
-      color: (opacity = 1) => `rgba(222, 185, 146, ${opacity})`,
-    },
-  ],
-};
-
-
-  // export function BloodGlucoseLineChart({ selectedView }) {
-  //   const weeklyData = {
-  //     labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
-  //     datasets: [
-  //       {
-  //         data: [20, 45, 28, 80, 100, 120, 20],
-  //         color: (opacity = 1) => `rgba(222, 185, 146, ${opacity})`,
-  //       },
-  //     ],
-  //   };
-  
-  //   const monthlyData = {
-  //     labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'],
-  //     datasets: [
-  //       {
-  //         data: [80, 40, 60, 90, 50, 10],
-  //         color: (opacity = 1) => `rgba(222, 185, 146, ${opacity})`,
-  //       },
-  //     ],
-  //   };
-  
-  //   const renderChartData = () => {
-  //     switch (selectedView) {
-  //       case 'weekly':
-  //         return weeklyData;
-  //       case 'monthly':
-  //         return monthlyData;
-  //       default:
-  //         return weeklyData;
-  //     }
-  //   };
-  
-  //   return (
-  //     <View>
-  //     <Text style={styles.infoValue}>Blood Sugar: 120 mg/dL </Text>
-  //     <LineChart
-  //       data={renderChartData()}
-  //       width={350}
-  //       height={220}
-  //       chartConfig={{
-  //         backgroundColor: '#1B2130',
-  //         backgroundGradientFrom: '#1B2130',
-  //         backgroundGradientTo: '#1B2130',
-  //         decimalPlaces: 0,
-  //         color: (opacity = 1) => `rgba(27, 160, 152, ${opacity})`,
-  //         labelColor: (opacity = 1) => `rgba(222, 185, 146, ${opacity})`,
-  //         style: {
-  //           borderRadius: 16,
-  //         },
-  //         propsForDots: {
-  //           r: '6',
-  //           strokeWidth: '2',
-  //           stroke: '#1BA098',
-  //         },
-  //       }}
-  //       bezier
-  //       style={{
-  //         marginVertical: 8,
-  //         borderRadius: 16,
-  //       }}
-  //     />
-  //     </View>
-  //   );
-  // }
+import FastImage from 'react-native-fast-image';
+import Fontiso from 'react-native-vector-icons/Fontisto';
+import Entypo from 'react-native-vector-icons/Entypo';
   
   export default function BloodGlucoseAnalytics({navigation}) {
     const [selectedView, setSelectedView] = useState('day');
-    const [sweatGlucose, setSweatGlucose] = useState([[]]);
-    var [glucoseValues, setGlucoseValues] = useState([]);
-    var [glucoseValuesTimestamps, setGlucoseValuesTimestamp] = useState([]);
-    var [bloodGlucoseLevel, setBloodGlucoseLevel] = useState([]);
-    var [predictedHypoglycemia, setPredictedHypoglycemia] = useState([]);
-    var [predictedHyperglycemia, setPredictedHyperglycemia] = useState([]);
+    const [sweatGlucose, setSweatGlucose] = useState('');
+    var [bloodGlucose, setBloodGlucoseLevel] = useState('');
+    var [predictedHypoglycemia, setPredictedHypoglycemia] = useState('');
+    var [predictedHyperglycemia, setPredictedHyperglycemia] = useState('');
+    var [personalMetricsData, setPersonalMetricsData] = useState([]);
+    const [dailyGlucoseGraph, setDailyGlucoseGraph] = useState('');
     const [username, setUsername] = useState('');
-    const [weeklyGlucoseGraphPath, setWeeklyGlucoseGraphPath] = useState('../images/WeeklyBloodGlucoseGraph.png');
-    const [monthlyGlucoseGraphPath, setMonthlyGlucoseGraphPath] = useState('../images/MonthlyBloodGlucoseGraph.png');
+    const [graphTitle, setGraphTitle] = useState('');
+    
+    const [predictionImage, setPredictionImage] = useState(null);
+    const [predictionState, setPredictionState] = useState('');
+    const [predictionTime, setPredictionTime] = useState('');
+
+    const [basalValue, setBasalValue] = useState('-');
+    const [bolusDose, setBolusDose] = useState('-');
+    const [basisGsrValue, setBasisGsrValue] = useState('-');
+    const [basisSkinTemperatureValue, setBasisSkinTemperatureValue] = useState('-');
+    const [fingerStickValue, setFingerStickValue] = useState('-');
 
     useEffect(() => {
       const fetchData = async () => {
+        try {
+          const username = await AsyncStorage.getItem('curr_username');
+          setUsername(username)
+
+          setGraphName();
+          // Get latest sweat glucose and blood glucose
           try {
-              const username = await AsyncStorage.getItem('curr_username');
-              setUsername(username);
-          } catch (e) {
-              // Handle errors here
-              console.error("Error retrieving data", e);
+            console.log("Username check: ", username);
+            const response = await axios.post(`https://2232-2604-3d09-3472-7800-1da4-da3b-2ce9-4dea.ngrok-free.app/get_latest_glucose/${username}`);
+            if (response.data.success) 
+            {
+              console.log(response.data.sweat_glucose);
+              console.log(response.data.blood_glucose);
+              setSweatGlucose(response.data.sweat_glucose);
+              setBloodGlucoseLevel(response.data.blood_glucose);
+            } else {
+              console.error('Sweat glucose retrieval failed:', response.data.message);
+            }
+          } catch (error) {
+            console.error('Error fetching latest sweat glucose:', error.message);
           }
+
+          // Get personal metrics data
+          // try {
+          //   const response = await axios.post(`https://2232-2604-3d09-3472-7800-1da4-da3b-2ce9-4dea.ngrok-free.app/get_personal_metrics/${username}`);
+          //   if (response.data.success) 
+          //   {
+          //     const metrics = response.data.data;
+          //     setPersonalMetricsData(metrics);
+          //     // console.log(personalMetricsData);
+          //   } else {
+          //     console.error('Personal metrics retrieval failed:', response.data.message);
+          //   }
+          // } catch (error) {
+          //   console.error('Error fetching personal metrics:', error);
+          // }
+
+    // Define the username
+    const endpoint = `https://2232-2604-3d09-3472-7800-1da4-da3b-2ce9-4dea.ngrok-free.app/get_personal_metrics/${username}`;
+
+    try {
+      const response = await axios.post(endpoint);
+      console.log(response.data)
+      
+      // Extract and store only the values of the specified fields
+      const {
+        basal_value,
+        bolus_dose,
+        basis_gsr_value,
+        basis_skin_temperature_value,
+        finger_stick_value
+      } = response.data.data;
+      setBasalValue(basal_value);
+      setBolusDose(bolus_dose);
+      setBasisGsrValue(basis_gsr_value);
+      setBasisSkinTemperatureValue(basis_skin_temperature_value);
+      setFingerStickValue(finger_stick_value);
+      // Update state variables with the extracted values
+    } catch (error) {
+      console.error('Error fetching personal metrics:', error);
+    }
+    console.log("Lubaba:", bolusDose);
+          // Get Graph and Prediction Data
+          // Define the request payload
+          const requestData = {
+            "input_data": {
+              "glucose_level_value": bloodGlucose, 
+              "finger_stick_value": fingerStickValue, 
+              "basal_value": basalValue, 
+              "basis_gsr_value": basisGsrValue, 
+              "basis_skin_temperature_value": basisSkinTemperatureValue, 
+              "bolus_dose": bolusDose
+            }, 
+            "hyperglycemia_threshold": 180, 
+            "hypoglycemia_threshold": 100
+          };
+          console.log(requestData);
+
+          try {
+            const response = await axios.post('https://2232-2604-3d09-3472-7800-1da4-da3b-2ce9-4dea.ngrok-free.app/plot-prediction', requestData);
+            
+            // Extract image data and additional headers from the response
+            const image = response.data.image;
+            const state = response.data.prediction_state;
+            const time = response.data.prediction_time;
+
+            const imageUrl = `data:image/png;base64,${image}`;
+            
+
+            // Set the image data and additional information to state
+            setPredictionImage(imageUrl);
+            setPredictionState(state);
+            setPredictionTime(time);
+
+            if(state == 'hyperglycemia')
+            {
+              setPredictedHyperglycemia("High Risk - " + time);
+              setPredictedHypoglycemia("Low Risk");
+            }
+            if(state == 'hypoglycemia')
+            {
+              setPredictedHyperglycemia("Low Risk");
+              setPredictedHypoglycemia("High Risk - " + time);
+            }
+
+            console.log(predictionTime);
+            // console.log(predictionImage);
+            
+          } catch (error) {
+            console.error('Error fetching graph data:', error);
+          }
+
+        } catch (e) {
+          // Handle errors here
+          console.error("Error retrieving data", e);
+        }
       };
-  
+        
       const getBloodGlucoseLevel = async () => {
         if (username != '')
         {
           try {
             if(username != null)
             {
-              const response = await axios.get(`https://i-sole-backend.com/get_blood_glucose_level/${username}`);
+              const response = await axios.get(`https://2232-2604-3d09-3472-7800-1da4-da3b-2ce9-4dea.ngrok-free.app/get_blood_glucose_level/${username}`);
               if (response.data.success) {
                   const glucoseData = response.data.data;
                   console.log(glucoseData.blood_glucose_leve);
@@ -154,7 +178,7 @@ const monthlyData = {
           try {
             if(username != null)
             {
-              const response = await axios.get(`https://i-sole-backend.com/get_predicted_hypoglycemia/${username}`);
+              const response = await axios.get(`https://2232-2604-3d09-3472-7800-1da4-da3b-2ce9-4dea.ngrok-free.app/get_predicted_hypoglycemia/${username}`);
               if (response.data.success) {
                   const glucoseData = response.data.data;
                   console.log(glucoseData.predicted_hypoglycemia);
@@ -176,7 +200,7 @@ const monthlyData = {
           try {
             if(username != null)
             {
-              const response = await axios.get(`https://i-sole-backend.com/get_predicted_hyperglycemia/${username}`);
+              const response = await axios.get(`https://2232-2604-3d09-3472-7800-1da4-da3b-2ce9-4dea.ngrok-free.app/get_predicted_hyperglycemia/${username}`);
               if (response.data.success) {
                   const glucoseData = response.data.data;
                   console.log(glucoseData.predicted_hyperglycemia);
@@ -193,111 +217,10 @@ const monthlyData = {
       }
 
       fetchData();
-      getBloodGlucoseLevel();
-      getPredictedHypoglycemia();
-      getPredictedHyperglycemia();
-    }, [selectedView, username]); // Empty dependency array ensures this runs once after the component mounts
-
-
-    const renderChartData = () => {
-
-      // const graphData = {
-      //   labels: glucoseValuesTimestamps,
-      //   datasets: [
-      //     {
-      //       data: glucoseValues,
-      //       color: (opacity = 1) => `rgba(222, 185, 146, ${opacity})`,
-      //     },
-      //   ],
-      // };
-      // return graphData;
-      // switch (selectedView) {
-      //   case 'week':
-      //     return weeklyData;
-      //   case 'month':
-      //     return monthlyData;
-      //   // Add cases for monthly and yearly views...
-      //   default:
-      //     return weeklyData;
-      // }
-      
-      switch (selectedView) {
-        case 'day':
-          return dailyData;
-        case 'week':
-          return weeklyData;
-        case 'month':
-          return monthlyData;
-        default:
-          return dailyData;
-      }
-    };
-
-
-    const fetchSweatGlucoseValues = async (username) => {
-      try {
-        // const startTimestamp = '2024-01-01T00:00:00'; // Replace with your desired start timestamp
-        // const endTimestamp = '2024-01-31T23:59:59';   // Replace with your desired end timestamp
-        console.log("HERE");
-        const today = new Date();
-        const year = today.getFullYear();
-        const month = today.getMonth(); // Month is zero-based
-        const day = today.getDate();
-        const dayOfWeek = today.getDay();
-
-        // Get the current time
-        const hours = today.getHours();
-        const minutes = today.getMinutes();
-        const seconds = today.getSeconds();
-
-        var startTimestamp = ''; // Replace with your desired start timestamp
-        var endTimestamp = '';   // Replace with your desired end timestamp
-
-        var currentDate = new Date(year, month, day).toISOString().split('T')[0];
-        var currentDateTimeISO = currentDate + 'T' + hours.toString().padStart(2, '0') + ':' + minutes.toString().padStart(2, '0') + ':' + seconds.toString().padStart(2, '0');
-        console.log(currentDateTimeISO);
-        if(selectedView == 'day')
-        {
-          startTimestamp = currentDate + 'T00:00:00';
-          endTimestamp = currentDateTimeISO;
-        }
-        else if(selectedView == 'week')
-        {
-          // Get the start of the week (Sunday)
-          const startOfWeek = new Date(year, month, day - dayOfWeek);
-          const startOfWeekISO = startOfWeek.toISOString().split('T')[0]; // Remove time part
-          startTimestamp = startOfWeekISO + 'T00:00:00';
-          endTimestamp = currentDateTimeISO;
-        }
-        else if(selectedView == 'month')
-        {
-          // Get the start of the month
-          const startOfMonth = new Date(year, month, 1);
-          const startOfMonthISO = startOfMonth.toISOString().split('T')[0]; // Remove time part
-          startTimestamp = startOfMonthISO + 'T00:00:00';
-          endTimestamp = currentDateTimeISO;
-        }
-
-        // const response = await axios.get(`https://i-sole-backend.com/get-sweat-glucose-values/${username}`);
-        const response = await axios.get(`https://7a5f-136-159-213-241.ngrok-free.app/get_glucose_data/${username}?start=${startTimestamp}&end=${endTimestamp}`);
-        // const response = await axios.get(`https://7a5f-136-159-213-241.ngrok-free.app/get_glucose_data/Lubaba?start=2024-02-25T00:00:00&end=2024-02-29T09:09:31`);
-        // Extract glucose values and timestamps from the response
-        const glucoseData = response.data.glucoseData;
-        console.log(glucoseData);
-        glucose = [];
-        timestamps = [];
-        // Iterate over glucoseData array and extract values
-        glucoseData.forEach(data => {
-          glucose.push(data.glucose);
-          timestamps.push(data.timestamp);
-        });
-        // console.log(glucoseValues);
-        setGlucoseValues(glucose);
-        setGlucoseValuesTimestamp(timestamps);
-      } catch (error) {
-          console.error('Error fetching glucose values:', error);
-      }
-    }
+      // getBloodGlucoseLevel();
+      // getPredictedHypoglycemia();
+      // getPredictedHyperglycemia();
+    }, [selectedView]); // Empty dependency array ensures this runs once after the component mounts
 
     const getImageSource = () => {
       // Depending on the selected period, return the appropriate image source
@@ -308,25 +231,44 @@ const monthlyData = {
         return require('../images/MonthlyBloodGlucoseGraph.png'); // Local file path for month
       } 
       else {
-        
-        return { uri: 'https://example.com/dayImage.png' }; // URL for day
+        return {uri: predictionImage}; // URL for day
       }
     };
-  
-  
+
+    const setGraphName = () => {
+      switch (selectedView) {
+        case 'day':
+          setGraphTitle('Daily Blood Glucose Values with Prediction vs Time');
+          break;
+        case 'week':
+          setGraphTitle('Weekly Blood Glucose Values vs Time');
+          break;
+        case 'month':
+          setGraphTitle('Monthly Blood Glucose Values vs Time');
+          break;
+      }
+    }
   
     return (
       <View style={styles.container}>
       <ScrollView contentContainerStyle={styles.scrollContainer}>
+      
+      <View style={styles.titleContainer}>
+      <Text style={styles.text}>Blood Glucose Analytics</Text>
+      </View>
 
-        <Text style={styles.text}>Blood Glucose Data</Text>
+
+       {/* Graph Image */}
+       <View style={styles.graphContainer}>
         <View style={styles.graphBox}>
-        <Text style={styles.text}>Graph Title</Text>
+        <Text style={styles.graphTitleText}>{graphTitle}</Text>
           <Image
-            source={getImageSource()}
+            source= {getImageSource()}
             style={styles.image}
           />
         </View>
+        </View>
+
         <View style={styles.toggleContainer}>
           <TouchableOpacity
               style={[styles.toggleButton, selectedView === 'day' && styles.selectedToggle]}
@@ -347,25 +289,55 @@ const monthlyData = {
           </TouchableOpacity>
           {/* Add buttons for monthly and yearly views as needed... */}
         </View>
-  
-        {/* Current Blood Glucose Level Section */}
-        <View style={styles.infoSection}>
-          <View style={styles.infoBox}>
-            <Text style={styles.infoTitle}>Blood Glucose Level</Text>
-            <Text style={styles.infoValue}>{bloodGlucoseLevel} mg/dL</Text>
-          </View>
-        </View>
-  
+
+        
         {/* Predictions Section */}
-        <View style={styles.infoSection}>
+        <View style={styles.infoPredictionSection}>
           <View style={styles.infoBox}>
-            <Text style={styles.infoTitle}>Predictions</Text>
-            <Text style={styles.infoValue}>Next Hypoglycemia:</Text>
-            <Text style={styles.prediction}>{predictedHypoglycemia}</Text>
-            <Text style={styles.infoValue}>Next Hypoglycemia:</Text>
-            <Text style={styles.prediction}>{predictedHyperglycemia}</Text>
+            <Text style={styles.cardTitleText}>Predictions</Text>
+
+            <View style={styles.childInfoBox}>
+            <Text style={styles.infoValue}>Hyperglycemia Prediction:</Text>
+            <Text style={[styles.prediction, {padding: 10, color: predictionState === 'hypoglycemia' ? 'green' : predictionState === 'hyperglycemia' ? 'red' : 'yellow'} ]}>{predictedHyperglycemia}</Text>
+          </View>
+
+          <View style={styles.childInfoBox}>
+            <Text style={styles.infoValue}>Hypoglycemia Prediction:</Text>
+            <Text style={[styles.prediction, {padding: 10, color: predictionState === 'hypoglycemia' ? 'red' : predictionState === 'hyperglycemia' ? 'green' : 'yellow'} ]}>{predictedHypoglycemia}</Text>
+          </View>
+
+        </View>
+
+        {/* Current Blood Glucose Level Section */}
+        <View style={styles.infoPredictionSection}>
+          <View style={styles.infoBox}>
+            <View style={styles.titleBox}>
+            <TouchableOpacity onPress={() => navigation.navigate("MainPage")} style={styles.iconButton}>
+              <Fontiso name="blood-drop" style={[styles.icon, {color: 'red'}]} />
+            </TouchableOpacity>
+            <Text style={styles.cardTitleText}>Blood Glucose Level</Text>
+            </View>
+            <Text style={[styles.riskText, {fontSize: 20}]}>
+              {bloodGlucose} mg/dL
+            </Text>
           </View>
         </View>
+
+        <View style={styles.infoSweatSection}>
+          <View style={styles.infoBox}>
+            <View style={styles.titleBox}>
+            <TouchableOpacity onPress={() => navigation.navigate("MainPage")} style={styles.iconButton}>
+              <Entypo name="water" style={[styles.icon, {color: 'lightblue'}]} />
+            </TouchableOpacity>
+            <Text style={styles.cardTitleText}>Sweat Glucose Level</Text>
+            </View>
+            <Text style={[styles.riskText, {fontSize: 20}]}>
+              {sweatGlucose} mmol/L
+            </Text>
+          </View>
+        </View>
+        </View>
+
         </ScrollView>
 
         <View style={styles.iconContainer}>
@@ -419,6 +391,7 @@ const monthlyData = {
       fontSize: 30,
       marginTop: 0,
       marginBottom: 0,
+      fontWeight: 'bold',
     },
     toggleContainer: {
       flexDirection: 'row',
@@ -441,6 +414,20 @@ const monthlyData = {
       alignItems: 'center',
       marginBottom: 20,
     },
+    infoPredictionSection: {
+      alignItems: 'center',
+      marginTop: 30,
+    },
+    infoSweatSection: {
+      alignItems: 'center',
+      marginTop: 30,
+    },
+    // displaySection: {
+    //   flexDirection: 'column',
+    //   alignItems: 'center',
+    //   justifyContent: 'center',
+    //   marginTop: 20,
+    // },
     infoTitle: {
       color: '#DEB992',
       fontSize: 24,
@@ -451,6 +438,13 @@ const monthlyData = {
       borderRadius: 10,
       padding: 16,
       alignItems: 'center',
+    },
+    titleBox: {
+      flexDirection: 'row',
+      backgroundColor: '#1B2130',
+      alignItems: 'center',
+      justifyContent: 'center',
+      marginRight: 20,
     },
     graphBox: {
       backgroundColor: '#1B2130',
@@ -472,26 +466,112 @@ const monthlyData = {
       color: '#DEB992',
     },
     iconContainer: {
-        flexDirection: 'row',
-        justifyContent: 'center',
+      flexDirection: 'row',
+      justifyContent: 'center',
     },
     iconButton: {
         marginHorizontal: 20, // Add more space between icons
+        marginVertical: 15,
     },
     icon: {
         fontSize: 30,
         color: '#DEB992',
     },
     specificIcon: {
-      fontSize: 30,
-      color: '#1BA098',
+        fontSize: 30,
+        color: '#1BA098',
     },
+    iconContainerBottom: {
+      flexDirection: 'row',
+      position: 'absolute',
+      bottom: 0,
+      left: 0,
+      right: 0,
+      paddingTop: 65,
+      paddingBottom: 20,
+      backgroundColor: '#051622', // Add background color to match the container
+      marginLeft: 30,
+  },
     image: {
       width: 370, // Set width of the image
       resizeMode: 'contain',
       marginTop: -220,
       marginBottom: -220,
     },
+    graphContainer: {
+      flexDirection: 'column',
+      alignItems: 'center',
+      justifyContent: 'center',
+      alignContent: 'center',
+      marginTop: 30,
+      paddingBottom: 20,
+    },
+    graphBox: {
+      backgroundColor: '#1B2130',
+      borderRadius: 10,
+      padding: 6,
+      alignItems: 'center',
+    },
+    cardTitleText: {
+      color: '#DEB992',
+      fontSize: 25,
+      marginTop: 10,
+      marginBottom: 0,
+      fontWeight: 'bold',
+      paddingBottom: 10,
+    },
+    graphTitleText: {
+      color: '#DEB992',
+      fontSize: 20,
+      marginTop: 10,
+      marginBottom: 0,
+      fontWeight: 'bold',
+      paddingBottom: 10,
+    },
+    riskSection: {
+      alignItems: 'center',
+      marginTop: 40,
+      marginBottom: 40,
+    },
+    riskText: {
+      color: '#DEB992',
+      fontSize: 25,
+      marginTop: 10,
+      marginBottom: 0,
+      fontWeight: 'bold',
+    },
+    childInfoBox: {
+      // backgroundColor: '#1A1A1A',
+      backgroundColor: '#1B2130',
+      borderRadius: 10,
+      padding: 16,
+      alignItems: 'center',
+      borderWidth: 1,
+      borderColor: '#ffffff1a',
+      borderRadius: 10,
+      shadowColor: '#000',
+      shadowOffset: {
+        width: 0,
+        height: 3,
+      },
+      shadowOpacity: 0.4,
+      shadowRadius: 6,
+      elevation: 6,
+      margin: 10,
+    },
+    titleContainer: {
+      flex: 1,
+      flexDirection: 'row',
+      alignItems: 'baseline',
+      justifyContent: 'center',
+      alignContent: 'center',
+      paddingRight: 10,
+      paddingTop: 10,
+      paddingBottom : 10,
+      width: '130%',
+      backgroundColor: '#1B2130',
+    },
+    
   });
 
 
