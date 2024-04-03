@@ -5,6 +5,7 @@ import TextField from '../components/TextField';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
+
 export default function SignupPage({navigation}) {
     const [fullname, setFullname] = useState('');
     const [username, setUsername] = useState('');

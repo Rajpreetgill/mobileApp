@@ -6,6 +6,8 @@ import Button from '../components/Button';
 import Icon from 'react-native-vector-icons/AntDesign';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import Fontisto from 'react-native-vector-icons/Fontisto';
 
 export default function PersonalMetrics({navigation}) {
   const [name, setName] = useState('');
@@ -345,12 +347,12 @@ export default function PersonalMetrics({navigation}) {
         
         {/* Line Chart Icon */}
         <TouchableOpacity onPress={() => navigation.navigate("BloodGlucoseAnalytics")} style={styles.iconButton}>
-          <Icon name="linechart" style={styles.icon} />
+          <Fontisto name="blood-drop" style={styles.icon} />
         </TouchableOpacity>
         
         {/* Dot Chart Icon */}
         <TouchableOpacity onPress={() => navigation.navigate("PressureAnalytics")} style={styles.iconButton}>
-          <Icon name="dotchart" style={styles.icon} />
+          <MaterialCommunityIcons name="foot-print" style={styles.icon} />
         </TouchableOpacity>
         
         {/* Settings Icon */}

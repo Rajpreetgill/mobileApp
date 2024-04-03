@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, Image, TouchableOpacity, ScrollView } from 'react-native';
 import Button from '../components/Button';
 import { BleManager } from "react-native-ble-plx";
 import { useState, useEffect, useRef } from "react";
@@ -8,6 +8,11 @@ import { AnimatedCircularProgress } from "react-native-circular-progress";
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Icon from 'react-native-vector-icons/AntDesign';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import Fontisto from 'react-native-vector-icons/Fontisto';
 
 //=== Android Bluetooth Code ===//
 
@@ -58,7 +63,7 @@ export default function Bluetooth({navigation}) {
   const [pressureValue6, setPressureValue6] = useState(0);
   const [sweatDataChar, setSweatDataChar] = useState(null);
   const [pressureDataChar, setPressureDataChar] = useState(null);
-  const [connectionStatus, setConnectionStatus] = useState("Searching Device ...");
+  const [connectionStatus, setConnectionStatus] = useState("Connected");
   const [username, setUsername] = useState('');
 
 useEffect(() => {
@@ -207,48 +212,131 @@ useEffect(() => {
   };
 
   // this useeffect is for when the device disconnects
-  useEffect(() => {
-    const subscription = bleManager.onDeviceDisconnected(
-      deviceID,
-      (error, device) => {
-        if (error) {
-          console.log("Disconnected with error:", error); // Shows disconnection error
-        }
-        setConnectionStatus("Disconnected"); // sets connection status to disconnected
-        console.log("Disconnected device");
-        setSweatValue(0); // Reset the step count or sweat value?
-        if (deviceRef.current) {
-          setConnectionStatus("Reconnecting...");
-          connectToDevice(deviceRef.current) // Attempts to reconnect to the device
-            .then(() => setConnectionStatus("Connected")) // id success then we see connected
-            .catch((error) => {
-              console.log("Reconnection failed: ", error); // if fail then we see disconnected
-              setConnectionStatus("Reconnection failed");
-            });
-        }
-      }
-    );
-    return () => subscription.remove();
-  }, [deviceID]);
+  // useEffect(() => {
+  //   const subscription = bleManager.onDeviceDisconnected(
+  //     deviceID,
+  //     (error, device) => {
+  //       if (error) {
+  //         console.log("Disconnected with error:", error); // Shows disconnection error
+  //       }
+  //       setConnectionStatus("Disconnected"); // sets connection status to disconnected
+  //       console.log("Disconnected device");
+  //       setSweatValue(0); // Reset the step count or sweat value?
+  //       if (deviceRef.current) {
+  //         setConnectionStatus("Reconnecting...");
+  //         connectToDevice(deviceRef.current) // Attempts to reconnect to the device
+  //           .then(() => setConnectionStatus("Connected")) // id success then we see connected
+  //           .catch((error) => {
+  //             console.log("Reconnection failed: ", error); // if fail then we see disconnected
+  //             setConnectionStatus("Reconnection failed");
+  //           });
+  //       }
+  //     }
+  //   );
+  //   return () => subscription.remove();
+  // }, [deviceID]);
 
 
   //=== Bluetooth Setup End ===//
 
   return (
     <View style={styles.container}>
-        <Text style={styles.text}>I-SOLE Bluetooth</Text>
-        <Text style={styles.text}>Connection Status: {connectionStatus}</Text>
-        <Text style={styles.text}>Sweat Value: {sweatValue}</Text>
-        <Text style={styles.text}>Pressure Value 1: {pressureValue1}</Text>
-        <Text style={styles.text}>Pressure Value 2: {pressureValue2}</Text>
-        <Text style={styles.text}>Pressure Value 3: {pressureValue3}</Text>
-        <Text style={styles.text}>Pressure Value 4: {pressureValue4}</Text>
-        <Text style={styles.text}>Pressure Value 5: {pressureValue5}</Text>
-        <Text style={styles.text}>Pressure Value 6: {pressureValue6}</Text>
+
+        <ScrollView contentContainerStyle={styles.scrollContainer}>
+      
+        <View style={styles.title}>
+        <Text style={styles.title}>Bluetooth Device Pairing</Text>
+        </View>
+       
+        {/* <View style={styles.outerCircle}> */}
+        <View style={styles.circleContainer}>
+          {/* Settings Bluetooth Icon */}
+          <FontAwesome name="circle" style={styles.outerCircle} />
+          <FontAwesome name="circle" style={styles.innerCircle} />
+          <MaterialIcons name="bluetooth" style={styles.goldenIcon} />
+        </View>
+        {/* </View> */}
+
+        {/* Connection status */}
+        <View style={styles.cardSection}>
+          <View style={styles.infoBox}>
+            <Text style={styles.cardTitleText}>Connection Status:</Text>
+            <Text style={[styles.cardText, { fontSize: 20 }]}>
+              {connectionStatus + ' '}
+              {/* Conditionally render the checkmark icon if connectionStatus is "Connected" */}
+              {connectionStatus === "Connected" && <FontAwesome5 name="check-circle" style={{color: 'green', fontSize: 20}} />}
+              {connectionStatus === "Error in Connection" && <FontAwesome5 name="times-circle" style={{color: 'red', fontSize: 20}} />}
+            </Text>
+          </View>
+        </View>
+
+        <View style={styles.cardSection}>
+          <View style={styles.infoBox}>
+          <View style={styles.titleBox}>
+            <Text style={styles.cardTitleText}>Sweat Value: </Text>
+            <Text style={styles.cardValueText}>{sweatValue} mmol/L</Text>
+          </View>
+          </View>
+        </View>
+
+        <View style={styles.cardSection}>
+          <View style={styles.infoBox}>
+          <View style={styles.titleBox}>
+            <Text style={styles.cardTitleText}>Pressure Value 1: </Text>
+            <Text style={styles.cardValueText}>{pressureValue1} kPa</Text>
+          </View>
+          </View>
+        </View>
+
+        <View style={styles.cardSection}>
+          <View style={styles.infoBox}>
+          <View style={styles.titleBox}>
+            <Text style={styles.cardTitleText}>Pressure Value 2: </Text>
+            <Text style={styles.cardValueText}>{pressureValue2} kPa</Text>
+          </View>
+          </View>
+        </View>
+
+        <View style={styles.cardSection}>
+          <View style={styles.infoBox}>
+          <View style={styles.titleBox}>
+            <Text style={styles.cardTitleText}>Pressure Value 3: </Text>
+            <Text style={styles.cardValueText}>{pressureValue3} kPa</Text>
+          </View>
+          </View>
+        </View>
+
+        <View style={styles.cardSection}>
+          <View style={styles.infoBox}>
+          <View style={styles.titleBox}>
+            <Text style={styles.cardTitleText}>Pressure Value 4: </Text>
+            <Text style={styles.cardValueText}>{pressureValue4} kPa</Text>
+          </View>
+          </View>
+        </View>
+
+        <View style={styles.cardSection}>
+          <View style={styles.infoBox}>
+          <View style={styles.titleBox}>
+            <Text style={styles.cardTitleText}>Pressure Value 5: </Text>
+            <Text style={styles.cardValueText}>{pressureValue5} kPa</Text>
+          </View>
+          </View>
+        </View>
+
+        <View style={styles.cardSection}>
+          <View style={styles.infoBox}>
+          <View style={styles.titleBox}>
+            <Text style={styles.cardTitleText}>Pressure Value 6: </Text>
+            <Text style={styles.cardValueText}>{pressureValue6} kPa</Text>
+          </View>
+          </View>
+        </View>
+
         <StatusBar style="auto" />
         
-      
-        <View style={styles.iconContainerBottom}>
+        </ScrollView>
+        <View style={styles.iconContainer}>
         {/* Home Icon */}
         <TouchableOpacity onPress={() => navigation.navigate("MainPage")} style={styles.iconButton}>
             <Icon name="home" style={styles.icon} />
@@ -261,12 +349,12 @@ useEffect(() => {
         
         {/* Line Chart Icon */}
         <TouchableOpacity onPress={() => navigation.navigate("BloodGlucoseAnalytics")} style={styles.iconButton}>
-          <Icon name="linechart" style={styles.icon} />
+          <Fontisto name="blood-drop" style={styles.icon} />
         </TouchableOpacity>
         
         {/* Dot Chart Icon */}
         <TouchableOpacity onPress={() => navigation.navigate("PressureAnalytics")} style={styles.iconButton}>
-          <Icon name="dotchart" style={styles.icon} />
+          <MaterialCommunityIcons name="foot-print" style={styles.icon} />
         </TouchableOpacity>
         
         {/* Settings Icon */}
@@ -282,15 +370,12 @@ useEffect(() => {
 
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
+  scrollContainer: {
+    flexGrow: 1,
+    flexDirection: 'column',
     backgroundColor: '#051622',
     alignItems: 'center',
-    justifyContent: 'center',
-  },
-  text: {
-    color: '#DEB992',
-    fontSize: 30,
+    justifyContent: 'space-evenly',
   },
   image: {
     width: 200,
@@ -299,24 +384,123 @@ const styles = StyleSheet.create({
   specificIcon: {
     fontSize: 30,
     color: '#1BA098',
-},
+  },
   iconButton: {
     marginHorizontal: 20, // Add more space between icons
-  },
+    marginVertical: 15,
+},
   icon: {
     fontSize: 30,
     color: '#DEB992',
   },
-  iconContainerBottom: {
+  iconContainer: {
     flexDirection: 'row',
-    position: 'absolute',
-    bottom: 0,
-    left: 0,
-    right: 0,
-    paddingTop: 65,
-    paddingBottom: 20,
-    backgroundColor: '#051622', // Add background color to match the container
-    marginLeft: 30,
-},
+    justifyContent: 'center',
+  },
+  container: {
+    flex: 1,
+    backgroundColor: '#051622',
+    alignItems: 'center',
+    alignItems: 'center',
+    paddingTop: 0, // Add padding to the top
+    paddingBottom: 10, // Add padding to the bottom
+  },
+  text: {
+    color: '#DEB992',
+    fontSize: 35,
+  },
+  title: {
+    color: '#DEB992',
+    fontSize: 30,
+    fontWeight: 'bold',
+    marginTop: 0
+  },
+  outerCircle: {
+    color: '#18605C',
+    fontSize: 120,
+    paddingTop: 0
+  },
+  innerCircle: {
+    color: '#1BA098',
+    fontSize: 80,
+    marginTop: -100,
+    margin: 30,
+  },
+  goldenIcon: {
+    color: '#DEB992',
+    fontSize: 55,
+    marginTop: -97,
+    marginBottom: 30,
+  },
+  circleContainer: {
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+    alignContent: 'center',
+    marginTop: 0,
+    paddingBottom: 0,
+  },
+  cardSection: {
+    alignItems: 'center',
+    marginTop: 20,
+    marginBottom: 0,
+    borderColor: '#1BA098'
+  },
+  infoBox: {
+    backgroundColor: '#1B2130',
+    borderRadius: 10,
+    padding: 8,
+    alignItems: 'center',
+    borderColor: '#18605C', // Border color
+    borderWidth: 1, // Border width
+    shadowColor: '#1BA098',
+      shadowOffset: {
+        width: 0,
+        height: 3,
+      },
+      shadowOpacity: 0.4,
+      shadowRadius: 6,
+  },
+  titleBox: {
+    flexDirection: 'row',
+    backgroundColor: '#1B2130',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginRight: 20,
+  },
+  cardText: {
+    color: '#DEB992',
+    fontSize: 25,
+    marginTop: 0,
+    marginBottom: 0,
+    // fontWeight: 'bold',
+  },
+  cardTitleText: {
+    color: '#DEB992',
+    fontSize: 20,
+    marginTop: 0,
+    marginBottom: 0,
+    fontWeight: 'bold',
+    paddingBottom: 0,
+  },
+  cardValueText: {
+    color: '#DEB992',
+    fontSize: 20,
+    marginTop: 0,
+    marginBottom: 0,
+    fontWeight: 'bold',
+    paddingBottom: 0,
+  },
+  titleContainer: {
+    flexDirection: 'row',
+    alignItems: 'baseline',
+    justifyContent: 'center',
+    alignContent: 'center',
+    paddingRight: 10,
+    paddingTop: 10,
+    paddingBottom : 10,
+    width: '110%',
+    backgroundColor: '#1B2130',
+  },
 
 });

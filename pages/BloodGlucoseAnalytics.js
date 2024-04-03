@@ -7,6 +7,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import FastImage from 'react-native-fast-image';
 import Fontiso from 'react-native-vector-icons/Fontisto';
 import Entypo from 'react-native-vector-icons/Entypo';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import Fontisto from 'react-native-vector-icons/Fontisto';
   
   export default function BloodGlucoseAnalytics({navigation}) {
     const [selectedView, setSelectedView] = useState('day');
@@ -353,12 +355,12 @@ import Entypo from 'react-native-vector-icons/Entypo';
           
           {/* Line Chart Icon */}
           <TouchableOpacity onPress={() => navigation.navigate("BloodGlucoseAnalytics")} style={styles.iconButton}>
-            <Icon name="linechart" style={styles.specificIcon} />
+            <Fontisto name="blood-drop" style={styles.specificIcon} />
           </TouchableOpacity>
           
           {/* Dot Chart Icon */}
           <TouchableOpacity onPress={() => navigation.navigate("PressureAnalytics")} style={styles.iconButton}>
-            <Icon name="dotchart" style={styles.icon} />
+            <MaterialCommunityIcons name="foot-print" style={styles.icon} />
           </TouchableOpacity>
           
           {/* Settings Icon */}
@@ -468,6 +470,7 @@ import Entypo from 'react-native-vector-icons/Entypo';
     iconContainer: {
       flexDirection: 'row',
       justifyContent: 'center',
+      marginBottom: 10,
     },
     iconButton: {
         marginHorizontal: 20, // Add more space between icons
