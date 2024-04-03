@@ -22,7 +22,7 @@ export default function SignupPage({navigation}) {
 
       try {
         
-        const signupResponse = await axios.post('https://2232-2604-3d09-3472-7800-1da4-da3b-2ce9-4dea.ngrok-free.app/signup', {
+        const signupResponse = await axios.post('https://i-sole-backend.com/signup', {
             username: username,
             email: email,
             password: password,
@@ -43,7 +43,7 @@ export default function SignupPage({navigation}) {
 
             // Call the initialize_counter endpoint only if role is 'Patient'
             if (role === 'Patient') {
-              const counterResponse = await axios.post('https://2232-2604-3d09-3472-7800-1da4-da3b-2ce9-4dea.ngrok-free.app/initialize_counter', {
+              const counterResponse = await axios.post('https://i-sole-backend.com/initialize_counter', {
                 username: username,
               });
 

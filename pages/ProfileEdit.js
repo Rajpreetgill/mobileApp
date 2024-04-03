@@ -35,7 +35,7 @@ export default function Profile({navigation}) {
     {
       try {
         // Make a POST request to your backend sign-in endpoint
-        const response = await axios.post(`https://2232-2604-3d09-3472-7800-1da4-da3b-2ce9-4dea.ngrok-free.app/update_name`, {
+        const response = await axios.post(`https://i-sole-backend.com/update_name`, {
           username: username, // Use the username state variable
           name: name,
         });
@@ -56,7 +56,7 @@ export default function Profile({navigation}) {
   const emailSave = async (e) => {
     try {
       // Make a POST request to your backend sign-in endpoint
-      const response = await axios.post(`https://2232-2604-3d09-3472-7800-1da4-da3b-2ce9-4dea.ngrok-free.app/update_email`, {
+      const response = await axios.post(`https://i-sole-backend.com/update_email`, {
         username: username, // Use the username state variable
         email: email,
       });
@@ -75,7 +75,7 @@ export default function Profile({navigation}) {
   const phoneNumberSave = async (e) => {
     try {
       // Make a POST request to your backend sign-in endpoint
-      const response = await axios.post(`https://2232-2604-3d09-3472-7800-1da4-da3b-2ce9-4dea.ngrok-free.app/update_phone_number`, {
+      const response = await axios.post(`https://i-sole-backend.com/update_phone_number`, {
         username: username, // Use the username state variable
         phoneNumber: phoneNumber,
       });
@@ -94,7 +94,7 @@ export default function Profile({navigation}) {
   const dateOfBirthSave = async (e) => {
     try {
       // Make a POST request to your backend sign-in endpoint
-      const response = await axios.post(`https://2232-2604-3d09-3472-7800-1da4-da3b-2ce9-4dea.ngrok-free.app/update_date_of_birth`, {
+      const response = await axios.post(`https://i-sole-backend.com/update_date_of_birth`, {
         username: username, // Use the username state variable
         dateOfBirth: dateOfBirth,
       });
@@ -113,7 +113,7 @@ export default function Profile({navigation}) {
   const emergencyContactSave = async (e) => {
     try {
       // Make a POST request to your backend sign-in endpoint
-      const response = await axios.post(`https://2232-2604-3d09-3472-7800-1da4-da3b-2ce9-4dea.ngrok-free.app/update_emergency_contact`, {
+      const response = await axios.post(`https://i-sole-backend.com/update_emergency_contact`, {
         username: username, // Use the username state variable
         emergencyContact: emergencyContact,
       });

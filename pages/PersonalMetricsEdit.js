@@ -81,7 +81,7 @@ export default function PersonalMetricsEdit({navigation}) {
   const bloodGlucoseLevelSubmit = async (e) => {
     try {
       // Make a POST request to your backend sign-in endpoint
-      const response = await axios.post(`https://2232-2604-3d09-3472-7800-1da4-da3b-2ce9-4dea.ngrok-free.app/add_blood_glucose_level`, {
+      const response = await axios.post(`https://i-sole-backend.com/add_blood_glucose_level`, {
         username: username, // Use the username state variable
         bloodGlucoseLevel: bloodGlucoseLevel,
       });
@@ -112,7 +112,7 @@ export default function PersonalMetricsEdit({navigation}) {
   const fingerStickValueSubmit = async (e) => {
     try {
       // Make a POST request to your backend sign-in endpoint
-      const response = await axios.post(`https://2232-2604-3d09-3472-7800-1da4-da3b-2ce9-4dea.ngrok-free.app/update_finger_stick_value`, {
+      const response = await axios.post(`https://i-sole-backend.com/update_finger_stick_value`, {
         username: username, // Use the username state variable
         finger_stick_value: fingerStickValue,
       });
@@ -133,7 +133,7 @@ export default function PersonalMetricsEdit({navigation}) {
   const basalValueSubmit = async (e) => {
     try {
       // Make a POST request to your backend sign-in endpoint
-      const response = await axios.post(`https://2232-2604-3d09-3472-7800-1da4-da3b-2ce9-4dea.ngrok-free.app/update_basal_value`, {
+      const response = await axios.post(`https://i-sole-backend.com/update_basal_value`, {
         username: username, // Use the username state variable
         basal_value: basalValue,
       });
@@ -153,7 +153,7 @@ export default function PersonalMetricsEdit({navigation}) {
   const basisGsrValueSubmit = async (e) => {
     try {
       // Make a POST request to your backend sign-in endpoint
-      const response = await axios.post(`https://2232-2604-3d09-3472-7800-1da4-da3b-2ce9-4dea.ngrok-free.app/update_basis_gsr_value`, {
+      const response = await axios.post(`https://i-sole-backend.com/update_basis_gsr_value`, {
         username: username, // Use the username state variable
         basis_gsr_value: basisGsrValue,
       });
@@ -173,7 +173,7 @@ export default function PersonalMetricsEdit({navigation}) {
   const basisSkinTemperatureValueSubmit = async (e) => {
     try {
       // Make a POST request to your backend sign-in endpoint
-      const response = await axios.post(`https://2232-2604-3d09-3472-7800-1da4-da3b-2ce9-4dea.ngrok-free.app/update_basis_skin_temperature_value`, {
+      const response = await axios.post(`https://i-sole-backend.com/update_basis_skin_temperature_value`, {
         username: username, // Use the username state variable
         basis_skin_temperature_value: basisSkinTemperatureValue,
       });
@@ -193,7 +193,7 @@ export default function PersonalMetricsEdit({navigation}) {
   const bolusDoseSubmit = async (e) => {
     try {
       // Make a POST request to your backend sign-in endpoint
-      const response = await axios.post(`https://2232-2604-3d09-3472-7800-1da4-da3b-2ce9-4dea.ngrok-free.app/update_bolus_dose`, {
+      const response = await axios.post(`https://i-sole-backend.com/update_bolus_dose`, {
         username: username, // Use the username state variable
         bolus_dose: bolusDose,
       });
@@ -213,7 +213,7 @@ export default function PersonalMetricsEdit({navigation}) {
   const weightSubmit = async (e) => {
     try {
       // Make a POST request to your backend sign-in endpoint
-      const response = await axios.post(`https://2232-2604-3d09-3472-7800-1da4-da3b-2ce9-4dea.ngrok-free.app/update_weight`, {
+      const response = await axios.post(`https://i-sole-backend.com/update_weight`, {
         username: username, // Use the username state variable
         weight: weight,
       });
@@ -244,7 +244,7 @@ export default function PersonalMetricsEdit({navigation}) {
   const heightSubmit = async (e) => {
     try {
       // Make a POST request to your backend sign-in endpoint
-      const response = await axios.post(`https://2232-2604-3d09-3472-7800-1da4-da3b-2ce9-4dea.ngrok-free.app/update_height`, {
+      const response = await axios.post(`https://i-sole-backend.com/update_height`, {
         username: username, // Use the username state variable
         height: height,
       });
@@ -275,7 +275,7 @@ export default function PersonalMetricsEdit({navigation}) {
   const insulinTypeSubmit = async (e) => {
     try {
       // Make a POST request to your backend sign-in endpoint
-      const response = await axios.post(`https://2232-2604-3d09-3472-7800-1da4-da3b-2ce9-4dea.ngrok-free.app/update_insulin_type`, {
+      const response = await axios.post(`https://i-sole-backend.com/update_insulin_type`, {
         username: username, // Use the username state variable
         insulin_type: insulinType,
       });
@@ -296,7 +296,7 @@ export default function PersonalMetricsEdit({navigation}) {
   const insulinDosageSubmit = async (e) => {
     try {
       // Make a POST request to your backend sign-in endpoint
-      const response = await axios.post(`https://2232-2604-3d09-3472-7800-1da4-da3b-2ce9-4dea.ngrok-free.app/update_insulin_dosage`, {
+      const response = await axios.post(`https://i-sole-backend.com/update_insulin_dosage`, {
         username: username, // Use the username state variable
         insulinDosage: insulinDosage,
       });
@@ -327,7 +327,7 @@ export default function PersonalMetricsEdit({navigation}) {
   const allergiesSubmit = async (e) => {
     try {
       // Make a POST request to your backend sign-in endpoint
-      const response = await axios.post(`https://2232-2604-3d09-3472-7800-1da4-da3b-2ce9-4dea.ngrok-free.app/update_allergies`, {
+      const response = await axios.post(`https://i-sole-backend.com/update_allergies`, {
         username: username, // Use the username state variable
         allergies: allergies,
       });
@@ -349,7 +349,7 @@ export default function PersonalMetricsEdit({navigation}) {
     try {
       // Make a POST request to your backend sign-in endpoint
       console.log("physicalActivityData: ", physicalActivity);
-      const response = await axios.post(`https://2232-2604-3d09-3472-7800-1da4-da3b-2ce9-4dea.ngrok-free.app/update_physical_activity`, {
+      const response = await axios.post(`https://i-sole-backend.com/update_physical_activity`, {
         username: username, // Use the username state variable
         physical_activity: physicalActivity,
       });
@@ -370,7 +370,7 @@ export default function PersonalMetricsEdit({navigation}) {
   const activityIntensitySubmit = async (e) => {
     try {
       // Make a POST request to your backend sign-in endpoint
-      const response = await axios.post(`https://2232-2604-3d09-3472-7800-1da4-da3b-2ce9-4dea.ngrok-free.app/update_activity_intensity`, {
+      const response = await axios.post(`https://i-sole-backend.com/update_activity_intensity`, {
         username: username, // Use the username state variable
         activity_intensity: activityIntensity,
       });
@@ -391,7 +391,7 @@ export default function PersonalMetricsEdit({navigation}) {
   const activityDurationSubmit = async (e) => {
     try {
       // Make a POST request to your backend sign-in endpoint
-      const response = await axios.post(`https://2232-2604-3d09-3472-7800-1da4-da3b-2ce9-4dea.ngrok-free.app/update_activity_duration`, {
+      const response = await axios.post(`https://i-sole-backend.com/update_activity_duration`, {
         username: username, // Use the username state variable
         activity_duration: activityDuration,
       });
@@ -412,7 +412,7 @@ export default function PersonalMetricsEdit({navigation}) {
   const stressLevelSubmit = async (e) => {
     try {
       // Make a POST request to your backend sign-in endpoint
-      const response = await axios.post(`https://2232-2604-3d09-3472-7800-1da4-da3b-2ce9-4dea.ngrok-free.app/update_stress_level`, {
+      const response = await axios.post(`https://i-sole-backend.com/update_stress_level`, {
         username: username, // Use the username state variable
         stress_level: stressLevel,
       });
@@ -433,7 +433,7 @@ export default function PersonalMetricsEdit({navigation}) {
   const illnessSubmit = async (e) => {
     try {
       // Make a POST request to your backend sign-in endpoint
-      const response = await axios.post(`https://2232-2604-3d09-3472-7800-1da4-da3b-2ce9-4dea.ngrok-free.app/update_illness`, {
+      const response = await axios.post(`https://i-sole-backend.com/update_illness`, {
         username: username, // Use the username state variable
         illness: illness,
       });
@@ -454,7 +454,7 @@ export default function PersonalMetricsEdit({navigation}) {
   const hormonalChangesSubmit = async (e) => {
     try {
       // Make a POST request to your backend sign-in endpoint
-      const response = await axios.post(`https://2232-2604-3d09-3472-7800-1da4-da3b-2ce9-4dea.ngrok-free.app/update_hormonal_changes`, {
+      const response = await axios.post(`https://i-sole-backend.com/update_hormonal_changes`, {
         username: username, // Use the username state variable
         hormonal_changes: hormonalChanges,
       });
@@ -475,7 +475,7 @@ export default function PersonalMetricsEdit({navigation}) {
   const alcoholConsumptionSubmit = async (e) => {
     try {
       // Make a POST request to your backend sign-in endpoint
-      const response = await axios.post(`https://2232-2604-3d09-3472-7800-1da4-da3b-2ce9-4dea.ngrok-free.app/update_alcohol_consumption`, {
+      const response = await axios.post(`https://i-sole-backend.com/update_alcohol_consumption`, {
         username: username, // Use the username state variable
         alcohol_consumption: alcoholConsumption,
       });
@@ -496,7 +496,7 @@ export default function PersonalMetricsEdit({navigation}) {
   const medicationSubmit = async (e) => {
     try {
       // Make a POST request to your backend sign-in endpoint
-      const response = await axios.post(`https://2232-2604-3d09-3472-7800-1da4-da3b-2ce9-4dea.ngrok-free.app/update_medication`, {
+      const response = await axios.post(`https://i-sole-backend.com/update_medication`, {
         username: username, // Use the username state variable
         medication: medication,
       });
@@ -517,7 +517,7 @@ export default function PersonalMetricsEdit({navigation}) {
   const medicationDosageSubmit = async (e) => {
     try {
       // Make a POST request to your backend sign-in endpoint
-      const response = await axios.post(`https://2232-2604-3d09-3472-7800-1da4-da3b-2ce9-4dea.ngrok-free.app/update_medication_dosage`, {
+      const response = await axios.post(`https://i-sole-backend.com/update_medication_dosage`, {
         username: username, // Use the username state variable
         medication_dosage: medicationDosage,
       });
@@ -538,7 +538,7 @@ export default function PersonalMetricsEdit({navigation}) {
   const weatherConditionsSubmit = async (e) => {
     try {
       // Make a POST request to your backend sign-in endpoint
-      const response = await axios.post(`https://2232-2604-3d09-3472-7800-1da4-da3b-2ce9-4dea.ngrok-free.app/update_weather_conditions`, {
+      const response = await axios.post(`https://i-sole-backend.com/update_weather_conditions`, {
         username: username, // Use the username state variable
         weather_conditions: weatherConditions,
       });
@@ -559,7 +559,7 @@ export default function PersonalMetricsEdit({navigation}) {
   const mealAdd = async (e) => {
     try {
       // Make a POST request to your backend sign-in endpoint
-      const response = await axios.post(`https://2232-2604-3d09-3472-7800-1da4-da3b-2ce9-4dea.ngrok-free.app/add_meal/${username}`, {
+      const response = await axios.post(`https://i-sole-backend.com/add_meal/${username}`, {
         meal_type: mealType,
         meal_description: mealDescription,
         carbohydrate_intake: carbIntake
@@ -600,7 +600,7 @@ export default function PersonalMetricsEdit({navigation}) {
     </View>
 
     <View style={styles.bodyContainer}>
-        <View style={styles.rowContainer}>
+        {/* <View style={styles.rowContainer}>
           <View style={styles.inputContainer}>
           <Text style={styles.label}>Blood Glucose Level</Text>
           <TextInput
@@ -611,7 +611,7 @@ export default function PersonalMetricsEdit({navigation}) {
           />
           </View>
           <Button onPress={() => bloodGlucoseLevelSubmit()} title="Submit" />
-        </View>
+        </View> */}
 
         <View style={styles.rowContainer}>
           <View style={styles.inputContainer}>
