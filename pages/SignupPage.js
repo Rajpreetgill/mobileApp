@@ -125,14 +125,15 @@ export default function SignupPage({navigation}) {
       color: '#DEB992',
       fontSize: 30,
       marginTop: 100,
-      marginBottom: 0, // Adjust the marginBottom to move the "Login Page" higher
+      marginBottom: 0, 
+      fontWeight: 'bold'
     },
     formContainer: {
-      flex: 1,
       width: '100%', // Set the width to 100% to take up the full width
-      marginTop: 10,
+      marginTop: 60,
       justifyContent: 'center', // Center the content vertically
       alignItems: 'center',
+      marginBottom: 100, 
     },
     link: {
       color: '#DEB992',

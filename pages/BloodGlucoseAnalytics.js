@@ -39,116 +39,130 @@ import Fontisto from 'react-native-vector-icons/Fontisto';
 
           setGraphName();
           // Get latest sweat glucose and blood glucose
-          try {
-            console.log("Username check: ", username);
-            const response = await axios.post(`https://2232-2604-3d09-3472-7800-1da4-da3b-2ce9-4dea.ngrok-free.app/get_latest_glucose/${username}`);
-            if (response.data.success) 
-            {
-              console.log(response.data.sweat_glucose);
-              console.log(response.data.blood_glucose);
-              setSweatGlucose(response.data.sweat_glucose);
-              setBloodGlucoseLevel(response.data.blood_glucose);
-            } else {
-              console.error('Sweat glucose retrieval failed:', response.data.message);
+          if(username != '')
+          {
+            try {
+              // console.log("Username check: ", username);
+              const response = await axios.post(`https://2232-2604-3d09-3472-7800-1da4-da3b-2ce9-4dea.ngrok-free.app/get_latest_glucose/${username}`);
+              if (response.data.success) 
+              {
+                console.log(response.data.sweat_glucose);
+                console.log(response.data.blood_glucose);
+                setSweatGlucose(response.data.sweat_glucose);
+                setBloodGlucoseLevel(response.data.blood_glucose);
+              } else {
+                console.error('Sweat glucose retrieval failed:', response.data.message);
+              }
+            } catch (error) {
+              console.error('Error fetching latest sweat glucose:', error.message);
             }
-          } catch (error) {
-            console.error('Error fetching latest sweat glucose:', error.message);
+
+            // Get personal metrics data
+            try {
+              const response = await axios.post(`https://2232-2604-3d09-3472-7800-1da4-da3b-2ce9-4dea.ngrok-free.app/get_personal_metrics/${username}`);
+              if (response.data.success) 
+              {
+                const metrics = response.data.data.get();
+                setPersonalMetricsData(metrics);
+                // console.log(personalMetricsData);
+              } else {
+                console.error('Personal metrics retrieval failed:', response.data.message);
+              }
+            } catch (error) {
+              console.error('Error fetching personal metrics:', error);
+            }
+
+            // // Define the username
+            // const endpoint = `https://2232-2604-3d09-3472-7800-1da4-da3b-2ce9-4dea.ngrok-free.app/get_personal_metrics/${username}`;
+
+            // try {
+            //   const response = await axios.post(endpoint);
+            //   console.log(response.data)
+              
+            //   // Extract and store only the values of the specified fields
+            //   const {
+            //     basal_value,
+            //     bolus_dose,
+            //     basis_gsr_value,
+            //     basis_skin_temperature_value,
+            //     finger_stick_value
+            //   } = response.data.data;
+            //   setBasalValue(response.data.data.basal_value);
+            //   setBolusDose(response.data.data.bolus_dose);
+            //   setBasisGsrValue(response.data.data.basis_gsr_value);
+            //   setBasisSkinTemperatureValue(response.data.data.basis_skin_temperature_value);
+            //   setFingerStickValue(response.data.data.finger_stick_value);
+            //   // Update state variables with the extracted values
+            // } catch (error) {
+            //   console.error('Error fetching personal metrics:', error);
+            // }
+
+            // Get Graph and Prediction Data
+            // Define the request payload
+            const requestData = {
+              "input_data": {
+                "glucose_level_value": bloodGlucose, 
+                "finger_stick_value": personalMetricsData.fingerStickValue, 
+                "basal_value": personalMetricsData.basalValue, 
+                "basis_gsr_value": personalMetricsData.basisGsrValue, 
+                "basis_skin_temperature_value": personalMetricsData.basisSkinTemperatureValue, 
+                "bolus_dose": personalMetricsData.bolusDose
+              }, 
+              "hyperglycemia_threshold": 180, 
+              "hypoglycemia_threshold": 100
+            };
+                
+            // Make a POST request to the server endpoint using the `requestData` object as the data payload
+            // Make a POST request to the API
+            console.log(requestData);
+
+            try {
+              const response = await axios.post('https://2232-2604-3d09-3472-7800-1da4-da3b-2ce9-4dea.ngrok-free.app/plot-prediction', requestData);
+              
+              // Extract image data and additional headers from the response
+              const image = response.data.image;
+              const state = response.data.prediction_state;
+              const time = response.data.prediction_time;
+
+              const imageUrl = `data:image/png;base64,${image}`;
+              
+              // Set the image data and additional information to state
+              setPredictionImage(imageUrl);
+              setPredictionState(state);
+              setPredictionTime(time);
+
+              if(state == 'hyperglycemia')
+              {
+                setPredictedHyperglycemia("High Risk - " + time);
+                setPredictedHypoglycemia("Low Risk");
+              }
+              if(state == 'hypoglycemia')
+              {
+                setPredictedHyperglycemia("Low Risk");
+                setPredictedHypoglycemia("High Risk - " + time);
+              }
+              if(state == 'normal')
+              {
+                setPredictedHyperglycemia("Low Risk - " + time);
+                setPredictedHypoglycemia("Low Risk - " + time);
+              }
+
+              console.log(state);
+              console.log(time);
+              console.log(predictedHyperglycemia);
+              console.log(predictedHypoglycemia);
+              // console.log(predictionImage);
+              
+            } catch (error) {
+              console.error('Error fetching graph data:', error);
+            }
           }
 
-          // Get personal metrics data
-          // try {
-          //   const response = await axios.post(`https://2232-2604-3d09-3472-7800-1da4-da3b-2ce9-4dea.ngrok-free.app/get_personal_metrics/${username}`);
-          //   if (response.data.success) 
-          //   {
-          //     const metrics = response.data.data;
-          //     setPersonalMetricsData(metrics);
-          //     // console.log(personalMetricsData);
-          //   } else {
-          //     console.error('Personal metrics retrieval failed:', response.data.message);
-          //   }
-          // } catch (error) {
-          //   console.error('Error fetching personal metrics:', error);
-          // }
-
-    // Define the username
-    const endpoint = `https://2232-2604-3d09-3472-7800-1da4-da3b-2ce9-4dea.ngrok-free.app/get_personal_metrics/${username}`;
-
-    try {
-      const response = await axios.post(endpoint);
-      console.log(response.data)
-      
-      // Extract and store only the values of the specified fields
-      const {
-        basal_value,
-        bolus_dose,
-        basis_gsr_value,
-        basis_skin_temperature_value,
-        finger_stick_value
-      } = response.data.data;
-      setBasalValue(basal_value);
-      setBolusDose(bolus_dose);
-      setBasisGsrValue(basis_gsr_value);
-      setBasisSkinTemperatureValue(basis_skin_temperature_value);
-      setFingerStickValue(finger_stick_value);
-      // Update state variables with the extracted values
-    } catch (error) {
-      console.error('Error fetching personal metrics:', error);
-    }
-    console.log("Lubaba:", bolusDose);
-          // Get Graph and Prediction Data
-          // Define the request payload
-          const requestData = {
-            "input_data": {
-              "glucose_level_value": bloodGlucose, 
-              "finger_stick_value": fingerStickValue, 
-              "basal_value": basalValue, 
-              "basis_gsr_value": basisGsrValue, 
-              "basis_skin_temperature_value": basisSkinTemperatureValue, 
-              "bolus_dose": bolusDose
-            }, 
-            "hyperglycemia_threshold": 180, 
-            "hypoglycemia_threshold": 100
-          };
-          console.log(requestData);
-
-          try {
-            const response = await axios.post('https://2232-2604-3d09-3472-7800-1da4-da3b-2ce9-4dea.ngrok-free.app/plot-prediction', requestData);
-            
-            // Extract image data and additional headers from the response
-            const image = response.data.image;
-            const state = response.data.prediction_state;
-            const time = response.data.prediction_time;
-
-            const imageUrl = `data:image/png;base64,${image}`;
-            
-
-            // Set the image data and additional information to state
-            setPredictionImage(imageUrl);
-            setPredictionState(state);
-            setPredictionTime(time);
-
-            if(state == 'hyperglycemia')
-            {
-              setPredictedHyperglycemia("High Risk - " + time);
-              setPredictedHypoglycemia("Low Risk");
-            }
-            if(state == 'hypoglycemia')
-            {
-              setPredictedHyperglycemia("Low Risk");
-              setPredictedHypoglycemia("High Risk - " + time);
-            }
-
-            console.log(predictionTime);
-            // console.log(predictionImage);
-            
-          } catch (error) {
-            console.error('Error fetching graph data:', error);
+          } catch (e) {
+            // Handle errors here
+            console.error("Error retrieving data", e);
           }
-
-        } catch (e) {
-          // Handle errors here
-          console.error("Error retrieving data", e);
-        }
+        
       };
         
       const getBloodGlucoseLevel = async () => {
@@ -234,6 +248,7 @@ import Fontisto from 'react-native-vector-icons/Fontisto';
       } 
       else {
         return {uri: predictionImage}; // URL for day
+        // return require('../images/DailyBloodGlucoseGraph.png'); // Local file path for day
       }
     };
 
@@ -300,12 +315,12 @@ import Fontisto from 'react-native-vector-icons/Fontisto';
 
             <View style={styles.childInfoBox}>
             <Text style={styles.infoValue}>Hyperglycemia Prediction:</Text>
-            <Text style={[styles.prediction, {padding: 10, color: predictionState === 'hypoglycemia' ? 'green' : predictionState === 'hyperglycemia' ? 'red' : 'yellow'} ]}>{predictedHyperglycemia}</Text>
+            <Text style={[styles.prediction, {padding: 10, color: predictionState === 'hypoglycemia' ? 'green' : predictionState === 'hyperglycemia' ? 'red' : 'green'} ]}>{predictedHyperglycemia}</Text>
           </View>
 
           <View style={styles.childInfoBox}>
             <Text style={styles.infoValue}>Hypoglycemia Prediction:</Text>
-            <Text style={[styles.prediction, {padding: 10, color: predictionState === 'hypoglycemia' ? 'red' : predictionState === 'hyperglycemia' ? 'green' : 'yellow'} ]}>{predictedHypoglycemia}</Text>
+            <Text style={[styles.prediction, {padding: 10, color: predictionState === 'hypoglycemia' ? 'red' : predictionState === 'hyperglycemia' ? 'green' : 'green'} ]}>{predictedHypoglycemia}</Text>
           </View>
 
         </View>
@@ -498,8 +513,9 @@ import Fontisto from 'react-native-vector-icons/Fontisto';
     image: {
       width: 370, // Set width of the image
       resizeMode: 'contain',
-      marginTop: -220,
-      marginBottom: -220,
+      // marginTop: -220,
+      // marginBottom: -220,
+      height: 200,
     },
     graphContainer: {
       flexDirection: 'column',
@@ -569,9 +585,9 @@ import Fontisto from 'react-native-vector-icons/Fontisto';
       justifyContent: 'center',
       alignContent: 'center',
       paddingRight: 10,
-      paddingTop: 10,
+      paddingTop: 15,
       paddingBottom : 10,
-      width: '130%',
+      width: '110%',
       backgroundColor: '#1B2130',
     },
     

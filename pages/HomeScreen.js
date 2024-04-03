@@ -29,6 +29,7 @@ const styles = StyleSheet.create({
   text: {
     color: '#DEB992',
     fontSize: 30,
+    fontWeight: 'bold'
   },
   image: {
     width: 200,

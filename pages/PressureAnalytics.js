@@ -15,18 +15,30 @@ export default function PressureAnalytics({navigation}) {
     const [diabeticUlcerationRisk, setDiabeticUlcerationRisk] = useState('');
     const [username, setUsername] = useState('');
     const [graphTitle, setGraphTitle] = useState('');
+    const [imageString, setImageString] = useState('');
 
     useEffect(() => {
       const fetchData = async () => {
-        console.log(footRegion);
           try {
               const usrname = await AsyncStorage.getItem('curr_username');
               setUsername(usrname);
-
               // Get Graph Data
               setGraphName();
-              console.log(graphTitle);
 
+              // Get Graph Image
+              // try {
+              //   const response = await axios.post('https://2232-2604-3d09-3472-7800-1da4-da3b-2ce9-4dea.ngrok-free.app/plot-prediction', requestData);
+                
+              //   // Extract image data and additional headers from the response
+              //   const image = response.data.image;
+              //   const imageUrl = `data:image/png;base64,${image}`;
+              
+              //   // Set the image data  to state
+              //   setImageString(imageUrl);
+                
+              // } catch (error) {
+              //   console.error('Error fetching pressure graph:', error);
+              // }
 
               // Update average pressure and risk
               if(selectedDuration == '5 min')
@@ -197,16 +209,37 @@ export default function PressureAnalytics({navigation}) {
 
     const getImageSource = () => {
       // Depending on the selected period, return the appropriate image source
-      // if (footRegion === 'week') {
+      return require('../images/WeeklyBloodGlucoseGraph.png'); // Local file path for week
+      // if (footRegion === 'p1') {
+      //   // return {uri: imageString}; // URL for day
+      //   // return require('../images/P1Graph.png'); // Local file path for week
       //   return require('../images/WeeklyBloodGlucoseGraph.png'); // Local file path for week
       // } 
-      // else if (footRegion === 'month') {
-      //   return require('../images/MonthlyBloodGlucoseGraph.png'); // Local file path for month
+      // else if (footRegion === 'p2') {
+      //   // return require('../images/P2Graph.png'); // Local file path for month
+      //   return require('../images/WeeklyBloodGlucoseGraph.png'); // Local file path for week
+      // } 
+      // else if (footRegion === 'p3') {
+      //   // return require('../images/P3Graph.png'); // Local file path for month
+      //   return require('../images/WeeklyBloodGlucoseGraph.png'); // Local file path for week
+      // } 
+      // else if (footRegion === 'p4') {
+      //   // return require('../images/P4Graph.png'); // Local file path for month
+      //   return require('../images/WeeklyBloodGlucoseGraph.png'); // Local file path for week
+      // } 
+      // else if (footRegion === 'p5') {
+      //   // return require('../images/P5Graph.png'); // Local file path for month
+      //   return require('../images/WeeklyBloodGlucoseGraph.png'); // Local file path for week
+      // } 
+      // else if (footRegion === 'p6') {
+      //   // return require('../images/P6Graph.png'); // Local file path for month
+      //   return require('../images/MonthlyBloodGlucoseGraph.png'); // Local file path for week
       // } 
       // else {
-      //   return {uri: `data:image/png;base64,${predictionImage}`}; // URL for day
+      //   // return {uri: imageString}; // URL for day
+      //   // return require('../images/P1Graph.png'); // Local file path for day
+      //   return require('../images/WeeklyBloodGlucoseGraph.png'); // Local file path for week
       // }
-      return require('../images/WeeklyBloodGlucoseGraph.png');
     };
   
     return (
@@ -272,8 +305,6 @@ export default function PressureAnalytics({navigation}) {
         </View>
         </View>
         </View>
-
-        
 
         <View style={styles.infoSection}>
           <View style={styles.infoBox}>
