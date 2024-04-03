@@ -242,10 +242,12 @@ useEffect(() => {
   return (
     <View style={styles.container}>
 
-<ScrollView contentContainerStyle={styles.scrollContainer}>
+        <ScrollView contentContainerStyle={styles.scrollContainer}>
       
-        
+        <View style={styles.title}>
         <Text style={styles.title}>Bluetooth Device Pairing</Text>
+        </View>
+       
         {/* <View style={styles.outerCircle}> */}
         <View style={styles.circleContainer}>
           {/* Settings Bluetooth Icon */}
@@ -270,43 +272,64 @@ useEffect(() => {
 
         <View style={styles.cardSection}>
           <View style={styles.infoBox}>
-            <Text style={styles.cardTitleText}>Sweat Value: {sweatValue} mmol/L</Text>
+          <View style={styles.titleBox}>
+            <Text style={styles.cardTitleText}>Sweat Value: </Text>
+            <Text style={styles.cardValueText}>{sweatValue} mmol/L</Text>
+          </View>
           </View>
         </View>
 
         <View style={styles.cardSection}>
           <View style={styles.infoBox}>
-            <Text style={styles.cardTitleText}>Pressure Value 1: {pressureValue1} kPa</Text>
+          <View style={styles.titleBox}>
+            <Text style={styles.cardTitleText}>Pressure Value 1: </Text>
+            <Text style={styles.cardValueText}>{pressureValue1} kPa</Text>
+          </View>
           </View>
         </View>
 
         <View style={styles.cardSection}>
           <View style={styles.infoBox}>
-            <Text style={styles.cardTitleText}>Pressure Value 2: {pressureValue2} kPa</Text>
+          <View style={styles.titleBox}>
+            <Text style={styles.cardTitleText}>Pressure Value 2: </Text>
+            <Text style={styles.cardValueText}>{pressureValue2} kPa</Text>
+          </View>
           </View>
         </View>
 
         <View style={styles.cardSection}>
           <View style={styles.infoBox}>
-            <Text style={styles.cardTitleText}>Pressure Value 3: {pressureValue3} kPa</Text>
+          <View style={styles.titleBox}>
+            <Text style={styles.cardTitleText}>Pressure Value 3: </Text>
+            <Text style={styles.cardValueText}>{pressureValue3} kPa</Text>
+          </View>
           </View>
         </View>
 
         <View style={styles.cardSection}>
           <View style={styles.infoBox}>
-            <Text style={styles.cardTitleText}>Pressure Value 4: {pressureValue4} kPa</Text>
+          <View style={styles.titleBox}>
+            <Text style={styles.cardTitleText}>Pressure Value 4: </Text>
+            <Text style={styles.cardValueText}>{pressureValue4} kPa</Text>
+          </View>
           </View>
         </View>
 
         <View style={styles.cardSection}>
           <View style={styles.infoBox}>
-            <Text style={styles.cardTitleText}>Pressure Value 5: {pressureValue5} kPa</Text>
+          <View style={styles.titleBox}>
+            <Text style={styles.cardTitleText}>Pressure Value 5: </Text>
+            <Text style={styles.cardValueText}>{pressureValue5} kPa</Text>
+          </View>
           </View>
         </View>
 
         <View style={styles.cardSection}>
           <View style={styles.infoBox}>
-            <Text style={styles.cardTitleText}>Pressure Value 6: {pressureValue6} kPa</Text>
+          <View style={styles.titleBox}>
+            <Text style={styles.cardTitleText}>Pressure Value 6: </Text>
+            <Text style={styles.cardValueText}>{pressureValue6} kPa</Text>
+          </View>
           </View>
         </View>
 
@@ -379,7 +402,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#051622',
     alignItems: 'center',
     alignItems: 'center',
-    paddingTop: 10, // Add padding to the top
+    paddingTop: 0, // Add padding to the top
     paddingBottom: 10, // Add padding to the bottom
   },
   text: {
@@ -421,13 +444,29 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginTop: 20,
     marginBottom: 0,
+    borderColor: '#1BA098'
   },
   infoBox: {
-    // backgroundColor: '#1A1A1A',
     backgroundColor: '#1B2130',
     borderRadius: 10,
     padding: 8,
     alignItems: 'center',
+    borderColor: '#18605C', // Border color
+    borderWidth: 1, // Border width
+    shadowColor: '#1BA098',
+      shadowOffset: {
+        width: 0,
+        height: 3,
+      },
+      shadowOpacity: 0.4,
+      shadowRadius: 6,
+  },
+  titleBox: {
+    flexDirection: 'row',
+    backgroundColor: '#1B2130',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginRight: 20,
   },
   cardText: {
     color: '#DEB992',
@@ -443,6 +482,25 @@ const styles = StyleSheet.create({
     marginBottom: 0,
     fontWeight: 'bold',
     paddingBottom: 0,
+  },
+  cardValueText: {
+    color: '#DEB992',
+    fontSize: 20,
+    marginTop: 0,
+    marginBottom: 0,
+    fontWeight: 'bold',
+    paddingBottom: 0,
+  },
+  titleContainer: {
+    flexDirection: 'row',
+    alignItems: 'baseline',
+    justifyContent: 'center',
+    alignContent: 'center',
+    paddingRight: 10,
+    paddingTop: 10,
+    paddingBottom : 10,
+    width: '110%',
+    backgroundColor: '#1B2130',
   },
 
 });
