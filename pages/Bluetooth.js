@@ -158,7 +158,7 @@ useEffect(() => {
               if(username != '')
               {
                 try {
-                  const glucoseResponse = await axios.post(`https://2232-2604-3d09-3472-7800-1da4-da3b-2ce9-4dea.ngrok-free.app/add_glucose_value/${username}`, {
+                  const glucoseResponse = await axios.post(`https://i-sole-backend.com/add_glucose_value/${username}`, {
                   glucose: rawSweatData,
                 });
                 console.log('USERNAME: ' + username)
@@ -179,7 +179,7 @@ useEffect(() => {
               if (username != '')
               {
                 try {
-                    const pressureResponse = await axios.post(`https://2232-2604-3d09-3472-7800-1da4-da3b-2ce9-4dea.ngrok-free.app/add_pressure_value/${username}`, {
+                    const pressureResponse = await axios.post(`https://i-sole-backend.com/add_pressure_value_new/${username}`, {
                     p1: rawPressureData1,
                     p2: rawPressureData2,
                     p3: rawPressureData3,

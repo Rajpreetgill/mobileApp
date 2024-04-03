@@ -6,6 +6,7 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Fontisto from 'react-native-vector-icons/Fontisto';
+import { Buffer } from 'buffer';
 
 
 export default function PressureAnalytics({navigation}) {
@@ -15,7 +16,7 @@ export default function PressureAnalytics({navigation}) {
     const [diabeticUlcerationRisk, setDiabeticUlcerationRisk] = useState('');
     const [username, setUsername] = useState('');
     const [graphTitle, setGraphTitle] = useState('');
-    const [imageString, setImageString] = useState('');
+    const [imageString, setImageString] = useState(null);
 
     useEffect(() => {
       const fetchData = async () => {
@@ -26,19 +27,14 @@ export default function PressureAnalytics({navigation}) {
               setGraphName();
 
               // Get Graph Image
-              // try {
-              //   const response = await axios.post('https://2232-2604-3d09-3472-7800-1da4-da3b-2ce9-4dea.ngrok-free.app/plot-prediction', requestData);
-                
-              //   // Extract image data and additional headers from the response
-              //   const image = response.data.image;
-              //   const imageUrl = `data:image/png;base64,${image}`;
-              
-              //   // Set the image data  to state
-              //   setImageString(imageUrl);
-                
-              // } catch (error) {
-              //   console.error('Error fetching pressure graph:', error);
-              // }
+              try {
+                const response = await fetch(`https://i-sole-backend.com/plot_pressure?username=${username}&start_timestamp=${0}&end_timestamp=${0}&region=${footRegion}`);
+                const blob = await response.blob();
+                setImageString(URL.createObjectURL(blob));
+                console.log(imageString);
+              } catch (error) {
+                console.error('Error fetching image:', error);
+              }
 
               // Update average pressure and risk
               if(selectedDuration == '5 min')
@@ -80,7 +76,7 @@ export default function PressureAnalytics({navigation}) {
       {
         try {
           // Make a POST request to your backend sign-in endpoint
-          const response = await axios.get(`https://2232-2604-3d09-3472-7800-1da4-da3b-2ce9-4dea.ngrok-free.app/get_average_pressure/${username}?start=${startTime}&end=${endTime}&footRegion=${footRegion}`);
+          const response = await axios.get(`https://i-sole-backend.com/get_average_pressure/${username}?start=${startTime}&end=${endTime}&footRegion=${footRegion}`);
           if (response.data.success) {
             setAveragePressure(response.data.averagePressure + ' kPa');
             setDiabeticUlcerationRisk(response.data.diabeticUlcerationRisk);
@@ -120,7 +116,7 @@ export default function PressureAnalytics({navigation}) {
       {
         try {
           // Make a POST request to your backend sign-in endpoint
-          const response = await axios.get(`https://2232-2604-3d09-3472-7800-1da4-da3b-2ce9-4dea.ngrok-free.app/get_average_pressure/${username}?start=${startTime}&end=${endTime}&footRegion=${footRegion}`);
+          const response = await axios.get(`https://i-sole-backend.com/get_average_pressure/${username}?start=${startTime}&end=${endTime}&footRegion=${footRegion}`);
           if (response.data.success) {
             setAveragePressure(response.data.averagePressure + ' kPa');
             setDiabeticUlcerationRisk(response.data.diabeticUlcerationRisk);
@@ -160,7 +156,7 @@ export default function PressureAnalytics({navigation}) {
       {
         try {
           // Make a POST request to your backend sign-in endpoint
-          const response = await axios.get(`https://2232-2604-3d09-3472-7800-1da4-da3b-2ce9-4dea.ngrok-free.app/get_average_pressure/${username}?start=${startTime}&end=${endTime}&footRegion=${footRegion}`);
+          const response = await axios.get(`https://i-sole-backend.com/get_average_pressure/${username}?start=${startTime}&end=${endTime}&footRegion=${footRegion}`);
           if (response.data.success) {
             setAveragePressure(response.data.averagePressure + ' kPa');
             setDiabeticUlcerationRisk(response.data.diabeticUlcerationRisk);
@@ -205,42 +201,6 @@ export default function PressureAnalytics({navigation}) {
       }
     }
 
-    
-
-    const getImageSource = () => {
-      // Depending on the selected period, return the appropriate image source
-      return require('../images/WeeklyBloodGlucoseGraph.png'); // Local file path for week
-      // if (footRegion === 'p1') {
-      //   // return {uri: imageString}; // URL for day
-      //   // return require('../images/P1Graph.png'); // Local file path for week
-      //   return require('../images/WeeklyBloodGlucoseGraph.png'); // Local file path for week
-      // } 
-      // else if (footRegion === 'p2') {
-      //   // return require('../images/P2Graph.png'); // Local file path for month
-      //   return require('../images/WeeklyBloodGlucoseGraph.png'); // Local file path for week
-      // } 
-      // else if (footRegion === 'p3') {
-      //   // return require('../images/P3Graph.png'); // Local file path for month
-      //   return require('../images/WeeklyBloodGlucoseGraph.png'); // Local file path for week
-      // } 
-      // else if (footRegion === 'p4') {
-      //   // return require('../images/P4Graph.png'); // Local file path for month
-      //   return require('../images/WeeklyBloodGlucoseGraph.png'); // Local file path for week
-      // } 
-      // else if (footRegion === 'p5') {
-      //   // return require('../images/P5Graph.png'); // Local file path for month
-      //   return require('../images/WeeklyBloodGlucoseGraph.png'); // Local file path for week
-      // } 
-      // else if (footRegion === 'p6') {
-      //   // return require('../images/P6Graph.png'); // Local file path for month
-      //   return require('../images/MonthlyBloodGlucoseGraph.png'); // Local file path for week
-      // } 
-      // else {
-      //   // return {uri: imageString}; // URL for day
-      //   // return require('../images/P1Graph.png'); // Local file path for day
-      //   return require('../images/WeeklyBloodGlucoseGraph.png'); // Local file path for week
-      // }
-    };
   
     return (
       <View style={styles.container}>
@@ -255,7 +215,7 @@ export default function PressureAnalytics({navigation}) {
         <View style={styles.graphBox}>
         <Text style={styles.cardTitleText}>{graphTitle}</Text>
           <Image
-            source= {getImageSource()}
+            source= {{uri: imageString}}
             style={styles.image}
           />
         </View>
@@ -659,8 +619,9 @@ export default function PressureAnalytics({navigation}) {
   },
   image: {
     width: 360, // Set width of the image
-    resizeMode: 'contain',
-    marginTop: -220,
-    marginBottom: -220,
+    // resizeMode: 'contain',
+    // marginTop: -220,
+    // marginBottom: -220,
+    height: 200
   },
   });  

@@ -67,12 +67,12 @@ export default function PersonalMetrics({navigation}) {
 
   const getPersonalMetricsData = async (username) => {
     try {
-      const response = await axios.get(`https://2232-2604-3d09-3472-7800-1da4-da3b-2ce9-4dea.ngrok-free.app/get_personal_metrics/${username}`);
+      const response = await axios.get(`https://i-sole-backend.com/get_personal_metrics/${username}`);
       if (response.data.success) {
           // console.log("Retrieved profile data successfully:", response.data);
           // Do something with the retrieved profile data
           const userData = response.data.data;
-          setBloodGlucoseLevel(userData.blood_glucose_level);
+          // setBloodGlucoseLevel(userData.blood_glucose_level);
           setWeight(userData.weight);
           setHeight(userData.height);
           setInsulinType(userData.insulin_type);
@@ -121,14 +121,14 @@ export default function PersonalMetrics({navigation}) {
 
     <View style={styles.bodyContainer}>
       {/* Blood glucose level */}
-      <View style={styles.inputContainer}>
+      {/* <View style={styles.inputContainer}>
         <Text style={styles.label}>Blood Glucose Level</Text>
         <TextInput
           style={styles.input}
           value={bloodGlucoseLevel + ' mg/dl'}
           onChangeText={(text) => setName(text)}
         />
-      </View>
+      </View> */}
 
       <View style={styles.inputContainer}>
         <Text style={styles.label}>Finger Stick Value</Text>
