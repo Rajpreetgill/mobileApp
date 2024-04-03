@@ -83,7 +83,7 @@ useEffect(() => {
 
   const searchAndConnectToDevice = () => {
     bleManager.startDeviceScan(null, null, (error, device) => {
-      console.log(device.name);
+      // console.log(device.name);
       if (error) {
         console.error(error.message);
         setConnectionStatus("Error searching for devices");
