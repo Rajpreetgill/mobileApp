@@ -7,6 +7,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import  React, { useState, useEffect } from 'react';
 import { BloodGlucoseLineChart } from './BloodGlucoseAnalytics';
 import { PressureLineChart } from './PressureAnalytics';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import Fontisto from 'react-native-vector-icons/Fontisto';
 
 
 export default function MainPage({navigation}) {
@@ -80,12 +82,12 @@ export default function MainPage({navigation}) {
         
         {/* Line Chart Icon */}
         <TouchableOpacity onPress={() => navigation.navigate("BloodGlucoseAnalytics")} style={styles.iconButton}>
-          <Icon name="linechart" style={styles.bottomicon} />
+          <Fontisto name="blood-drop" style={styles.bottomicon} />
         </TouchableOpacity>
         
         {/* Dot Chart Icon */}
         <TouchableOpacity onPress={() => navigation.navigate("PressureAnalytics")} style={styles.iconButton}>
-          <Icon name="dotchart" style={styles.bottomicon} />
+          <MaterialCommunityIcons name="foot-print" style={styles.bottomicon} />
         </TouchableOpacity>
         
         {/* Settings Icon */}
