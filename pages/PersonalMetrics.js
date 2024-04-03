@@ -371,7 +371,7 @@ const styles = StyleSheet.create({
       flexGrow: 1,
       backgroundColor: '#051622',
       alignItems: 'flex-start',
-      paddingTop: 10, // Add padding to the top
+      paddingTop: 0, // Add padding to the top
       paddingBottom: 10, // Add padding to the bottom
     },
     container: {
@@ -396,6 +396,7 @@ const styles = StyleSheet.create({
         paddingTop: 10,
         paddingBottom : 10,
         backgroundColor: '#1B2130',
+        height: 60,
     },
     bodyContainer: {
         flex: 1,

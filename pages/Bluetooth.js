@@ -45,7 +45,7 @@ import Fontisto from 'react-native-vector-icons/Fontisto';
 //=== END Android Bluetooth Code ===//
 
 //=== Bluetooth Setup ===//
-// const bleManager = new BleManager();
+const bleManager = new BleManager();
 const ISOLE_SVC_UUID = "00000001-710e-4a5b-8d75-3e5b444bc3cf";
 const CHARACTERISTIC_UUID = "00000003-710e-4a5b-8d75-3e5b444bc3cf";
 
@@ -63,7 +63,7 @@ export default function Bluetooth({navigation}) {
   const [pressureValue6, setPressureValue6] = useState(0);
   const [sweatDataChar, setSweatDataChar] = useState(null);
   const [pressureDataChar, setPressureDataChar] = useState(null);
-  const [connectionStatus, setConnectionStatus] = useState("Connected");
+  const [connectionStatus, setConnectionStatus] = useState("Searching Device...");
   const [username, setUsername] = useState('');
 
 useEffect(() => {
@@ -98,11 +98,11 @@ useEffect(() => {
     });
   };
 
-  // const deviceRef = useRef(null);
+  const deviceRef = useRef(null);
 
-  // useEffect(() => {
-  //   searchAndConnectToDevice();
-  // }, []);
+  useEffect(() => {
+    searchAndConnectToDevice();
+  }, []);
 
   const connectToDevice = async (device) => {
     return device
@@ -212,29 +212,29 @@ useEffect(() => {
   };
 
   // this useeffect is for when the device disconnects
-  // useEffect(() => {
-  //   const subscription = bleManager.onDeviceDisconnected(
-  //     deviceID,
-  //     (error, device) => {
-  //       if (error) {
-  //         console.log("Disconnected with error:", error); // Shows disconnection error
-  //       }
-  //       setConnectionStatus("Disconnected"); // sets connection status to disconnected
-  //       console.log("Disconnected device");
-  //       setSweatValue(0); // Reset the step count or sweat value?
-  //       if (deviceRef.current) {
-  //         setConnectionStatus("Reconnecting...");
-  //         connectToDevice(deviceRef.current) // Attempts to reconnect to the device
-  //           .then(() => setConnectionStatus("Connected")) // id success then we see connected
-  //           .catch((error) => {
-  //             console.log("Reconnection failed: ", error); // if fail then we see disconnected
-  //             setConnectionStatus("Reconnection failed");
-  //           });
-  //       }
-  //     }
-  //   );
-  //   return () => subscription.remove();
-  // }, [deviceID]);
+  useEffect(() => {
+    const subscription = bleManager.onDeviceDisconnected(
+      deviceID,
+      (error, device) => {
+        if (error) {
+          console.log("Disconnected with error:", error); // Shows disconnection error
+        }
+        setConnectionStatus("Disconnected"); // sets connection status to disconnected
+        console.log("Disconnected device");
+        setSweatValue(0); // Reset the step count or sweat value?
+        if (deviceRef.current) {
+          setConnectionStatus("Reconnecting...");
+          connectToDevice(deviceRef.current) // Attempts to reconnect to the device
+            .then(() => setConnectionStatus("Connected")) // id success then we see connected
+            .catch((error) => {
+              console.log("Reconnection failed: ", error); // if fail then we see disconnected
+              setConnectionStatus("Reconnection failed");
+            });
+        }
+      }
+    );
+    return () => subscription.remove();
+  }, [deviceID]);
 
 
   //=== Bluetooth Setup End ===//
@@ -413,7 +413,7 @@ const styles = StyleSheet.create({
     color: '#DEB992',
     fontSize: 30,
     fontWeight: 'bold',
-    marginTop: 0
+    paddingTop: 10
   },
   outerCircle: {
     color: '#18605C',
