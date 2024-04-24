@@ -43,7 +43,7 @@ import Fontisto from 'react-native-vector-icons/Fontisto';
           {
             try {
               // console.log("Username check: ", username);
-              const response = await axios.post(`https://i-sole-backend.com/get_latest_glucose/${username}`);
+              const response = await axios.post(`https://i-sole-backend.com/get_latest_glucose_new/${username}`);
               if (response.data.success) 
               {
                 console.log(response.data.sweat_glucose);
@@ -61,7 +61,8 @@ import Fontisto from 'react-native-vector-icons/Fontisto';
             //  const minutes = now.getMinutes();
             //  const seconds = now.getSeconds();
             // setCurrentTime(`${hours}:${minutes}:${seconds}`);
-            setPredictedHyperglycemia("High Risk - " + time.toLocaleDateString());
+            setPredictionState('hyperglycemia');
+            setPredictedHyperglycemia("High Risk - " + time.toLocaleDateString() + ' 4:50 PM');
             setPredictedHypoglycemia("Low Risk");
             
             // === Important Dont remove ==//

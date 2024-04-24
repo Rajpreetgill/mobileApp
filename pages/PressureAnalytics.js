@@ -76,10 +76,10 @@ export default function PressureAnalytics({navigation}) {
       {
         try {
           // Make a POST request to your backend sign-in endpoint
-          const response = await axios.get(`https://i-sole-backend.com/get_average_pressure/${username}?start=${startTime}&end=${endTime}&footRegion=${footRegion}`);
+          const response = await axios.get(`https://i-sole-backend.com/get_average_pressure_and_risk/${username}`); //?start=${startTime}&end=${endTime}&footRegion=${footRegion}`);
           if (response.data.success) {
-            setAveragePressure(response.data.averagePressure + ' kPa');
-            setDiabeticUlcerationRisk(response.data.diabeticUlcerationRisk);
+            setAveragePressure(response.data.data['maxPressure'] + ' kPa');
+            setDiabeticUlcerationRisk(response.data.data[footRegion + '_risk']);
             // console.log("Average Pressure:", averagePressure);
             // console.log("Diabetic Ulceration risk:", diabeticUlcerationRisk);
             // console.log("Retrieved average successfully");
@@ -116,10 +116,10 @@ export default function PressureAnalytics({navigation}) {
       {
         try {
           // Make a POST request to your backend sign-in endpoint
-          const response = await axios.get(`https://i-sole-backend.com/get_average_pressure/${username}?start=${startTime}&end=${endTime}&footRegion=${footRegion}`);
+          const response = await axios.get(`https://i-sole-backend.com/get_average_pressure_and_risk/${username}`); //?start=${startTime}&end=${endTime}&footRegion=${footRegion}`);
           if (response.data.success) {
-            setAveragePressure(response.data.averagePressure + ' kPa');
-            setDiabeticUlcerationRisk(response.data.diabeticUlcerationRisk);
+            setAveragePressure(response.data.data[footRegion + '_avg'] + ' kPa');
+            setDiabeticUlcerationRisk(response.data.data[footRegion + '_risk']);
             // console.log("Average Pressure:", averagePressure);
             // console.log("Diabetic Ulceration risk:", diabeticUlcerationRisk);
             // console.log("Retrieved average successfully");
@@ -143,23 +143,25 @@ export default function PressureAnalytics({navigation}) {
       var currentDateTime = new Date();
       // Set the time to the start of the day (midnight)
       currentDateTime.setHours(0, 0, 0, 0);
-      var start = currentDateTime.toISOString();
+      var start = currentDateTime.toISOString(); 
 
       // Set the time to the end of the day (11:59:59 PM)
       currentDateTime.setHours(23, 59, 59, 999);
       var end = currentDateTime.toISOString();
-
+      
       var startTime = start.slice(0, 19);
       var endTime = end.slice(0, 19);
+
+
 
       if(username != '')
       {
         try {
           // Make a POST request to your backend sign-in endpoint
-          const response = await axios.get(`https://i-sole-backend.com/get_average_pressure/${username}?start=${startTime}&end=${endTime}&footRegion=${footRegion}`);
+          const response = await axios.get(`https://i-sole-backend.com/get_average_pressure_and_risk/${username}`); //?start=${startTime}&end=${endTime}&footRegion=${footRegion}`);
           if (response.data.success) {
-            setAveragePressure(response.data.averagePressure + ' kPa');
-            setDiabeticUlcerationRisk(response.data.diabeticUlcerationRisk);
+            setAveragePressure(response.data.data[footRegion + '_avg'] + ' kPa');
+            setDiabeticUlcerationRisk(response.data.data[footRegion + '_risk']);
             // console.log("Average Pressure:", averagePressure);
             // console.log("Diabetic Ulceration risk:", diabeticUlcerationRisk);
             // console.log("Retrieved average successfully");
@@ -233,33 +235,33 @@ export default function PressureAnalytics({navigation}) {
         </TouchableOpacity>
 
         <TouchableOpacity
-            style={[styles.regionButton2, footRegion === 'p2' && styles.selectedToggle]}
-            onPress={() => setFootRegion('p2')}>
-          <Text style={styles.toggleText}>P2</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity
-            style={[styles.regionButton3, footRegion === 'p3' && styles.selectedToggle]}
-            onPress={() => setFootRegion('p3')}>
-          <Text style={styles.toggleText}>P3</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity
-            style={[styles.regionButton4, footRegion === 'p4' && styles.selectedToggle]}
-            onPress={() => setFootRegion('p4')}>
-          <Text style={styles.toggleText}>P4</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity
-            style={[styles.regionButton5, footRegion === 'p5' && styles.selectedToggle]}
+            style={[styles.regionButton2, footRegion === 'p5' && styles.selectedToggle]}
             onPress={() => setFootRegion('p5')}>
           <Text style={styles.toggleText}>P5</Text>
         </TouchableOpacity>
 
         <TouchableOpacity
-            style={[styles.regionButton6, footRegion === 'p6' && styles.selectedToggle]}
+            style={[styles.regionButton3, footRegion === 'p6' && styles.selectedToggle]}
             onPress={() => setFootRegion('p6')}>
           <Text style={styles.toggleText}>P6</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+            style={[styles.regionButton4, footRegion === 'p2' && styles.selectedToggle]}
+            onPress={() => setFootRegion('p2')}>
+          <Text style={styles.toggleText}>P2</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+            style={[styles.regionButton5, footRegion === 'p3' && styles.selectedToggle]}
+            onPress={() => setFootRegion('p3')}>
+          <Text style={styles.toggleText}>P3</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+            style={[styles.regionButton6, footRegion === 'p4' && styles.selectedToggle]}
+            onPress={() => setFootRegion('p4')}>
+          <Text style={styles.toggleText}>P4</Text>
         </TouchableOpacity>
 
         </View>
