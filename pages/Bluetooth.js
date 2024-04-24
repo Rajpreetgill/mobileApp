@@ -64,7 +64,7 @@ export default function Bluetooth({navigation}) {
   const [sweatDataChar, setSweatDataChar] = useState(null);
   const [pressureDataChar, setPressureDataChar] = useState(null);
   const [connectionStatus, setConnectionStatus] = useState("Searching Device...");
-  const [username, setUsername] = useState('Lubaba');
+  const [username, setUsername] = useState('');
 
 useEffect(() => {
     const fetchData = async () => {
