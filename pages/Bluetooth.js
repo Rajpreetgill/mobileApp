@@ -64,7 +64,7 @@ export default function Bluetooth({navigation}) {
   const [sweatDataChar, setSweatDataChar] = useState(null);
   const [pressureDataChar, setPressureDataChar] = useState(null);
   const [connectionStatus, setConnectionStatus] = useState("Searching Device...");
-  const [username, setUsername] = useState('');
+  const [username, setUsername] = useState('Lubaba');
 
 useEffect(() => {
     const fetchData = async () => {
@@ -158,12 +158,12 @@ useEffect(() => {
               if(username != '')
               {
                 try {
-                  const glucoseResponse = await axios.post(`https://i-sole-backend.com/add_glucose_value/${username}`, {
-                  glucose: rawSweatData,
+                  const glucoseResponse = await axios.post(`https://i-sole-backend.com/add_glucose_value_new/${username}`, {
+                  glucose: parseFloat(rawSweatData),
                 });
                 console.log('USERNAME: ' + username)
                 if (glucoseResponse.data.success) {
-                    console.log("Updated database successfully");   
+                    console.log("Sweat Updated database successfully: " + rawSweatData);   
                 } else {
                     console.log("Failed to save value to database");
                 }
@@ -180,15 +180,15 @@ useEffect(() => {
               {
                 try {
                     const pressureResponse = await axios.post(`https://i-sole-backend.com/add_pressure_value_new/${username}`, {
-                    p1: rawPressureData1,
-                    p2: rawPressureData2,
-                    p3: rawPressureData3,
-                    p4: rawPressureData4,
-                    p5: rawPressureData5,
-                    p6: rawPressureData6,
+                    p1: parseFloat(rawPressureData1),
+                    p2: parseFloat(rawPressureData2),
+                    p3: parseFloat(rawPressureData3),
+                    p4: parseFloat(rawPressureData4),
+                    p5: parseFloat(rawPressureData5),
+                    p6: parseFloat(rawPressureData6),
                 });
                 if (pressureResponse.data.success) {
-                    console.log("Updated database successfully");   
+                    console.log("Pressure Updated database successfully");   
                 } else {
                     console.log("Failed to save value to database");
                 }
